@@ -1,0 +1,310 @@
+﻿@page "/hardware/add"
+
+@inject NavigationManager NavigationManager
+
+<h3 class="mb-3">Добавление нового оборудования:</h3>
+
+<EditForm Model="@Command" OnValidSubmit="Submit">
+    <FluentValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <h5>Шаг 1. Выберите тип оборудования:</h5>
+        <InputSelect id="select-hardware-type" @bind-Value="Command.HardwareType" class="form-control">
+            @foreach (HardwareType type in Enum.GetValues(typeof(HardwareType)))
+            {
+                <option value="@type">@type.GetDisplayName()</option>
+            }
+        </InputSelect>
+    </div>
+    @Command.Position
+    <div class="form-group">
+        <h5>Шаг 2. Укажите параметры оборудования:</h5>
+        <div class="form-group">
+            @switch (Command.HardwareType)
+            {
+                case HardwareType.Cabinet:
+                    <div class="form-row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="position">Позиция по проекту</label>
+                                <InputText id="position" class="form-control" @bind-Value="Command.Position" placeholder="ШКУ, ШП и т.д."></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="serial-number">Серийный номер</label>
+                                <InputText id="serial-number" class="form-control" @bind-Value="Command.SerialNumber" placeholder="xxx-xxx-xxx"></InputText>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="constructed-by">Ответственный за монтаж</label>
+                                <InputText id="constructed-by" class="form-control" @bind-Value="Command.ConstructedBy" placeholder="Иванов И.И."></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="constructed-date">Дата завершения монтажа</label>
+                                <InputDate id="constructed-date" class="form-control" @bind-Value="Command.Constructed"></InputDate>
+                            </div>
+                        </div>
+                    </div>
+                    break;
+                case HardwareType.FlowComputer:
+                    <div class="form-row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="position">Позиция по проекту</label>
+                                <InputText id="position" class="form-control" @bind-Value="Command.Position" placeholder="A1, A2 и т.д."></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="serial-number">Серийный номер</label>
+                                <InputText id="serial-number" class="form-control" @bind-Value="Command.SerialNumber" placeholder="xxx-xxx-xxx"></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="device-model">Модель контроллера</label>
+                                <InputText id="device-model" class="form-control" @bind-Value="Command.DeviceModel" placeholder="АБАК+, FLOBOSS S600+ и т.д."></InputText>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="ip-address">IP адрес устройства</label>
+                                <InputText id="ip-address" class="form-control" @bind-Value="Command.IPAddress" placeholder="192.168.1.1."></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="assembly-version">Версия сборки</label>
+                                <InputText id="assembly-version" class="form-control" @bind-Value="Command.AssemblyVersion" placeholder=""></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="crc32">Контрольная сумма</label>
+                                <InputText id="crc32" class="form-control" @bind-Value="Command.CRC32" placeholder=""></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="last-cfg">Дата последней конфигурации</label>
+                                <InputText id="last-cfg" class="form-control" @bind-Value="Command.LastConfigDate" placeholder=""></InputText>
+                            </div>
+                        </div>
+                    </div>
+                    break;
+                case HardwareType.FlowMeter:
+                    <div class="form-row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="position">Позиция по проекту</label>
+                                <InputText id="position" class="form-control" @bind-Value="Command.Position" placeholder="FIT301"></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="serial-number">Серийный номер</label>
+                                <InputText id="serial-number" class="form-control" @bind-Value="Command.SerialNumber" placeholder="xxx-xxx-xxx"></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="device-type">Тип прибора</label>
+                                <InputText id="device-type" class="form-control" @bind-Value="Command.DeviceType" placeholder=""></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="device-model">Модель прибора</label>
+                                <InputText id="device-model" class="form-control" @bind-Value="Command.DeviceModel" placeholder=""></InputText>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="min-value">Нижний диапазон измерений</label>
+                                <InputNumber id="min-value" class="form-control" @bind-Value="Command.MinValue" step="1" min="0"></InputNumber>
+                            </div>
+                            <div class="form-group">
+                                <label for="max-value">Верхний диапазон измерений</label>
+                                <InputNumber id="max-value" class="form-control" @bind-Value="Command.MaxValue" step="1" min="0"></InputNumber>
+                            </div>
+                            <div class="form-group">
+                                <label for="k-factor">К-Фактор</label>
+                                <InputNumber id="k-factor" class="form-control" @bind-Value="Command.KFactor" step="0.1" min="0"></InputNumber>
+                            </div>
+                            <div class="form-group">
+                                <label for="signal-type">Тип сигнала</label>
+                                <InputSelect id="signal-type" class="form-control" @bind-Value="Command.SignalType">
+                                    <option value="@SignalType.Frequency">@SignalType.Frequency.GetDisplayName()</option>
+                                    <option value="@SignalType.RS485">@SignalType.RS485.GetDisplayName()</option>
+                                </InputSelect>
+                            </div>
+                            <div class="form-group">
+                                <label for="eu">Единицы измерения</label>
+                                <InputSelect id="eu" class="form-control" @bind-Value="Command.EU">
+                                    <option value="м3">м3</option>
+                                    <option value="тыс.м3">тыс.м3</option>
+                                    <option value="Т">Т</option>
+                                    <option value="Кг">Кг</option>
+                                </InputSelect>
+                            </div>
+                        </div>
+                    </div>
+                    break;
+                case HardwareType.Network:
+
+                    break;
+                case HardwareType.PLC:
+                    <div class="form-row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="position">Позиция по проекту</label>
+                                <InputText id="position" class="form-control" @bind-Value="Command.Position" placeholder="A1, A2 и т.д."></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="serial-number">Серийный номер</label>
+                                <InputText id="serial-number" class="form-control" @bind-Value="Command.SerialNumber" placeholder="xxx-xxx-xxx"></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="device-model">Модель контроллера</label>
+                                <InputText id="device-model" class="form-control" @bind-Value="Command.DeviceModel" placeholder="АБАК ПЛК, ScadaPack 350 и т.д."></InputText>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="ip-address">IP адрес устройства</label>
+                                <InputText id="ip-address" class="form-control" @bind-Value="Command.IPAddress" placeholder="192.168.1.1."></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="assembly-version">Версия сборки</label>
+                                <InputText id="assembly-version" class="form-control" @bind-Value="Command.AssemblyVersion" placeholder=""></InputText>
+                            </div>
+                        </div>
+                    </div>
+                    break;
+                case HardwareType.Pressure:
+                    <div class="form-row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="position">Позиция по проекту</label>
+                                <InputText id="position" class="form-control" @bind-Value="Command.Position" placeholder="PIT201"></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="serial-number">Серийный номер</label>
+                                <InputText id="serial-number" class="form-control" @bind-Value="Command.SerialNumber" placeholder="xxx-xxx-xxx"></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="device-type">Тип прибора</label>
+                                <InputText id="device-type" class="form-control" @bind-Value="Command.DeviceType" placeholder=""></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="device-model">Модель прибора</label>
+                                <InputText id="device-model" class="form-control" @bind-Value="Command.DeviceModel" placeholder=""></InputText>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="min-value">Нижний диапазон измерений</label>
+                                <InputNumber id="min-value" class="form-control" @bind-Value="Command.MinValue" step="0.1" min="0"></InputNumber>
+                            </div>
+                            <div class="form-group">
+                                <label for="max-value">Верхний диапазон измерений</label>
+                                <InputNumber id="max-value" class="form-control" @bind-Value="Command.MaxValue" step="0.1" min="0"></InputNumber>
+                            </div>
+                            <div class="form-group">
+                                <label for="signal-type">Тип подключения</label>
+                                <InputSelect id="signal-type" class="form-control" @bind-Value="Command.SignalType">
+                                    <option value="@SignalType.Current">@SignalType.Current.GetDisplayName()</option>
+                                    <option value="@SignalType.Voltage">@SignalType.Voltage.GetDisplayName()</option>
+                                    <option value="@SignalType.HART">@SignalType.HART.GetDisplayName()</option>
+                                </InputSelect>
+                            </div>
+                            <div class="form-group">
+                                <label for="eu">Единицы измерения</label>
+                                <InputSelect id="eu" class="form-control" @bind-Value="Command.EU">
+                                    <option value="МПа">МПа</option>
+                                    <option value="кПа">кПа</option>
+                                    <option value="Кг/м3">Кг/м3</option>
+                                </InputSelect>
+                            </div>
+                        </div>
+                    </div>
+                    break;
+                case HardwareType.Temperature:
+                    <div class="form-row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="position">Позиция по проекту</label>
+                                <InputText id="position" class="form-control" @bind-Value="Command.Position" placeholder="TIT101"></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="serial-number">Серийный номер</label>
+                                <InputText id="serial-number" class="form-control" @bind-Value="Command.SerialNumber" placeholder="xxx-xxx-xxx"></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="device-type">Тип прибора</label>
+                                <InputText id="device-type" class="form-control" @bind-Value="Command.DeviceType" placeholder=""></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="device-model">Модель прибора</label>
+                                <InputText id="device-model" class="form-control" @bind-Value="Command.DeviceModel" placeholder=""></InputText>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="min-value">Нижний диапазон измерений</label>
+                                <InputNumber id="min-value" class="form-control" @bind-Value="Command.MinValue" step="0.1"></InputNumber>
+                            </div>
+                            <div class="form-group">
+                                <label for="max-value">Верхний диапазон измерений</label>
+                                <InputNumber id="max-value" class="form-control" @bind-Value="Command.MaxValue" step="0.1"></InputNumber>
+                            </div>
+                            <div class="form-group">
+                                <label for="signal-type">Тип подключения</label>
+                                <InputSelect id="signal-type" class="form-control" @bind-Value="Command.SignalType">
+                                    <option value="@SignalType.Current">@SignalType.Current.GetDisplayName()</option>
+                                    <option value="@SignalType.Voltage">@SignalType.Voltage.GetDisplayName()</option>
+                                    <option value="@SignalType.HART">@SignalType.HART.GetDisplayName()</option>
+                                </InputSelect>
+                            </div>
+                            <div class="form-group">
+                                <label for="eu">Единицы измерения</label>
+                                <InputSelect id="eu" class="form-control" @bind-Value="Command.EU">
+                                    <option value="Град С.">Град С.</option>
+                                </InputSelect>
+                            </div>
+                        </div>
+                    </div>
+                    break;
+                case HardwareType.Valve:
+                    <div class="form-row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="position">Позиция по проекту</label>
+                                <InputText id="position" class="form-control" @bind-Value="Command.Position" placeholder="КШЭ1.1"></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="serial-number">Серийный номер</label>
+                                <InputText id="serial-number" class="form-control" @bind-Value="Command.SerialNumber" placeholder="xxx-xxx-xxx"></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="device-type">Тип крана</label>
+                                <InputText id="device-type" class="form-control" @bind-Value="Command.DeviceType" placeholder=""></InputText>
+                            </div>
+                            <div class="form-group">
+                                <label for="device-model">Модель крана</label>
+                                <InputText id="device-model" class="form-control" @bind-Value="Command.DeviceModel" placeholder=""></InputText>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="signal-type">Тип подключения</label>
+                                <InputSelect id="signal-type" class="form-control" @bind-Value="Command.SignalType">
+                                    <option value="@SignalType.Discrete">@SignalType.Discrete.GetDisplayName()</option>
+                                    <option value="@SignalType.RS485">@SignalType.RS485.GetDisplayName()</option>
+                                </InputSelect>
+                            </div>
+                        </div>
+                    </div>
+                    break;
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Добавить</button>
+    </div>
+</EditForm>
+
+
+
+@code {
+    CreateHardwareVm Command = new CreateHardwareVm();
+
+    void Submit()
+    {
+        NavigationManager.NavigateTo($"/contract/detail/{Command.ContractId}");
+    }
+}
