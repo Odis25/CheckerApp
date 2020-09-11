@@ -25,23 +25,6 @@ namespace CheckerApp.Application.Common.Mappings
                 var methodInfo = type.GetMethod("Mapping");
                 methodInfo?.Invoke(instance, new object[] { this });
             }
-        }
-
-        //public MappingProfile()
-        //{
-        //    // Entities => ViewModels
-        //    CreateMap<Contract, ContractDetailVm>();
-        //    CreateMap<FlowMeterHardware, FlowMeterHardwareVm>();
-        //    CreateMap<MeasurementHardware, MeasurementHardwareVm>();
-        //    CreateMap<RS485Settings, RS485SettingsVm>();
-        //    CreateMap<Hardware, HardwareDto>().IncludeAllDerived();
-
-        //    // ViewModels => Entities
-        //    //CreateMap<ContractVm, ContractVm>();
-        //    CreateMap<FlowMeterHardwareVm, FlowMeterHardware>();
-        //    CreateMap<MeasurementHardwareVm, MeasurementHardware>();
-        //    CreateMap<RS485SettingsVm, RS485Settings>();
-        //    CreateMap<HardwareDto, Hardware>().IncludeAllDerived();
-        //}
+        }        
     }
 }

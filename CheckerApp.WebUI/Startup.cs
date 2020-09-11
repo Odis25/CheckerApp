@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Net.Http;
 using System.Reflection;
 
 namespace CheckerApp.WebUI
@@ -32,7 +33,13 @@ namespace CheckerApp.WebUI
 
             services.AddServerSideBlazor();
 
+            services.AddScoped<HttpClient>();
+
             services.AddHttpClient<IContractService, ContractService>(client =>
+            {
+                client.BaseAddress = _host;
+            });
+            services.AddHttpClient<IHardwareService, HardwareService>(client =>
             {
                 client.BaseAddress = _host;
             });

@@ -5,7 +5,7 @@ using CheckerApp.Application.Contracts.Queries.GetContractsList;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace CheckerApp.Api.Controllers
+namespace CheckerApp.WebApi.Controllers
 {
     public class ContractController : ApiController
     {
@@ -16,7 +16,7 @@ namespace CheckerApp.Api.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<ContractDetailVm>> GetContract(int id)
+        public async Task<ActionResult> GetContract(int id)
         {
             return Ok(await Mediator.Send(new GetContractDetailQuery { Id = id }));
         }

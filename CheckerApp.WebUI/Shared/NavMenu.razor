@@ -13,20 +13,32 @@
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="contracts">
-                <span class="oi oi-list" aria-hidden="true"></span> Список договоров
+            <NavLink class="nav-link" href="" @onclick="() => expandSubMenu = !expandSubMenu">
+                <span class="oi oi-list" aria-hidden="true"></span> Договоры
             </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="contract/create">
-                <span class="oi oi-plus" aria-hidden="true"></span> Новый договор
-            </NavLink>
+            @if (expandSubMenu)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="contracts">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> Список договоров
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="contract/create">
+                            <span class="oi oi-plus" aria-hidden="true"></span> Новый договор
+                        </NavLink>
+                    </li>
+                </ul>             
+            }
         </li>
     </ul>
 </div>
 
 @code {
     private bool collapseNavMenu = true;
+
+    private bool expandSubMenu;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 

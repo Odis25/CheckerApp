@@ -9,9 +9,9 @@ namespace CheckerApp.Application.Contracts.Commands.UpdateContract
 {
     public class UpdateContractCommandHandler : IRequestHandler<UpdateContractCommand>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IAppDbContext _context;
 
-        public UpdateContractCommandHandler(IApplicationDbContext context, IMapper mapper)
+        public UpdateContractCommandHandler(IAppDbContext context, IMapper mapper)
         {
             _context = context;
         }

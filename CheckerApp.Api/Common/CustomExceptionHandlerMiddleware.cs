@@ -6,7 +6,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace CheckerApp.Api.Common
+namespace CheckerApp.WebApi.Common
 {
     public class CustomExceptionHandlerMiddleware
     {
@@ -62,7 +62,7 @@ namespace CheckerApp.Api.Common
 
             return context.Response.WriteAsync(result);
         }
-               
+
     }
 
     public static class CustomExceptionHandlerMiddlewareExtensions

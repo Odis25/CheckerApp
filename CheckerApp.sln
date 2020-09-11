@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckerApp.Infrastructure",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckerApp.WebUI", "CheckerApp.WebUI\CheckerApp.WebUI.csproj", "{9B03AEFC-E15A-40A5-9520-605753F8296D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckerApp.Api", "CheckerApp.Api\CheckerApp.Api.csproj", "{6B85DFC7-22EC-4981-A14F-2D2A05837470}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckerApp.WebApi", "CheckerApp.Api\CheckerApp.WebApi.csproj", "{6B85DFC7-22EC-4981-A14F-2D2A05837470}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

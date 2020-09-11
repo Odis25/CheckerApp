@@ -25,7 +25,8 @@ namespace CheckerApp.WebUI.Services
 
         public async Task<ContractsListVm> GetContracts()
         {
-            return await _httpClient.GetJsonAsync<ContractsListVm>("api/contract");
+            var res =  await _httpClient.GetJsonAsync<ContractsListVm>("api/contract");
+            return res;
         }
     }
 }

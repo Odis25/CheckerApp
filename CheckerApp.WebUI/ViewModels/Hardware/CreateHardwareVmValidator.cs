@@ -20,13 +20,12 @@ namespace CheckerApp.WebUI.ViewModels.Hardware
                 RuleFor(m => m.DeviceModel).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
                 RuleFor(m => m.DeviceType).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
             });
-            When(m => m.HardwareType == HardwareType.FlowMeter, () =>
+            When(m => m.HardwareType == HardwareType.Flowmeter, () =>
             {
                 RuleFor(m => m.SerialNumber).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
                 RuleFor(m => m.Position).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
                 RuleFor(m => m.DeviceModel).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
                 RuleFor(m => m.DeviceType).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
-                RuleFor(m => m.KFactor).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
             });
             When(m => m.HardwareType == HardwareType.FlowComputer, () =>
             {

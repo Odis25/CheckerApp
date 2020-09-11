@@ -2,7 +2,7 @@
 
 namespace CheckerApp.WebUI.ViewModels
 {
-    public abstract class HardwareVm
+    public class HardwareVm
     {
         public int Id { get; set; }
         public string Position { get; set; }

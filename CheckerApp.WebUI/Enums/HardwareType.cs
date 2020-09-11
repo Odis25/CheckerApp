@@ -9,7 +9,7 @@ namespace CheckerApp.WebUI.Enums
         [Display(Name = "ИВК")]
         FlowComputer,
         [Display(Name = "Расходомер")]
-        FlowMeter,
+        Flowmeter,
         [Display(Name = "Сетевое оборудование")]
         Network,
         [Display(Name = "ПЛК")]

@@ -105,7 +105,7 @@ app {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.valid.modified:not([type=checkbox]) {
+/*.valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
 }
 
@@ -115,7 +115,7 @@ app {
 
 .validation-message {
     color: red;
-}
+}*/
 
 #blazor-error-ui {
     background: lightyellow;
@@ -202,3 +202,43 @@ app {
         transform: rotate(360deg)
     }
 }
+
+/* --- Фикс стилей валидации МатБлейзора*/
+
+.validation-message {
+    color: yellow !important;
+}
+
+.mdc-text-field--outlined .mat-text-field-input.mdc-text-field__input.invalid,
+.mdc-text-field--outlined .mat-text-field-input.mdc-text-field__input.valid.modified {
+    border-bottom: none !important;
+}
+
+.mdc-select__selected-text.invalid {
+    border-bottom: none !important;
+}
+
+.invalid .mdc-notched-outline > .mdc-notched-outline__leading,
+.invalid .mdc-notched-outline > .mdc-notched-outline__notch,
+.invalid .mdc-notched-outline > .mdc-notched-outline__trailing {
+    border-color: red !important;
+}
+
+.valid.modified .mdc-notched-outline > .mdc-notched-outline__leading,
+.valid.modified .mdc-notched-outline > .mdc-notched-outline__notch,
+.valid.modified .mdc-notched-outline > .mdc-notched-outline__trailing {
+    border-color: green !important;
+}
+
+.invalid + i + .mdc-notched-outline > .mdc-notched-outline__leading,
+.invalid + i + .mdc-notched-outline > .mdc-notched-outline__notch,
+.invalid + i + .mdc-notched-outline > .mdc-notched-outline__trailing {
+    border-color: red !important;
+}
+
+.valid.modified + i + .mdc-notched-outline > .mdc-notched-outline__leading,
+.valid.modified + i + .mdc-notched-outline > .mdc-notched-outline__notch,
+.valid.modified + i + .mdc-notched-outline > .mdc-notched-outline__trailing {
+    border-color: green !important;
+}
+

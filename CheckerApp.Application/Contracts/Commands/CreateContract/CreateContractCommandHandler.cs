@@ -8,8 +8,8 @@ namespace CheckerApp.Application.Contracts.Commands.CreateContract
 {
     public class CreateContractCommandHandler : IRequestHandler<CreateContractCommand, int>
     {
-        private readonly IApplicationDbContext _context;
-        public CreateContractCommandHandler(IApplicationDbContext context)
+        private readonly IAppDbContext _context;
+        public CreateContractCommandHandler(IAppDbContext context)
         {
             _context = context;
         }

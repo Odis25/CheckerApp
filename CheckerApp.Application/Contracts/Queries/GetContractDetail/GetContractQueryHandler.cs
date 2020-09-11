@@ -10,9 +10,9 @@ namespace CheckerApp.Application.Contracts.Queries.GetContractDetail
 {
     public class GetContractQueryHandler : IRequestHandler<GetContractDetailQuery, ContractDetailVm>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IAppDbContext _context;
         private readonly IMapper _mapper;
-        public GetContractQueryHandler(IApplicationDbContext context, IMapper mapper)
+        public GetContractQueryHandler(IAppDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

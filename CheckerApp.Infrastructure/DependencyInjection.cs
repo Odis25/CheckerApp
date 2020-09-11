@@ -12,20 +12,22 @@ namespace CheckerApp.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<AppDbContext>(options => 
+            options.UseLazyLoadingProxies()
+                   .UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
 
             services.AddDefaultIdentity<ApplicationUser>()
                     .AddRoles<IdentityRole>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>();
+                    .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddIdentityServer()
-                    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+                    .AddApiAuthorization<ApplicationUser, AppDbContext>();
 
             services.AddAuthentication()
                     .AddJwtBearer();
 
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+            services.AddScoped<IAppDbContext>(provider => provider.GetService<AppDbContext>());
 
             return services;
         }

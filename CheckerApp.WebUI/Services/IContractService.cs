@@ -1,5 +1,4 @@
 ﻿using CheckerApp.WebUI.ViewModels.Contract;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CheckerApp.WebUI.Services

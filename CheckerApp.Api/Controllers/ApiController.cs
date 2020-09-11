@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 
-namespace CheckerApp.Api.Controllers
+namespace CheckerApp.WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

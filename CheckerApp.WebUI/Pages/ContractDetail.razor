@@ -1,4 +1,4 @@
-﻿@page "/contract/detail/{id}"
+﻿@page "/contract/{id}/detail"
 @inject IContractService ContractService
 
 @if (Contract == null)
@@ -13,31 +13,29 @@ else
             <div class="card-body">
                 <div class="row">
                     <div class="col">
-                        <p class="font-weight-bold">Название: </p>
                         <p class="font-weight-bold">Номер договора: </p>
                         <p class="font-weight-bold">Внутренний номер: </p>
+                        <p class="font-weight-bold">Название: </p>
                     </div>
                     <div class="col">
-                        <p class="">@Contract.Name </p>
                         <p class="">@Contract.ContractNumber </p>
                         <p class="">@Contract.DomesticNumber</p>
+                        <p class="">@Contract.Name </p>
                     </div>
                 </div>
             </div>
             <div class="card-footer">
                 <h4>Список оборудования: </h4>
-                <a class="btn btn-primary" href="hardware/add">Добавить</a>
+                <a class="btn btn-primary" href="/contract/@Id/addhardware">Добавить</a>
                 <button class="btn btn-secondary">Удалить</button>
-                <table class="table table-sm">
-                    @foreach (var hardware in Contract.HardwareList)
-                    {
-                        <tr>
-                            <td>@hardware.Id</td>
-                            <td>@hardware.Position</td>
-                            <td>@hardware.SerialNumber</td>
-                        </tr>
-                    }
-                </table>
+                <MatTable Items="@Contract.HardwareList" AllowSelection="true" Class="mat-elevation-z3" Striped="true">
+                    <MatTableRow>
+                        <td scope="col">@context.Id</td>
+                        <td scope="col">@context.HardwareType.GetDisplayName()</td>
+                        <td scope="col">@context.Position</td>
+                        <td scope="col">@context.SerialNumber</td>
+                    </MatTableRow>
+                </MatTable>               
             </div>
         </div>
     </div>

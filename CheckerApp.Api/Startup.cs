@@ -1,15 +1,15 @@
-using CheckerApp.Api.Common;
-using CheckerApp.Api.Services;
+using CheckerApp.WebApi.Services;
 using CheckerApp.Application;
 using CheckerApp.Application.Common.Interfaces;
 using CheckerApp.Infrastructure;
+using CheckerApp.WebApi.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace CheckerApp.Api
+namespace CheckerApp.WebApi
 {
     public class Startup
     {

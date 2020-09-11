@@ -7,9 +7,9 @@ namespace CheckerApp.Domain.Enums
         [Display(Name = "Шкаф")]
         Cabinet,
         [Display(Name = "ИВК")]
-        FlowComuter,
+        FlowComputer,
         [Display(Name = "Расходомер")]
-        FlowMeter,
+        Flowmeter,
         [Display(Name = "Сетевое оборудование")]
         Network,
         [Display(Name = "ПЛК")]

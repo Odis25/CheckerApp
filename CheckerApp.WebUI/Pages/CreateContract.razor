@@ -4,38 +4,24 @@
 @inject NavigationManager NavigationManager
 
 <EditForm Model="@Command" OnValidSubmit="Submit">
-    <FluentValidator/>
+    <FluentValidator />
 
     <h3>Новый договор</h3>
-    <div class="form-group row">
-        <label for="name" class="col-sm-2 col-form-label">
-            Название договора
-        </label>
-        <div class="col-sm-10">
-            <InputText id="name" class="form-control" @bind-Value="Command.Name" />
-            <ValidationMessage For="(()=>Command.Name)"></ValidationMessage>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="contract-number" class="col-sm-2 col-form-label">
-            Номер договора
-        </label>
-        <div class="col-sm-10">
-            <InputText id="contract-number" class="form-control" @bind-Value="Command.ContractNumber" />
-            <ValidationMessage For="(()=>Command.ContractNumber)"></ValidationMessage>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="domestic-number" class="col-sm-2 col-form-label">
-            Внутренний номер договора
-        </label>
-        <div class="col-sm-10">
-            <InputText id="domestic-number" class="form-control" @bind-Value="Command.DomesticNumber" />
-            <ValidationMessage For="(()=>Command.DomesticNumber)"></ValidationMessage>
-        </div>
-    </div>
-
-    <button class="btn btn-primary" type="submit"><span class="oi oi-plus"></span> Добавить</button>
+    <p class="w-50">
+        <MatTextField @bind-Value="Command.Name" Label="Название договора" Outlined="true" Style="width: 100%;"/>
+        <ValidationMessage For="(()=>Command.Name)"></ValidationMessage>
+    </p>
+    <p class="w-50">
+        <MatTextField @bind-Value="Command.ContractNumber" Label="Номер договора" Outlined="true" Style="width: 100%;"/>
+        <ValidationMessage For="(()=>Command.ContractNumber)"></ValidationMessage>
+    </p>
+    <p class="w-50">
+        <MatTextField @bind-Value="Command.DomesticNumber" Label="Внутренний номер договора" Outlined="true" Style="width: 100%;"/>
+        <ValidationMessage For="(()=>Command.DomesticNumber)"></ValidationMessage>
+    </p>
+    <p class="py-4">
+        <MatButton Raised="true" Icon="add" type="submit"> Добавить</MatButton>
+    </p>
 </EditForm>
 
 @code {
@@ -46,7 +32,7 @@
     {
         var contractId = await ContractService.CreateContract(Command);
 
-        NavigationManager.NavigateTo($"/contract/detail/{contractId}");
+        NavigationManager.NavigateTo($"/contract/{contractId}/detail");
     }
 
 }

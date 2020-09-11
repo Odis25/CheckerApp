@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CheckerApp.Api.Controllers
+namespace CheckerApp.WebApi.Controllers
 {
     public class AccountController : ApiController
     {
