@@ -6,8 +6,8 @@ namespace CheckerApp.WebUI.ViewModels.Hardware
     {
         public string DeviceType { get; set; }
         public string DeviceModel { get; set; }
-        public int MinValue { get; set; }
-        public int MaxValue { get; set; }
+        public double MinValue { get; set; }
+        public double MaxValue { get; set; }
         public string EU { get; set; }
         public SignalType SignalType { get; set; }
     }

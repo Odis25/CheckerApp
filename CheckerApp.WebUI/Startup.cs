@@ -1,8 +1,10 @@
 using CheckerApp.WebUI.Areas.Identity;
 using CheckerApp.WebUI.Services;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +24,7 @@ namespace CheckerApp.WebUI
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _host = new Uri("http://localhost:55046");
+            _host = new Uri("https://localhost:44373");
         }
 
         public IConfiguration Configuration { get; }
@@ -47,6 +49,13 @@ namespace CheckerApp.WebUI
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", config =>
+                {
+                    config.Authority = "https://localhost:44373";
+                    config.Audience = "CheckerAppApi";
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

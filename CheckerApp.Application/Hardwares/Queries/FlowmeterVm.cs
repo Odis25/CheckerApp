@@ -6,7 +6,7 @@ namespace CheckerApp.Application.Hardwares.Queries
     public class FlowmeterVm : MeasurementVm
     {
         public double? Kfactor { get; set; }
-        public ModbusSettingsDto Settings { get; set; }
+        public ModbusSettingsDto ModbusSettings { get; set; }
 
         public new void Mapping(Profile profile)
         {

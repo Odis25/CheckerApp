@@ -1,0 +1,59 @@
+﻿@page "/login"
+@using CheckerApp.WebUI.Data
+
+<div class="">
+    <div class="col-8 card">
+        <div class="col-12 row">
+            <p>&nbsp;</p>
+        </div>
+        <div class="col-12 row">
+            <div class="col-6" style="border-right:groove;">
+                <img src="" width="400" height="400" />
+            </div>
+            <div class="col-6" style="border-left:groove;">
+                <EditForm Model="@user" OnValidSubmit="@ValidateUser">
+                    <div>
+                        <br /><br /><br /><br /><br />
+                    </div>
+                    <div>
+                        <h3>Application login</h3>
+                    </div>
+                    <div>
+                        <br />
+                    </div>
+                    <div class="col-12 row">
+                        <input class="form-control col-12" @bind-value="user.Login" placeholder="email" />
+                    </div>
+                    <br />
+                    <div class="col-12 row">
+                        <input type="password" class="form-control col-12" @bind-value="user.Password"/>
+                    </div>
+                    <br />
+                    <div class="col-12 row">
+                        <span class="col-12"></span>
+                        <input type="submit" class="form-control col-12 btn btn-primary" />
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+    private User user;
+
+    protected override Task OnInitializedAsync()
+    {
+        user = new User();
+
+        return base.OnInitializedAsync();
+    }
+
+    private async Task<bool> ValidateUser()
+    {
+        return await Task.FromResult(true);
+    }
+
+}

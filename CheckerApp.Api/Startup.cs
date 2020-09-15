@@ -46,9 +46,9 @@ namespace CheckerApp.WebApi
 
             app.UseAuthentication();
 
-            //app.UseIdentityServer();
-
             app.UseAuthorization();
+
+            app.UseIdentityServer();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,9 +1,8 @@
-﻿
-namespace CheckerApp.WebUI.ViewModels.Hardware
+﻿namespace CheckerApp.WebUI.ViewModels.Hardware
 {
-    public class FlowMeterVm : MeasurementVm
+    public class FlowmeterVm : MeasurementVm
     {
         public double? Kfactor { get; set; }
-        public ModbusSettingsVm Settings { get; set; }
+        public ModbusSettingsVm ModbusSettings { get; set; }
     }
 }

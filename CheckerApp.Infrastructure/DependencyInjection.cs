@@ -1,6 +1,7 @@
 ﻿using CheckerApp.Application.Common.Interfaces;
 using CheckerApp.Infrastructure.Data;
 using CheckerApp.Infrastructure.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,10 +23,19 @@ namespace CheckerApp.Infrastructure
                     .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddIdentityServer()
-                    .AddApiAuthorization<ApplicationUser, AppDbContext>();
+                .AddInMemoryClients(Config.GetClients())
+                .AddInMemoryApiResources(Config.GetApiResources())
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddDeveloperSigningCredential();
+                    //.AddAspNetIdentity<ApplicationUser>()
+                    //.AddApiAuthorization<ApplicationUser, AppDbContext>();
 
-            services.AddAuthentication()
-                    .AddJwtBearer();
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", config => 
+                {
+                    config.Authority = "https://localhost:44373";
+                    config.Audience = "CheckerAppApi";
+                });
 
             services.AddScoped<IAppDbContext>(provider => provider.GetService<AppDbContext>());
 

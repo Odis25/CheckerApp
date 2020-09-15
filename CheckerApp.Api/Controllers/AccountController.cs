@@ -1,8 +1,4 @@
-﻿using CheckerApp.Application.Common.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace CheckerApp.WebApi.Controllers
@@ -11,7 +7,7 @@ namespace CheckerApp.WebApi.Controllers
     {
 
         [HttpGet]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login(string returnUrl)
         {
             return Ok();
         }

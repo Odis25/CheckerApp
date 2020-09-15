@@ -6,5 +6,7 @@ namespace CheckerApp.WebUI.Services
     public interface IHardwareService
     {
         Task<int> AddHardware(CreateHardwareVm command);
+
+        Task<HardwareVm> GetHardware(int id);
     }
 }

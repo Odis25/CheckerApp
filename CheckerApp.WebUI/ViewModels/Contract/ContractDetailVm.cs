@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CheckerApp.WebUI.ViewModels.Hardware;
+using System.Collections.Generic;
 
 namespace CheckerApp.WebUI.ViewModels.Contract
 {

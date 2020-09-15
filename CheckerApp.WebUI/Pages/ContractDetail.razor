@@ -1,5 +1,6 @@
 ﻿@page "/contract/{id}/detail"
-@inject IContractService ContractService
+@inject IContractService contractService
+@inject NavigationManager navigationManager
 
 @if (Contract == null)
 {
@@ -28,7 +29,8 @@ else
                 <h4>Список оборудования: </h4>
                 <a class="btn btn-primary" href="/contract/@Id/addhardware">Добавить</a>
                 <button class="btn btn-secondary">Удалить</button>
-                <MatTable Items="@Contract.HardwareList" AllowSelection="true" Class="mat-elevation-z3" Striped="true">
+                <MatTable Items="@Contract.HardwareList" AllowSelection="true" Class="mat-elevation-z3" 
+                          Striped="true" OnRowDbClick="(item) => NavigateTo(((HardwareVm)item).Id)">
                     <MatTableRow>
                         <td scope="col">@context.Id</td>
                         <td scope="col">@context.HardwareType.GetDisplayName()</td>
@@ -50,6 +52,11 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Contract = await ContractService.GetContract(int.Parse(Id));
+        Contract = await contractService.GetContract(int.Parse(Id));
+    }
+
+    private void NavigateTo(int id)
+    {
+        navigationManager.NavigateTo($"/hardware/{id}/detail");
     }
 }

@@ -117,9 +117,10 @@
                         </div>
                         <div class="mb-2">
                             <MatSelectItem @bind-Value="Command.SignalType" Label="Способ подключения" Outlined="true" Style="width:100%"
-                                           Items="new SignalType[] { SignalType.Frequency, SignalType.RS485 }">
+                                           Items="Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray()">
                                 <ItemTemplate Context="signal">@signal.GetDisplayName()</ItemTemplate>
                             </MatSelectItem>
+
                         </div>
                         <div class="mb-2">
                             <MatSelect Label="Единицы измерения" @bind-Value="Command.EU" Outlined="true" Style="width:100%">
@@ -194,7 +195,7 @@
                         </div>
                         <div class="mb-2">
                             <MatSelectItem @bind-Value="Command.SignalType" Label="Способ подключения" Outlined="true" Style="width:100%"
-                                           Items="new SignalType[] { SignalType.Current, SignalType.Voltage, SignalType.HART }">
+                                           Items="Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray()">
                                 <ItemTemplate Context="signal">@signal.GetDisplayName()</ItemTemplate>
                             </MatSelectItem>
                         </div>
@@ -239,7 +240,7 @@
                         </div>
                         <div class="mb-2">
                             <MatSelectItem @bind-Value="Command.SignalType" Label="Способ подключения" Outlined="true" Style="width:100%"
-                                           Items="new SignalType[] { SignalType.Current, SignalType.Voltage, SignalType.HART }">
+                                           Items="Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray()">
                                 <ItemTemplate Context="signal">@signal.GetDisplayName()</ItemTemplate>
                             </MatSelectItem>
                         </div>
@@ -274,7 +275,7 @@
                     <div class="col-sm-4">
                         <div class="mb-2">
                             <MatSelectItem @bind-Value="Command.SignalType" Label="Способ подключения" Outlined="true" Style="width:100%"
-                                           Items="new SignalType[] { SignalType.Discrete, SignalType.RS485 }">
+                                           Items="Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray()">
                                 <ItemTemplate Context="signal">@signal.GetDisplayName()</ItemTemplate>
                             </MatSelectItem>
                         </div>
@@ -300,8 +301,9 @@
 
     [Parameter]
     public string Id { get; set; }
+    public int Test { get; set; }
 
-    HardwareType test = HardwareType.Cabinet;
+    public SignalType[] Signals { get; set; } = Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray();
 
     CreateHardwareVm Command = new CreateHardwareVm();
 
