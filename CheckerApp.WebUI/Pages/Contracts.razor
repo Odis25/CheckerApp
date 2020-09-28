@@ -1,5 +1,6 @@
-﻿@page "/"
+﻿@*@page "/"*@
 @page "/contracts"
+@attribute [Authorize]
 @inject IContractService ContractService
 @inject NavigationManager NavigationManager
 
@@ -33,7 +34,9 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        contracts = (await ContractService.GetContracts()).Contracts;
+        NavigationManager.NavigateTo($"https://demo.identityserver.io/api/test");
+
+        //contracts = (await ContractService.GetContracts()).Contracts;
     }
 
     private void NavigateTo(int id)

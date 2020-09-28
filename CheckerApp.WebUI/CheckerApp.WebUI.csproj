@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Accelist.FluentValidation.Blazor" Version="3.0.0" />
+    <PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.2.0" />
     <PackageReference Include="IdentityModel" Version="4.4.0" />
     <PackageReference Include="MatBlazor" Version="2.7.0" />
@@ -21,5 +22,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

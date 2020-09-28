@@ -1,5 +1,4 @@
-﻿using CheckerApp.Application.Hardwares.Queries;
-using CheckerApp.Domain.Entities.ContractEntities;
+﻿using CheckerApp.Domain.Entities.ContractEntities;
 using CheckerApp.Domain.Entities.HardwareEntities;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;

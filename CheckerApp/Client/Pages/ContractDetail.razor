@@ -1,0 +1,63 @@
+﻿@page "/contract/{id}/detail"
+
+@inject HttpClient HttpClient
+@inject NavigationManager navigationManager
+
+@if (Contract == null)
+{
+    <div class="spinner"></div>
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            <h3 class="text-center">ContractId: @Contract.Id</h3>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <p class="font-weight-bold">Номер договора: </p>
+                        <p class="font-weight-bold">Внутренний номер: </p>
+                        <p class="font-weight-bold">Название: </p>
+                    </div>
+                    <div class="col">
+                        <p class="">@Contract.ContractNumber </p>
+                        <p class="">@Contract.DomesticNumber</p>
+                        <p class="">@Contract.Name </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <h4>Список оборудования: </h4>
+                <a class="btn btn-primary" href="/contract/@Id/addhardware">Добавить</a>
+                <button class="btn btn-secondary">Удалить</button>
+                <MatTable Items="@Contract.HardwareList" AllowSelection="true" Class="mat-elevation-z3" 
+                          Striped="true" OnRowDbClick="(item) => NavigateTo(((HardwareVm)item).Id)">
+                    <MatTableRow>
+                        <td scope="col">@context.Id</td>
+                        <td scope="col">@context.HardwareType.GetDisplayName()</td>
+                        <td scope="col">@context.Position</td>
+                        <td scope="col">@context.SerialNumber</td>
+                    </MatTableRow>
+                </MatTable>               
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+    public ContractDetailVm Contract { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
+    }
+
+    private void NavigateTo(int id)
+    {
+        navigationManager.NavigateTo($"/hardware/{id}/detail");
+    }
+}

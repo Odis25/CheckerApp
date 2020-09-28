@@ -1,0 +1,97 @@
+﻿@page "/hardware/{id}/detail"
+@inject HttpClient HttpClient
+@using System.Text.Json
+
+@if (Hardware == null)
+{
+    <div class="spinner"></div>
+}
+else
+{
+    <h3>@Hardware.HardwareType.GetDisplayName()</h3>
+
+    <div class="">
+        @switch (Hardware.HardwareType)
+        {
+            case HardwareType.Cabinet:
+                <Cabinet Vm="(CabinetVm)Hardware"></Cabinet>
+                break;
+            case HardwareType.FlowComputer:
+                <FlowComputer Vm="(FlowComputerVm)Hardware"></FlowComputer>
+                break;
+            case HardwareType.Flowmeter:
+                <Flowmeter Vm="(FlowmeterVm)Hardware"></Flowmeter>
+                break;
+            case HardwareType.Network:
+                <NetworkHardware Vm="(NetworkHardwareVm)Hardware"></NetworkHardware>
+                break;
+            case HardwareType.PLC:
+                <PLC Vm="(PLCVm)Hardware"></PLC>
+                break;
+            case HardwareType.Pressure:
+                <Measurement Vm="(MeasurementVm)Hardware"></Measurement>
+                break;
+            case HardwareType.Temperature:
+                <Measurement Vm="(MeasurementVm)Hardware"></Measurement>
+                break;
+            case HardwareType.Valve:
+                <Valve Vm="(ValveVm)Hardware"></Valve>
+                break;
+        }
+    </div>   
+}
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+
+    HardwareVm Hardware { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //Hardware = await HttpClient.GetFromJsonAsync<HardwareVm>($"api/hardware/{int.Parse(Id)}");
+
+        var httpResponse = await HttpClient.GetAsync($"api/hardware/{int.Parse(Id)}");
+
+        httpResponse.EnsureSuccessStatusCode();
+
+        var jsonString = await httpResponse.Content.ReadAsStringAsync();
+
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            
+        };
+
+        var hardware = JsonSerializer.Deserialize<HardwareVm>(jsonString, options);
+
+        switch (hardware.HardwareType)
+        {
+            case HardwareType.Cabinet:
+                Hardware = JsonSerializer.Deserialize<CabinetVm>(jsonString, options);
+                break;
+            case HardwareType.FlowComputer:
+                Hardware = JsonSerializer.Deserialize<FlowComputerVm>(jsonString, options);
+                break;
+            case HardwareType.Flowmeter:
+                Hardware = JsonSerializer.Deserialize<FlowmeterVm>(jsonString, options);
+                break;
+            case HardwareType.Network:
+                Hardware = JsonSerializer.Deserialize<NetworkHardwareVm>(jsonString, options);
+                break;
+            case HardwareType.PLC:
+                Hardware = JsonSerializer.Deserialize<PLCVm>(jsonString, options);
+                break;
+            case HardwareType.Pressure:
+                Hardware = JsonSerializer.Deserialize<PressureVm>(jsonString, options);
+                break;
+            case HardwareType.Temperature:
+                Hardware = JsonSerializer.Deserialize<TemperatureVm>(jsonString, options);
+                break;
+            case HardwareType.Valve:
+                Hardware = JsonSerializer.Deserialize<ValveVm>(jsonString, options);
+                break;
+        }
+    }
+}

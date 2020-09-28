@@ -2,12 +2,13 @@ using CheckerApp.WebApi.Services;
 using CheckerApp.Application;
 using CheckerApp.Application.Common.Interfaces;
 using CheckerApp.Infrastructure;
-using CheckerApp.WebApi.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using CheckerApp.WebApi.Common.Middleware;
+using CheckerApp.WebApi.Common.Interfaces;
 
 namespace CheckerApp.WebApi
 {
@@ -26,9 +27,13 @@ namespace CheckerApp.WebApi
 
             services.AddApplication();
 
+            services.AddRazorPages();
+
             services.AddControllers();
 
             services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+            services.AddScoped<IUserService, UserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -36,23 +41,31 @@ namespace CheckerApp.WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebAssemblyDebugging();
             }
 
             app.UseCustomExceptionHandler();
 
+            //app.UseCors(x => x
+            //.AllowAnyOrigin()
+            //.AllowAnyMethod()
+            //.AllowAnyHeader());
+
             app.UseHttpsRedirection();
+            app.UseBlazorFrameworkFiles();
+            app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthentication();
-
-            app.UseAuthorization();
-
             app.UseIdentityServer();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapFallbackToFile("index.html");
             });
         }
     }

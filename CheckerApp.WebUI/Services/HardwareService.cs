@@ -1,4 +1,5 @@
 ﻿using CheckerApp.WebUI.Enums;
+using CheckerApp.WebUI.Interfaces;
 using CheckerApp.WebUI.ViewModels.Hardware;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;

@@ -1,18 +1,20 @@
-using CheckerApp.WebUI.Areas.Identity;
+using CheckerApp.WebUI.Handlers;
+using CheckerApp.WebUI.Interfaces;
 using CheckerApp.WebUI.Services;
 using FluentValidation;
-using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Net.Http;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace CheckerApp.WebUI
 {
@@ -24,7 +26,7 @@ namespace CheckerApp.WebUI
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _host = new Uri("https://localhost:44373");
+            _host = new Uri("https://localhost:5001");
         }
 
         public IConfiguration Configuration { get; }
@@ -37,10 +39,14 @@ namespace CheckerApp.WebUI
 
             services.AddScoped<HttpClient>();
 
+            services.AddTransient<RequestHandler>();
+
             services.AddHttpClient<IContractService, ContractService>(client =>
             {
                 client.BaseAddress = _host;
-            });
+            })
+                .AddHttpMessageHandler<RequestHandler>();
+
             services.AddHttpClient<IHardwareService, HardwareService>(client =>
             {
                 client.BaseAddress = _host;
@@ -48,14 +54,43 @@ namespace CheckerApp.WebUI
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+            services.AddHttpContextAccessor();
+            services.AddScoped<HttpContextAccessor>();
 
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", config =>
+            services.AddScoped<IAuthService, AuthService>();
+            //services.AddScoped<AuthenticationStateProvider, AuthService>(provider =>
+            //    provider.GetRequiredService<AuthService>());
+
+            services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "Cookies";
+                options.DefaultChallengeScheme = "oidc";
+            })
+                .AddCookie("Cookies")
+                .AddOpenIdConnect("oidc", options =>
                 {
-                    config.Authority = "https://localhost:44373";
-                    config.Audience = "CheckerAppApi";
+                    options.Authority = "https://demo.identityserver.io/";
+                    options.ClientId = "interactive.confidential"; // 75 seconds
+                    options.ClientSecret = "secret";
+                    options.ResponseType = "code";
+                    options.SaveTokens = true;
+                    options.GetClaimsFromUserInfoEndpoint = true;
+
+                    options.Events = new OpenIdConnectEvents
+                    {
+                        OnAccessDenied = context =>
+                        {
+                            context.HandleResponse();
+                            context.Response.Redirect("/");
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
+
+            //services.AddSingleton<BlazorServerAuthStateCache>();
+            //services.AddScoped<AuthenticationStateProvider, BlazorServerAuthState>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -76,7 +111,9 @@ namespace CheckerApp.WebUI
             app.UseStaticFiles();
 
             app.UseRouting();
-            
+
+            app.UseCookiePolicy();
+
             app.UseAuthentication();
 
             app.UseAuthorization();

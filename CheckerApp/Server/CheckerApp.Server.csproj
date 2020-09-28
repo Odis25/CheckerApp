@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>CheckerApp.Server-47381233-3288-4FD5-94C6-605F182CB48F</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>    
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="3.2.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />    
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CheckerApp.Application\CheckerApp.Application.csproj" />
+    <ProjectReference Include="..\..\CheckerApp.Infrastructure\CheckerApp.Infrastructure.csproj" />
+    <ProjectReference Include="..\Client\CheckerApp.Client.csproj" />
+    <ProjectReference Include="..\Shared\CheckerApp.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.8" />
+  </ItemGroup>
+
+</Project>

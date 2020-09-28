@@ -1,12 +1,9 @@
 ﻿<AuthorizeView>
     <Authorized>
-        <a href="Identity/Account/Manage">Hello, @context.User.Identity.Name!</a>
-        <form method="post" action="Identity/Account/LogOut">
-            <button type="submit" class="nav-link btn btn-link">Выход</button>
-        </form>
+        <a href="Identity/Account/Manage">Пользователь: @context.User.Identity.Name</a>
+        <a href="logoutuser" class="nav-link btn btn-link">Выход</a>
     </Authorized>
     <NotAuthorized>
-        <a href="Identity/Account/Register">Регистрация</a>
-        <a href="Identity/Account/Login">Вход</a>
+        <a href="login?returnUrl=/">Вход</a>
     </NotAuthorized>
 </AuthorizeView>

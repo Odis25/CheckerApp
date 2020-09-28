@@ -1,8 +1,7 @@
 ﻿using IdentityModel;
+using IdentityServer4;
 using IdentityServer4.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CheckerApp.Infrastructure
 {
@@ -13,26 +12,47 @@ namespace CheckerApp.Infrastructure
         {
             new Client
             {
-                ClientId = "blazor_client_app",
-                ClientSecrets = {new Secret("client_super_secret".ToSha256()) },
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                ClientId = "CheckerApp.Client",
+
+                RequireClientSecret = false, // for auth code flow there is no secret required as it couldn't be securely stored in the front-end anyway
+                
+                RequireConsent = false,
+
+                AllowedGrantTypes = GrantTypes.Implicit,
+
+                RedirectUris = { "https://localhost:5001/authentication/login-callback" },
+
+                PostLogoutRedirectUris = { "https://localhost:5001/" },
+
+                // CORS
+                AllowedCorsOrigins = { "https://localhost:5001" },
+
+                ClientSecrets = {new Secret("secret".ToSha256()) },
+                
                 AllowedScopes =
                 {
-                    "CheckerAppApi"
-                }
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile,
+                    "CheckerApp.ServerAPI"
+                },
+                
+                AllowAccessTokensViaBrowser = true,
+                AllowOfflineAccess = true,
+                RefreshTokenUsage = TokenUsage.ReUse
             }
         };
 
         public static IEnumerable<ApiResource> GetApiResources() =>
         new List<ApiResource>
         {
-            new ApiResource("CheckerAppApi")
+            new ApiResource("CheckerApp.ServerAPI")
         };
 
         public static IEnumerable<IdentityResource> GetIdentityResources() =>
         new List<IdentityResource>
         {
-            new IdentityResources.OpenId()
+            new IdentityResources.OpenId(),
+            new IdentityResources.Profile()
         };
     }
 }

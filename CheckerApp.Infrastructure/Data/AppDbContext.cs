@@ -1,12 +1,11 @@
 ﻿using CheckerApp.Application.Common.Interfaces;
-using CheckerApp.Application.Hardwares.Queries;
 using CheckerApp.Domain.Common;
 using CheckerApp.Domain.Entities.ContractEntities;
 using CheckerApp.Domain.Entities.HardwareEntities;
 using CheckerApp.Domain.Enums;
-using CheckerApp.Infrastructure.Models;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
@@ -28,6 +27,9 @@ namespace CheckerApp.Infrastructure.Data
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Admin", NormalizedName = "Admin".ToUpper() });
+            builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "User", NormalizedName = "User".ToUpper() });
+
             builder.Entity<Hardware>().HasDiscriminator(e => e.HardwareType)
                 .HasValue<Cabinet>(HardwareType.Cabinet)
                 .HasValue<FlowComputer>(HardwareType.FlowComputer)
