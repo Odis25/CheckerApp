@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace CheckerApp.Domain.Common
+namespace CheckerApp.Domain.Entities.Identity
 {
     public class ApplicationUser : IdentityUser
     {

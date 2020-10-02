@@ -5,6 +5,8 @@ using CheckerApp.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -79,8 +81,18 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                     {
                         Position = request.Position,
                         SerialNumber = request.SerialNumber,
-                        DeviceModel = request.DeviceModel
+                        DeviceModel = request.DeviceModel,
+                        Mask = request.Mask
                     };
+                    foreach (var item in request.NetworkDevices)
+                    {
+                        ((NetworkHardware)entity).NetworkDevices.Add(new NetworkDevice 
+                        { 
+                            IP = item.IP, 
+                            MacAddress = item.MacAddress, 
+                            Name = item.Name 
+                        });
+                    }
                     break;
                 case HardwareType.PLC:
                     entity = new PLC

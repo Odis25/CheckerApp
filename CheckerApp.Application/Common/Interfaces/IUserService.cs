@@ -1,12 +1,11 @@
 ﻿using CheckerApp.Domain.Common;
-using CheckerApp.Infrastructure.Models;
+using CheckerApp.Domain.Entities.Identity;
 using System.Threading.Tasks;
 
-namespace CheckerApp.Server.Common.Interfaces
+namespace CheckerApp.Application.Common.Interfaces
 {
     public interface IUserService
     {
         Task<ApplicationUser> GetUserAsync(string username, string password);
-        Task<UserToken> GetTokenAsync(ApplicationUser user);
     }
 }

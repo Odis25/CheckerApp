@@ -1,7 +1,6 @@
 using CheckerApp.Application;
 using CheckerApp.Application.Common.Interfaces;
 using CheckerApp.Infrastructure;
-using CheckerApp.Server.Common.Interfaces;
 using CheckerApp.Server.Common.Middleware;
 using CheckerApp.Server.Services;
 using FluentValidation;
@@ -33,11 +32,7 @@ namespace CheckerApp.Server
 
             services.AddRazorPages();
 
-            services.AddHttpClient<IHardwareService, HardwareService>();
-
             services.AddScoped<ICurrentUserService, CurrentUserService>();
-
-            services.AddScoped<IUserService, UserService>();
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         }

@@ -1,298 +1,476 @@
 ﻿@page "/contract/{id}/addhardware"
 
-@inject HttpClient HttpClient 
+@inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
 <h3 class="mb-3">Добавление нового оборудования:</h3>
 
 <EditForm Model="@Command" OnValidSubmit="Submit">
     <FluentValidationValidator />
-    <p class="w-50">
-        <h5>Шаг 1. Выберите тип оборудования:</h5>
-        <MatSelectItem @bind-Value="@Command.HardwareType" Items="Enum.GetValues(typeof(HardwareType)).Cast<HardwareType>().ToArray()" Outlined="true" FullWidth="true">
-            <ItemTemplate Context="type">
-                @type.GetDisplayName()
-            </ItemTemplate>
-        </MatSelectItem>
-    </p>
 
-    <p class="">
-        <h5>Шаг 2. Укажите параметры оборудования:</h5>
+    <h5>Шаг 1. Выберите тип оборудования:</h5>
+    <div class="row mb-2">
+        <div class="col-sm-4">
+            <MatSelectItem @bind-Value="@Command.HardwareType" Items="Enum.GetValues(typeof(HardwareType)).Cast<HardwareType>().ToArray()" Outlined="true" FullWidth="true">
+                <ItemTemplate Context="type">
+                    @type.GetDisplayName()
+                </ItemTemplate>
+            </MatSelectItem>
+        </div>
+        <div class="col-sm-1 align-self-center">
+            <MatButton type="submit" Raised="true" Icon="add"> Добавить</MatButton>
+        </div>
+    </div>
 
-        @switch (Command.HardwareType)
-        {
-            case HardwareType.Cabinet:
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="">
+    <div class="row">
+        <div class="col">
+            <h5>Шаг 2. Укажите параметры оборудования:</h5>
+            @switch (Command.HardwareType)
+            {
+                case HardwareType.Cabinet:
+                    <div class="mb-2 row">
+                        <div class="col-sm-4">
                             <MatTextField Label="Позиция по проекту" @bind-Value="Command.Position" Outlined="true" Style="width: 100%;"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
                             <ValidationMessage For="()=> Command.Position"></ValidationMessage>
                         </div>
-                        <div class="">
+                    </div>
+                    <div class="mb-2 row">
+                        <div class="col-sm-4">
                             <MatTextField Label="Серийный номер" @bind-Value="Command.SerialNumber" Outlined="true" Style="width: 100%;"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
                             <ValidationMessage For="()=> Command.SerialNumber"></ValidationMessage>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="">
+                    <div class="mb-2 row">
+                        <div class="col-sm-4">
                             <MatTextField Label="Ответственный за монтаж" @bind-Value="Command.ConstructedBy" Outlined="true" Style="width: 100%;"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
                             <ValidationMessage For="()=> Command.ConstructedBy"></ValidationMessage>
                         </div>
-                        <div class="">
-                            <MatDatePicker Label="Дата завершения монтажа" @bind-Value="Command.Constructed" Outlined="true" Style="width: 100%;"></MatDatePicker>
+                    </div>
+                    <div class="mb-2 row">
+                        <div class="col-sm-4">
+                            <MatDatePicker Label="Дата завершения монтажа" AllowInput="false" @bind-Value="Command.Constructed" Outlined="true" Style="width: 100%;"></MatDatePicker>
+                        </div>
+                        <div class="col-sm-4 align-self-center ">
                             <ValidationMessage For="()=> Command.Constructed"></ValidationMessage>
                         </div>
                     </div>
-                </div>
-                break;
-            case HardwareType.FlowComputer:
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="">
+                    break;
+
+                case HardwareType.FlowComputer:
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
                             <MatTextField Label="Позиция по проекту" @bind-Value="Command.Position" Outlined="true" Style="width: 100%;"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
                             <ValidationMessage For="()=> Command.Position"></ValidationMessage>
                         </div>
-                        <div class="">
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
                             <MatTextField Label="Серийный номер" @bind-Value="Command.SerialNumber" Outlined="true" Style="width: 100%;"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
                             <ValidationMessage For="()=> Command.SerialNumber"></ValidationMessage>
                         </div>
-                        <div class="">
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
                             <MatTextField Label="Модель контроллера" @bind-Value="Command.DeviceModel" Outlined="true" Style="width: 100%;"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
                             <ValidationMessage For="()=> Command.DeviceModel"></ValidationMessage>
                         </div>
                     </div>
-                    <div class="col-sm-4">
-                        <div class="">
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
                             <MatTextField Label="IP адрес" @bind-Value="Command.IPAddress" Outlined="true" Style="width: 100%;"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
                             <ValidationMessage For="()=> Command.IPAddress"></ValidationMessage>
                         </div>
-                        <div class="">
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
                             <MatTextField Label="Версия сборки" @bind-Value="Command.AssemblyVersion" Outlined="true" Style="width: 100%;"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
                             <ValidationMessage For="()=> Command.AssemblyVersion"></ValidationMessage>
                         </div>
-                        <div class="">
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
                             <MatTextField Label="Контрольная сумма" @bind-Value="Command.CRC32" Outlined="true" Style="width: 100%;"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
                             <ValidationMessage For="()=> Command.CRC32"></ValidationMessage>
                         </div>
-                        <div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
                             <MatNumericUpDownField Label="Дата последней конфигурации" @bind-Value="Command.LastConfigDate"
                                                    DecimalPlaces="0" Outlined="true" Style="width: 100%;"></MatNumericUpDownField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
                             <ValidationMessage For="()=> Command.LastConfigDate"></ValidationMessage>
                         </div>
                     </div>
-                </div>
-                break;
-            case HardwareType.Flowmeter:
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="">
-                            <MatTextField Label="Позиция по проекту" @bind-Value="Command.Position" Outlined="true" Style="width:100%"></MatTextField>
-                            <ValidationMessage For="()=> Command.Position"></ValidationMessage>
+                    break;
+
+                case HardwareType.Flowmeter:
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="mb-2 row">
+                                <div class="col-sm-6">
+                                    <MatTextField Label="Позиция по проекту" @bind-Value="Command.Position" Outlined="true" Style="width:100%"></MatTextField>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+                                    <ValidationMessage For="()=> Command.Position"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="mb-2 row">
+                                <div class="col-sm-6">
+                                    <MatTextField Label="Серийный номер" @bind-Value="Command.SerialNumber" Outlined="true" Style="width:100%"></MatTextField>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+                                    <ValidationMessage For="()=> Command.SerialNumber"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="mb-2 row">
+                                <div class="col-sm-6">
+                                    <MatTextField Label="Тип прибора" @bind-Value="Command.DeviceType" Outlined="true" Style="width:100%"></MatTextField>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+                                    <ValidationMessage For="()=> Command.DeviceType"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="mb-2 row">
+                                <div class="col-sm-6">
+                                    <MatTextField Label="Модель прибора" @bind-Value="Command.DeviceModel" Outlined="true" Style="width:100%"></MatTextField>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+                                    <ValidationMessage For="()=> Command.DeviceModel"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="mb-2 row">
+                                <div class="col-sm-6">
+                                    <MatNumericUpDownField Label="Нижний диапазон измерений" @bind-Value="Command.MinValue" DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+                                    <ValidationMessage For="()=> Command.MinValue"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="mb-2 row">
+                                <div class="col-sm-6">
+                                    <MatNumericUpDownField Label="Верхний диапазон измерений" @bind-Value="Command.MaxValue" DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+                                    <ValidationMessage For="()=> Command.MaxValue"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="mb-2 row">
+                                <div class="col-sm-6">
+                                    <MatNumericUpDownField Label="К-фактор" @bind-Value="Command.KFactor" DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+                                    <ValidationMessage For="()=> Command.KFactor"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="mb-2 row">
+                                <div class="col-sm-6">
+                                    <MatSelectItem @bind-Value="Command.SignalType" Label="Способ подключения" Outlined="true" Style="width:100%"
+                                                   Items="Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray()">
+                                        <ItemTemplate Context="signal">@signal.GetDisplayName()</ItemTemplate>
+                                    </MatSelectItem>
+                                </div>
+                            </div>
+                            <div class="mb-2 row">
+                                <div class="col-sm-6">
+                                    <MatSelect Label="Единицы измерения" @bind-Value="Command.EU" Outlined="true" Style="width:100%">
+                                        <MatOptionString Value="м3">м3</MatOptionString>
+                                        <MatOptionString Value="тыс.м3">тыс.м3</MatOptionString>
+                                        <MatOptionString Value="Т">Т</MatOptionString>
+                                        <MatOptionString Value="кг">кг</MatOptionString>
+                                    </MatSelect>
+                                </div>
+                            </div>
                         </div>
-                        <div class="">
-                            <MatTextField Label="Серийный номер" @bind-Value="Command.SerialNumber" Outlined="true" Style="width:100%"></MatTextField>
-                            <ValidationMessage For="()=> Command.SerialNumber"></ValidationMessage>
+                        @if (Command.SignalType == SignalType.RS485)
+                        {
+                            <div class="col-sm-4">
+                                <ModbusSettings Settings="Command.ModbusSettings" OnSettingsChanged="ChangeSettings"></ModbusSettings>
+                            </div>
+                        }
+                    </div>
+
+                    break;
+
+                case HardwareType.Network:
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                    <MatTextField Label="Позиция по проекту" @bind-Value="Command.Position" Outlined="true" Style="width: 100%;"></MatTextField>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+                                    <ValidationMessage For="()=> Command.Position"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="mb-2 row">
+                                <div class="col-sm-6">
+                                    <MatTextField Label="Тип прибора" @bind-Value="Command.DeviceType" Outlined="true" Style="width:100%"></MatTextField>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+                                    <ValidationMessage For="()=> Command.DeviceType"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="mb-2 row">
+                                <div class="col-sm-6">
+                                    <MatTextField Label="Модель прибора" @bind-Value="Command.DeviceModel" Outlined="true" Style="width:100%"></MatTextField>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+                                    <ValidationMessage For="()=> Command.DeviceModel"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                    <MatTextField Label="Серийный номер" @bind-Value="Command.SerialNumber" Outlined="true" Style="width: 100%;"></MatTextField>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+                                    <ValidationMessage For="()=> Command.SerialNumber"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                    <MatTextField Label="Маска подсети" @bind-Value="Command.Mask" Outlined="true" Style="width: 100%;"></MatTextField>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+                                    <ValidationMessage For="()=> Command.Mask"></ValidationMessage>
+                                </div>
+                            </div>
                         </div>
-                        <div class="">
-                            <MatTextField Label="Тип прибора" @bind-Value="Command.DeviceType" Outlined="true" Style="width:100%"></MatTextField>
-                            <ValidationMessage For="()=> Command.DeviceType"></ValidationMessage>
-                        </div>
-                        <div class="">
-                            <MatTextField Label="Модель прибора" @bind-Value="Command.DeviceModel" Outlined="true" Style="width:100%"></MatTextField>
-                            <ValidationMessage For="()=> Command.DeviceModel"></ValidationMessage>
+                        <div class="col-sm-4">
+                            <h5>Подключенное оборудование:</h5>
+                            <div class="row">
+                                <div class="col py-2">
+                                    <MatButton Raised="true">Добавить</MatButton> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="w-50">Название</th>
+                                                <th class="w-25">IP</th>
+                                                <th class="w-25">MAC-адрес</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Command.NetworkDevices)
+                                            {
+                                                <tr>
+                                                    <td class="w-50">@item.Name</td>
+                                                    <td class="w-25">@item.IP</td>
+                                                    <td class="w-25">@item.MacAddress</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
-                        <div>
-                            <MatNumericUpDownField Label="Нижний диапазон измерений" @bind-Value="Command.MinValue" DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
-                            <ValidationMessage For="()=> Command.MinValue"></ValidationMessage>
-                        </div>
-                        <div>
-                            <MatNumericUpDownField Label="Верхний диапазон измерений" @bind-Value="Command.MaxValue" DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
-                            <ValidationMessage For="()=> Command.MaxValue"></ValidationMessage>
-                        </div>
-                        <div>
-                            <MatNumericUpDownField Label="К-фактор" @bind-Value="Command.KFactor" DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
-                            <ValidationMessage For="()=> Command.KFactor"></ValidationMessage>
-                        </div>
-                        <div class="mb-2">
-                            <MatSelectItem @bind-Value="Command.SignalType" Label="Способ подключения" Outlined="true" Style="width:100%"
-                                           Items="Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray()">
-                                <ItemTemplate Context="signal">@signal.GetDisplayName()</ItemTemplate>
-                            </MatSelectItem>
 
-                        </div>
-                        <div class="mb-2">
-                            <MatSelect Label="Единицы измерения" @bind-Value="Command.EU" Outlined="true" Style="width:100%">
-                                <MatOptionString Value="м3">м3</MatOptionString>
-                                <MatOptionString Value="тыс.м3">тыс.м3</MatOptionString>
-                                <MatOptionString Value="Т">Т</MatOptionString>
-                                <MatOptionString Value="кг">кг</MatOptionString>
-                            </MatSelect>
-                        </div>
-                    </div>
-                </div>
-                break;
-            case HardwareType.Network:
+                    break;
 
-                break;
-            case HardwareType.PLC:
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="">
+                case HardwareType.PLC:
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
                             <MatTextField Label="Позиция по проекту" @bind-Value="Command.Position" Outlined="true" Style="width: 100%;"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
                             <ValidationMessage For="()=> Command.Position"></ValidationMessage>
                         </div>
-                        <div class="">
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
                             <MatTextField Label="Серийный номер" @bind-Value="Command.SerialNumber" Outlined="true" Style="width: 100%;"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
                             <ValidationMessage For="()=> Command.SerialNumber"></ValidationMessage>
                         </div>
-                        <div class="">
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
                             <MatTextField Label="Модель контроллера" @bind-Value="Command.DeviceModel" Outlined="true" Style="width: 100%;"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
                             <ValidationMessage For="()=> Command.DeviceModel"></ValidationMessage>
                         </div>
                     </div>
-                    <div class="col-sm-4">
-                        <div class="">
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
                             <MatTextField Label="IP адрес" @bind-Value="Command.IPAddress" Outlined="true" Style="width: 100%;"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
                             <ValidationMessage For="()=> Command.IPAddress"></ValidationMessage>
                         </div>
-                        <div class="">
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
                             <MatTextField Label="Версия сборки" @bind-Value="Command.AssemblyVersion" Outlined="true" Style="width: 100%;"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
                             <ValidationMessage For="()=> Command.AssemblyVersion"></ValidationMessage>
                         </div>
                     </div>
-                </div>
-                break;
-            case HardwareType.Pressure:
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="">
-                            <MatTextField Label="Позиция по проекту" @bind-Value="Command.Position" Outlined="true" Style="width:100%"></MatTextField>
-                            <ValidationMessage For="()=> Command.Position"></ValidationMessage>
-                        </div>
-                        <div class="">
-                            <MatTextField Label="Серийный номер" @bind-Value="Command.SerialNumber" Outlined="true" Style="width:100%"></MatTextField>
-                            <ValidationMessage For="()=> Command.SerialNumber"></ValidationMessage>
-                        </div>
-                        <div class="">
-                            <MatTextField Label="Тип прибора" @bind-Value="Command.DeviceType" Outlined="true" Style="width:100%"></MatTextField>
-                            <ValidationMessage For="()=> Command.DeviceType"></ValidationMessage>
-                        </div>
-                        <div class="">
-                            <MatTextField Label="Модель прибора" @bind-Value="Command.DeviceModel" Outlined="true" Style="width:100%"></MatTextField>
-                            <ValidationMessage For="()=> Command.DeviceModel"></ValidationMessage>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="">
-                            <MatNumericUpDownField Label="Нижний диапазон измерений" @bind-Value="Command.MinValue" DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
-                            <ValidationMessage For="()=> Command.MinValue"></ValidationMessage>
-                        </div>
-                        <div class="">
-                            <MatNumericUpDownField Label="Верхний диапазон измерений" @bind-Value="Command.MaxValue" DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
-                            <ValidationMessage For="()=> Command.MaxValue"></ValidationMessage>
-                        </div>
-                        <div class="mb-2">
-                            <MatSelectItem @bind-Value="Command.SignalType" Label="Способ подключения" Outlined="true" Style="width:100%"
-                                           Items="Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray()">
-                                <ItemTemplate Context="signal">@signal.GetDisplayName()</ItemTemplate>
-                            </MatSelectItem>
-                        </div>
-                        <div class="mb-2">
-                            <MatSelect Label="Единицы измерения" @bind-Value="Command.EU" Outlined="true" Style="width:100%">
-                                <MatOptionString Value="МПа">МПа</MatOptionString>
-                                <MatOptionString Value="кПа">кПа</MatOptionString>
-                                <MatOptionString Value="кгс/м2">кгс/м2</MatOptionString>
-                            </MatSelect>
-                        </div>
-                    </div>
-                </div>
-                break;
-            case HardwareType.Temperature:
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="">
-                            <MatTextField Label="Позиция по проекту" @bind-Value="Command.Position" Outlined="true" Style="width:100%"></MatTextField>
-                            <ValidationMessage For="()=> Command.Position"></ValidationMessage>
-                        </div>
-                        <div class="">
-                            <MatTextField Label="Серийный номер" @bind-Value="Command.SerialNumber" Outlined="true" Style="width:100%"></MatTextField>
-                            <ValidationMessage For="()=> Command.SerialNumber"></ValidationMessage>
-                        </div>
-                        <div class="">
-                            <MatTextField Label="Тип прибора" @bind-Value="Command.DeviceType" Outlined="true" Style="width:100%"></MatTextField>
-                            <ValidationMessage For="()=> Command.DeviceType"></ValidationMessage>
-                        </div>
-                        <div class="">
-                            <MatTextField Label="Модель прибора" @bind-Value="Command.DeviceModel" Outlined="true" Style="width:100%"></MatTextField>
-                            <ValidationMessage For="()=> Command.DeviceModel"></ValidationMessage>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="">
-                            <MatNumericUpDownField Label="Нижний диапазон измерений" @bind-Value="Command.MinValue" DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
-                            <ValidationMessage For="()=> Command.MinValue"></ValidationMessage>
-                        </div>
-                        <div class="">
-                            <MatNumericUpDownField Label="Верхний диапазон измерений" @bind-Value="Command.MaxValue" DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
-                            <ValidationMessage For="()=> Command.MaxValue"></ValidationMessage>
-                        </div>
-                        <div class="mb-2">
-                            <MatSelectItem @bind-Value="Command.SignalType" Label="Способ подключения" Outlined="true" Style="width:100%"
-                                           Items="Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray()">
-                                <ItemTemplate Context="signal">@signal.GetDisplayName()</ItemTemplate>
-                            </MatSelectItem>
-                        </div>
-                        <div class="mb-2">
-                            <MatSelect Label="Единицы измерения" @bind-Value="Command.EU" Outlined="true" Style="width:100%">
-                                <MatOptionString Value="МПа">Град С.</MatOptionString>
-                            </MatSelect>
-                        </div>
-                    </div>
-                </div>
-                break;
-            case HardwareType.Valve:
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="">
-                            <MatTextField Label="Позиция по проекту" @bind-Value="Command.Position" Outlined="true" Style="width:100%"></MatTextField>
-                            <ValidationMessage For="()=> Command.Position"></ValidationMessage>
-                        </div>
-                        <div class="">
-                            <MatTextField Label="Серийный номер" @bind-Value="Command.SerialNumber" Outlined="true" Style="width:100%"></MatTextField>
-                            <ValidationMessage For="()=> Command.SerialNumber"></ValidationMessage>
-                        </div>
-                        <div class="">
-                            <MatTextField Label="Тип крана" @bind-Value="Command.DeviceType" Outlined="true" Style="width:100%"></MatTextField>
-                            <ValidationMessage For="()=> Command.DeviceType"></ValidationMessage>
-                        </div>
-                        <div class="">
-                            <MatTextField Label="Модель крана" @bind-Value="Command.DeviceModel" Outlined="true" Style="width:100%"></MatTextField>
-                            <ValidationMessage For="()=> Command.DeviceModel"></ValidationMessage>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="mb-2">
-                            <MatSelectItem @bind-Value="Command.SignalType" Label="Способ подключения" Outlined="true" Style="width:100%"
-                                           Items="Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray()">
-                                <ItemTemplate Context="signal">@signal.GetDisplayName()</ItemTemplate>
-                            </MatSelectItem>
-                        </div>
-                    </div>
-                    @if (Command.SignalType == SignalType.RS485)
-                    {
-                        <div class="col-sm-4">
-                            <ModbusSettings Settings="Command.ModbusSettings" OnSettingsChanged="ChangeSettings"></ModbusSettings>
-                        </div>
-                    }
-                </div>
-                break;
-        }
+                    break;
 
-    </p>
-    <div class="form-group">
-        <MatButton type="submit" Raised="true" Icon="add"> Добавить</MatButton>
+                case HardwareType.Pressure:
+                case HardwareType.Temperature:
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
+                            <MatTextField Label="Позиция по проекту" @bind-Value="Command.Position" Outlined="true" Style="width:100%"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
+                            <ValidationMessage For="()=> Command.Position"></ValidationMessage>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
+                            <MatTextField Label="Серийный номер" @bind-Value="Command.SerialNumber" Outlined="true" Style="width:100%"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
+                            <ValidationMessage For="()=> Command.SerialNumber"></ValidationMessage>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
+                            <MatTextField Label="Тип прибора" @bind-Value="Command.DeviceType" Outlined="true" Style="width:100%"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
+                            <ValidationMessage For="()=> Command.DeviceType"></ValidationMessage>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
+                            <MatTextField Label="Модель прибора" @bind-Value="Command.DeviceModel" Outlined="true" Style="width:100%"></MatTextField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
+                            <ValidationMessage For="()=> Command.DeviceModel"></ValidationMessage>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
+                            <MatNumericUpDownField Label="Нижний диапазон измерений" @bind-Value="Command.MinValue" DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
+                            <ValidationMessage For="()=> Command.MinValue"></ValidationMessage>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
+                            <MatNumericUpDownField Label="Верхний диапазон измерений" @bind-Value="Command.MaxValue" DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
+                            <ValidationMessage For="()=> Command.MaxValue"></ValidationMessage>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
+                            <MatSelectItem @bind-Value="Command.SignalType" Label="Способ подключения" Outlined="true" Style="width:100%"
+                                           Items="Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray()">
+                                <ItemTemplate Context="signal">@signal.GetDisplayName()</ItemTemplate>
+                            </MatSelectItem>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
+
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
+                            <MatSelect Label="Единицы измерения" @bind-Value="Command.EU" Outlined="true" Style="width:100%">
+                                @if (Command.HardwareType == HardwareType.Pressure)
+                                        {
+                                    <MatOptionString Value="МПа">МПа</MatOptionString>
+                                    <MatOptionString Value="кПа">кПа</MatOptionString>
+                                    <MatOptionString Value="кгс/м2">кгс/м2</MatOptionString>
+                                        }
+                                        else
+                                        {
+                                    <MatOptionString Value="МПа">Град С.</MatOptionString>
+                                        }
+                            </MatSelect>
+                        </div>
+                        <div class="col-sm-4 align-self-center">
+
+                        </div>
+                    </div>
+                    break;
+
+                case HardwareType.Valve:
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                    <MatTextField Label="Позиция по проекту" @bind-Value="Command.Position" Outlined="true" Style="width:100%"></MatTextField>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+                                    <ValidationMessage For="()=> Command.Position"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                    <MatTextField Label="Серийный номер" @bind-Value="Command.SerialNumber" Outlined="true" Style="width:100%"></MatTextField>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+                                    <ValidationMessage For="()=> Command.SerialNumber"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                    <MatTextField Label="Тип крана" @bind-Value="Command.DeviceType" Outlined="true" Style="width:100%"></MatTextField>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+                                    <ValidationMessage For="()=> Command.DeviceType"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                    <MatTextField Label="Модель крана" @bind-Value="Command.DeviceModel" Outlined="true" Style="width:100%"></MatTextField>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+                                    <ValidationMessage For="()=> Command.DeviceModel"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                    <MatSelectItem @bind-Value="Command.SignalType" Label="Способ подключения" Outlined="true" Style="width:100%"
+                                                   Items="Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray()">
+                                        <ItemTemplate Context="signal">@signal.GetDisplayName()</ItemTemplate>
+                                    </MatSelectItem>
+                                </div>
+                                <div class="col-sm-6 align-self-center">
+
+                                </div>
+                            </div>
+                        </div>
+                        @if (Command.SignalType == SignalType.RS485)
+                        {
+                            <div class="col-sm-4">
+                                <ModbusSettings Settings="Command.ModbusSettings" OnSettingsChanged="ChangeSettings"></ModbusSettings>
+                            </div>
+                        }
+                    </div>
+                    break;
+            }
+        </div>
     </div>
 </EditForm>
 

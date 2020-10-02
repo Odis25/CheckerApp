@@ -1,6 +1,7 @@
 ﻿using CheckerApp.Domain.Enums;
 using MediatR;
 using System;
+using System.Collections.Generic;
 
 namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
 {
@@ -23,6 +24,8 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
         public string AssemblyVersion { get; set; }
         public string CRC32 { get; set; }
         public ulong? LastConfigDate { get; set; }
+        public string Mask { get; set; }
+        public ICollection<NetworkDeviceDto> NetworkDevices { get; private set; }
         public ModbusSettingsDto ModbusSettings { get; set; }
     }
 }

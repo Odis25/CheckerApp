@@ -1,5 +1,5 @@
-using CheckerApp.Domain.Common;
-using CheckerApp.Server.Common.Interfaces;
+using CheckerApp.Application.Common.Interfaces;
+using CheckerApp.Domain.Entities.Identity; // подумать как избавиться от привязки к доменному уровню
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,7 +11,6 @@ namespace CheckerApp.Server.Pages
     public class LoginModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserService _userService;
 
         [BindProperty]
@@ -25,15 +24,13 @@ namespace CheckerApp.Server.Pages
 
         public LoginModel(
             SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager,
             IUserService userService)
         {
             _signInManager = signInManager;
-            _userManager = userManager;
             _userService = userService;
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public void OnGet(string returnUrl = null)
         {
             ReturnUrl = returnUrl ?? Url.Content("~/");
         }

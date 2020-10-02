@@ -2,6 +2,7 @@
 using CheckerApp.Domain.Common;
 using CheckerApp.Domain.Entities.ContractEntities;
 using CheckerApp.Domain.Entities.HardwareEntities;
+using CheckerApp.Domain.Entities.Identity;
 using CheckerApp.Domain.Enums;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
@@ -18,9 +19,9 @@ namespace CheckerApp.Infrastructure.Data
     {
         private readonly ICurrentUserService _currentUserService;
 
-        public AppDbContext(DbContextOptions<AppDbContext> option, 
+        public AppDbContext(DbContextOptions<AppDbContext> option,
             IOptions<OperationalStoreOptions> operationalStoreOptions,
-            ICurrentUserService currentUserService) 
+            ICurrentUserService currentUserService)
             : base(option, operationalStoreOptions)
         {
             _currentUserService = currentUserService;
@@ -29,6 +30,10 @@ namespace CheckerApp.Infrastructure.Data
         {
             builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Admin", NormalizedName = "Admin".ToUpper() });
             builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "User", NormalizedName = "User".ToUpper() });
+
+            builder.Entity<Flowmeter>().OwnsOne(e => e.Settings, ms => ms.ToTable("FlowmeterSettings"));
+            builder.Entity<Valve>().OwnsOne(e => e.Settings, ms => ms.ToTable("ValveSettings"));
+            builder.Entity<NetworkHardware>().OwnsMany(e => e.NetworkDevices, nd => nd.ToTable("networkDevices"));
 
             builder.Entity<Hardware>().HasDiscriminator(e => e.HardwareType)
                 .HasValue<Cabinet>(HardwareType.Cabinet)
@@ -42,7 +47,7 @@ namespace CheckerApp.Infrastructure.Data
 
             base.OnModelCreating(builder);
         }
-     
+
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<Hardware> Hardwares { get; set; }
         public DbSet<Cabinet> Cabinets { get; set; }

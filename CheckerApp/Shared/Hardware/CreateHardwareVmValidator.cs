@@ -39,6 +39,13 @@ namespace CheckerApp.Shared.Hardware
                 RuleFor(m => m.Position).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
                 RuleFor(m => m.DeviceModel).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
             });
+            When(m => m.HardwareType == HardwareType.Network, () =>
+            {
+                RuleFor(m => m.SerialNumber).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
+                RuleFor(m => m.Position).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
+                RuleFor(m => m.DeviceType).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
+                RuleFor(m => m.DeviceModel).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
+            });
             When(m => m.HardwareType == HardwareType.Valve, () =>
             {
                 RuleFor(m => m.SerialNumber).NotEmpty().WithMessage("Это поле обязательно для заполнения.");

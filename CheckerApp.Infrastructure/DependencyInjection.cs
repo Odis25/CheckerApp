@@ -1,6 +1,7 @@
 ﻿using CheckerApp.Application.Common.Interfaces;
-using CheckerApp.Domain.Common;
+using CheckerApp.Domain.Entities.Identity;
 using CheckerApp.Infrastructure.Data;
+using CheckerApp.Infrastructure.Services;
 using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -53,6 +54,8 @@ namespace CheckerApp.Infrastructure
                 .AddIdentityServerJwt();
 
             services.AddScoped<IAppDbContext>(provider => provider.GetService<AppDbContext>());
+
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }

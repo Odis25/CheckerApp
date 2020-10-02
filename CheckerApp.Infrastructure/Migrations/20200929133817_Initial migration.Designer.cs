@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CheckerApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200928113535_Initial Migration")]
-    partial class InitialMigration
+    [Migration("20200929133817_Initial migration")]
+    partial class Initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -163,33 +163,6 @@ namespace CheckerApp.Infrastructure.Migrations
                     b.HasDiscriminator<int>("HardwareType");
                 });
 
-            modelBuilder.Entity("CheckerApp.Domain.Entities.HardwareEntities.ModbusSettings", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("Address")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("BoudRate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DataBits")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Parity")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StopBit")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ModbusSettings");
-                });
-
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
                 {
                     b.Property<string>("UserCode")
@@ -301,15 +274,15 @@ namespace CheckerApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3d9e10db-6e79-47a2-a4b7-7a248ed3b0f2",
-                            ConcurrencyStamp = "abd79a60-7836-4abe-9d85-fa762b279a2d",
+                            Id = "b8db499e-cc1f-4890-958b-dcb90202f2db",
+                            ConcurrencyStamp = "d38b210d-9c95-4d7d-9a9c-8462df33ffa4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "0d0047f1-0f2d-49ee-8269-58089fc3debf",
-                            ConcurrencyStamp = "510c9acf-d8b2-44df-96eb-2ba913bcf2d1",
+                            Id = "be84eb31-03c9-40d0-a3f4-e6a0abf6c861",
+                            ConcurrencyStamp = "a61921a4-6b60-4efb-89e3-d587404ed7fa",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -481,13 +454,8 @@ namespace CheckerApp.Infrastructure.Migrations
                     b.Property<double>("MinValue")
                         .HasColumnType("float");
 
-                    b.Property<int?>("SettingsId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SignalType")
                         .HasColumnType("int");
-
-                    b.HasIndex("SettingsId");
 
                     b.HasDiscriminator().HasValue(2);
                 });
@@ -502,6 +470,9 @@ namespace CheckerApp.Infrastructure.Migrations
 
                     b.Property<string>("DeviceType")
                         .HasColumnName("NetworkHardware_DeviceType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mask")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue(3);
@@ -587,15 +558,9 @@ namespace CheckerApp.Infrastructure.Migrations
                         .HasColumnName("Valve_DeviceType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SettingsId")
-                        .HasColumnName("Valve_SettingsId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SignalType")
                         .HasColumnName("Valve_SignalType")
                         .HasColumnType("int");
-
-                    b.HasIndex("SettingsId");
 
                     b.HasDiscriminator().HasValue(7);
                 });
@@ -660,16 +625,94 @@ namespace CheckerApp.Infrastructure.Migrations
 
             modelBuilder.Entity("CheckerApp.Domain.Entities.HardwareEntities.Flowmeter", b =>
                 {
-                    b.HasOne("CheckerApp.Domain.Entities.HardwareEntities.ModbusSettings", "Settings")
-                        .WithMany()
-                        .HasForeignKey("SettingsId");
+                    b.OwnsOne("CheckerApp.Domain.Entities.HardwareEntities.ModbusSettings", "Settings", b1 =>
+                        {
+                            b1.Property<int>("FlowmeterId")
+                                .HasColumnType("int");
+
+                            b1.Property<long>("Address")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("BoudRate")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("DataBits")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Parity")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("StopBit")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("FlowmeterId");
+
+                            b1.ToTable("FlowmeterSettings");
+
+                            b1.WithOwner()
+                                .HasForeignKey("FlowmeterId");
+                        });
+                });
+
+            modelBuilder.Entity("CheckerApp.Domain.Entities.HardwareEntities.NetworkHardware", b =>
+                {
+                    b.OwnsMany("CheckerApp.Domain.Entities.HardwareEntities.NetworkDevice", "NetworkDevices", b1 =>
+                        {
+                            b1.Property<int>("NetworkHardwareId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("IP")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("MacAddress")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Name")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("NetworkHardwareId", "Id");
+
+                            b1.ToTable("networkDevices");
+
+                            b1.WithOwner()
+                                .HasForeignKey("NetworkHardwareId");
+                        });
                 });
 
             modelBuilder.Entity("CheckerApp.Domain.Entities.HardwareEntities.Valve", b =>
                 {
-                    b.HasOne("CheckerApp.Domain.Entities.HardwareEntities.ModbusSettings", "Settings")
-                        .WithMany()
-                        .HasForeignKey("SettingsId");
+                    b.OwnsOne("CheckerApp.Domain.Entities.HardwareEntities.ModbusSettings", "Settings", b1 =>
+                        {
+                            b1.Property<int>("ValveId")
+                                .HasColumnType("int");
+
+                            b1.Property<long>("Address")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("BoudRate")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("DataBits")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Parity")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("StopBit")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("ValveId");
+
+                            b1.ToTable("ValveSettings");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ValveId");
+                        });
                 });
 #pragma warning restore 612, 618
         }

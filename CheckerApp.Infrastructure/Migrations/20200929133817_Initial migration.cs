@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CheckerApp.Infrastructure.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initialmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -81,23 +81,6 @@ namespace CheckerApp.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DeviceCodes", x => x.UserCode);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ModbusSettings",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Address = table.Column<long>(nullable: false),
-                    BoudRate = table.Column<string>(nullable: true),
-                    Parity = table.Column<string>(nullable: true),
-                    DataBits = table.Column<string>(nullable: true),
-                    StopBit = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ModbusSettings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -251,48 +234,101 @@ namespace CheckerApp.Infrastructure.Migrations
                     EU = table.Column<string>(nullable: true),
                     SignalType = table.Column<int>(nullable: true),
                     Kfactor = table.Column<double>(nullable: true),
-                    SettingsId = table.Column<int>(nullable: true),
                     NetworkHardware_DeviceType = table.Column<string>(nullable: true),
                     NetworkHardware_DeviceModel = table.Column<string>(nullable: true),
+                    Mask = table.Column<string>(nullable: true),
                     Pressure_DeviceModel = table.Column<string>(nullable: true),
                     Temperature_DeviceModel = table.Column<string>(nullable: true),
                     Valve_DeviceType = table.Column<string>(nullable: true),
                     Valve_DeviceModel = table.Column<string>(nullable: true),
-                    Valve_SignalType = table.Column<int>(nullable: true),
-                    Valve_SettingsId = table.Column<int>(nullable: true)
+                    Valve_SignalType = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Hardwares", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Hardwares_ModbusSettings_SettingsId",
-                        column: x => x.SettingsId,
-                        principalTable: "ModbusSettings",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Hardwares_Contracts_ContractId",
                         column: x => x.ContractId,
                         principalTable: "Contracts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowmeterSettings",
+                columns: table => new
+                {
+                    FlowmeterId = table.Column<int>(nullable: false),
+                    Address = table.Column<long>(nullable: false),
+                    BoudRate = table.Column<string>(nullable: true),
+                    Parity = table.Column<string>(nullable: true),
+                    DataBits = table.Column<string>(nullable: true),
+                    StopBit = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowmeterSettings", x => x.FlowmeterId);
                     table.ForeignKey(
-                        name: "FK_Hardwares_ModbusSettings_Valve_SettingsId",
-                        column: x => x.Valve_SettingsId,
-                        principalTable: "ModbusSettings",
+                        name: "FK_FlowmeterSettings_Hardwares_FlowmeterId",
+                        column: x => x.FlowmeterId,
+                        principalTable: "Hardwares",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "networkDevices",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NetworkHardwareId = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    IP = table.Column<string>(nullable: true),
+                    MacAddress = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_networkDevices", x => new { x.NetworkHardwareId, x.Id });
+                    table.ForeignKey(
+                        name: "FK_networkDevices_Hardwares_NetworkHardwareId",
+                        column: x => x.NetworkHardwareId,
+                        principalTable: "Hardwares",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ValveSettings",
+                columns: table => new
+                {
+                    ValveId = table.Column<int>(nullable: false),
+                    Address = table.Column<long>(nullable: false),
+                    BoudRate = table.Column<string>(nullable: true),
+                    Parity = table.Column<string>(nullable: true),
+                    DataBits = table.Column<string>(nullable: true),
+                    StopBit = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ValveSettings", x => x.ValveId);
+                    table.ForeignKey(
+                        name: "FK_ValveSettings_Hardwares_ValveId",
+                        column: x => x.ValveId,
+                        principalTable: "Hardwares",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "3d9e10db-6e79-47a2-a4b7-7a248ed3b0f2", "abd79a60-7836-4abe-9d85-fa762b279a2d", "Admin", "ADMIN" });
+                values: new object[] { "b8db499e-cc1f-4890-958b-dcb90202f2db", "d38b210d-9c95-4d7d-9a9c-8462df33ffa4", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "0d0047f1-0f2d-49ee-8269-58089fc3debf", "510c9acf-d8b2-44df-96eb-2ba913bcf2d1", "User", "USER" });
+                values: new object[] { "be84eb31-03c9-40d0-a3f4-e6a0abf6c861", "a61921a4-6b60-4efb-89e3-d587404ed7fa", "User", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -345,19 +381,9 @@ namespace CheckerApp.Infrastructure.Migrations
                 column: "Expiration");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Hardwares_SettingsId",
-                table: "Hardwares",
-                column: "SettingsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Hardwares_ContractId",
                 table: "Hardwares",
                 column: "ContractId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Hardwares_Valve_SettingsId",
-                table: "Hardwares",
-                column: "Valve_SettingsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersistedGrants_Expiration",
@@ -391,10 +417,16 @@ namespace CheckerApp.Infrastructure.Migrations
                 name: "DeviceCodes");
 
             migrationBuilder.DropTable(
-                name: "Hardwares");
+                name: "FlowmeterSettings");
+
+            migrationBuilder.DropTable(
+                name: "networkDevices");
 
             migrationBuilder.DropTable(
                 name: "PersistedGrants");
+
+            migrationBuilder.DropTable(
+                name: "ValveSettings");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -403,7 +435,7 @@ namespace CheckerApp.Infrastructure.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "ModbusSettings");
+                name: "Hardwares");
 
             migrationBuilder.DropTable(
                 name: "Contracts");

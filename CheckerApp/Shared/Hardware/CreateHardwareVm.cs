@@ -1,5 +1,6 @@
 ﻿using CheckerApp.Shared.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace CheckerApp.Shared.Hardware
 {
@@ -8,6 +9,8 @@ namespace CheckerApp.Shared.Hardware
         public CreateHardwareVm()
         {
             ModbusSettings = new ModbusSettingsVm();
+            NetworkDevices = new HashSet<NetworkDeviceDto>();
+            Constructed = DateTime.Now;
         }
         public HardwareType HardwareType { get; set; }
         public int ContractId { get; set; }
@@ -26,6 +29,8 @@ namespace CheckerApp.Shared.Hardware
         public string AssemblyVersion { get; set; }
         public string CRC32 { get; set; }
         public ulong? LastConfigDate { get; set; }
+        public string Mask { get; set; }
+        public ICollection<NetworkDeviceDto> NetworkDevices { get; private set; }
         public ModbusSettingsVm ModbusSettings { get; set; }
     }
 }

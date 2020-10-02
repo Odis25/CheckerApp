@@ -1,4 +1,4 @@
-﻿using CheckerApp.Domain.Common;
+﻿using CheckerApp.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
