@@ -1,0 +1,23 @@
+﻿
+<div class="">
+    <MatTextField Label="Название" @bind-Value="Device.Name" Outlined="true" Style="width:100%"></MatTextField>
+    <MatTextField Label="IP" @bind-Value="Device.IP" Outlined="true" Style="width:100%"></MatTextField>
+    <MatTextField Label="MAC-Address" @bind-Value="Device.MacAddress" Outlined="true" Style="width:100%"></MatTextField>
+</div>
+<hr/>
+<div class="">
+    <MatButton Raised="true" @onclick="Save" Style="width:100%">Добавить</MatButton>
+</div>
+
+@code {
+
+    public NetworkDeviceDto Device { get; set; } = new NetworkDeviceDto();
+
+    [CascadingParameter]
+    public BlazoredModalInstance BlazoredModal { get; set; }
+
+    private void Save()
+    {
+        BlazoredModal.Close(ModalResult.Ok(Device));
+    }
+}

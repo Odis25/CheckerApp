@@ -11,7 +11,7 @@ namespace CheckerApp.Shared.Hardware
         public string DeviceType { get; set; }
         public string DeviceModel { get; set; }
         public string Mask { get; set; }
-        public ICollection<NetworkDeviceDto> NetworkDevices { get; private set; }
+        public ICollection<NetworkDeviceDto> NetworkDevices { get; set; }
     }
     public class NetworkDeviceDto
     {

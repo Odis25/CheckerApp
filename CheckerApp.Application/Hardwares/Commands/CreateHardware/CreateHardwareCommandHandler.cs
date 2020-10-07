@@ -1,12 +1,9 @@
 ﻿using CheckerApp.Application.Common.Interfaces;
-using CheckerApp.Application.Hardwares.Queries;
 using CheckerApp.Domain.Entities.HardwareEntities;
 using CheckerApp.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -66,6 +63,7 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                         MaxValue = request.MaxValue,
                         EU = request.EU,
                         Kfactor = request.KFactor,
+                        SignalType = request.SignalType,
                         Settings = new ModbusSettings
                         {
                             Address = request.ModbusSettings.Address,
@@ -81,6 +79,7 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                     {
                         Position = request.Position,
                         SerialNumber = request.SerialNumber,
+                        DeviceType = request.DeviceType,
                         DeviceModel = request.DeviceModel,
                         Mask = request.Mask
                     };

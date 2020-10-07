@@ -3,6 +3,7 @@
 
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
+@inject IModalService Modal
 
 
 @if (ContractsList == null)
@@ -11,8 +12,13 @@
 }
 else
 {
-    <h3>Список договоров</h3>
-    <MatTable Items="@ContractsList.Contracts" Class="mat-elevation-z5" Striped="true" AllowSelection="true" OnRowDbClick="(item)=> NavigateTo(((ContractDetailVm)item).Id)">
+    <h1>Список договоров</h1>
+    <hr />
+    <div class="py-2">
+        <button class="btn btn-primary" @onclick="AddContract"><span class="oi oi-plus" aria-hidden="true"></span> Новый договор</button>
+    </div>
+    <MatTable Items="@ContractsList.Contracts" Class="mat-elevation-z5" Striped="true" AllowSelection="true" 
+              ShowPaging="false" ShowFooter="false" OnRowDbClick="(item)=> NavigateTo(((ContractDetailVm)item).Id)">
         <MatTableHeader>
             <th style="min-width:250px;">Номер договора</th>
             <th style="min-width:250px;">Внутренний номер</th>
@@ -38,5 +44,16 @@ else
     private void NavigateTo(int id)
     {
         NavigationManager.NavigateTo($"/contract/{id}/detail");
+    }
+
+    private async Task AddContract()
+    {
+        var formModal = Modal.Show<AddContractModal>("Новый договор");
+        var result = await formModal.Result;
+
+        if (!result.Cancelled)
+        {
+            ContractsList = await HttpClient.GetFromJsonAsync<ContractsListVm>("api/contract");
+        }
     }
 }

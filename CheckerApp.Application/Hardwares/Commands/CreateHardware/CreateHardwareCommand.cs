@@ -25,7 +25,7 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
         public string CRC32 { get; set; }
         public ulong? LastConfigDate { get; set; }
         public string Mask { get; set; }
-        public ICollection<NetworkDeviceDto> NetworkDevices { get; private set; }
+        public ICollection<NetworkDeviceDto> NetworkDevices { get; set; }
         public ModbusSettingsDto ModbusSettings { get; set; }
     }
 }

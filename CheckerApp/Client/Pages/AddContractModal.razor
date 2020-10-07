@@ -1,0 +1,49 @@
+﻿@inject HttpClient HttpClient
+
+<EditForm Model="@Contract" style="min-width:650px;" OnValidSubmit="Submit">
+    <FluentValidationValidator />
+
+    <div class="mb-2 row">
+        <div class="col">
+            <MatTextField @bind-Value="Contract.Name" Label="Название договора" Outlined="true" Style="width: 100%;" />
+            <ValidationMessage For="(()=>Contract.Name)"></ValidationMessage>
+        </div>
+    </div>
+    <div class="mb-2 row">
+        <div class="col">
+            <MatTextField @bind-Value="Contract.ContractNumber" Label="Номер договора" Outlined="true" Style="width: 100%;" />
+            <ValidationMessage For="(()=>Contract.ContractNumber)"></ValidationMessage>
+        </div>
+    </div>
+    <div class="mb-2 row">
+        <div class="col">
+            <MatTextField @bind-Value="Contract.DomesticNumber" Label="Внутренний номер договора" Outlined="true" Style="width: 100%;" />
+            <ValidationMessage For="(()=>Contract.DomesticNumber)"></ValidationMessage>
+        </div>
+    </div>
+    <hr />
+    <div class="">
+        <MatButton Raised="true" Style="width:100%;" type="submit"> Сохранить</MatButton>
+    </div>
+</EditForm>
+
+@code {
+
+    [CascadingParameter]
+    BlazoredModalInstance BlazoredModal { get; set; }
+
+    CreateContractVm Contract;
+
+    protected override Task OnInitializedAsync()
+    {
+        Contract = new CreateContractVm();
+        return base.OnInitializedAsync();
+    }
+
+    protected async Task Submit()
+    {
+        var contractId = await HttpClient.PostJsonAsync<int>("api/contract", Contract);
+
+        await BlazoredModal.Close(ModalResult.Ok("Ok"));
+    }
+}
