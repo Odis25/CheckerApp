@@ -28,14 +28,14 @@ namespace CheckerApp.Infrastructure
                 AllowedCorsOrigins = { "https://localhost:5001" },
 
                 ClientSecrets = {new Secret("secret".ToSha256()) },
-                
+
                 AllowedScopes =
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
                     "CheckerApp.ServerAPI"
                 },
-                
+
                 AllowAccessTokensViaBrowser = true,
                 AllowOfflineAccess = true,
                 RefreshTokenUsage = TokenUsage.ReUse

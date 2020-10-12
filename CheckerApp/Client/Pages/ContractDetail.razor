@@ -31,6 +31,7 @@ else
     <hr />
     <div>
         <button class="btn btn-primary" @onclick="AddHardware"><span class="oi oi-plus" aria-hidden="true"></span> Добавить оборудование</button>
+        <button class="btn btn-primary" @onclick="AddDocument"><span class="oi oi-document" aria-hidden="true"></span> Создать протокол</button>
     </div>
     <hr />
 
@@ -87,6 +88,11 @@ else
         {
             Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
         }
+    }
+
+    private void AddDocument()
+    {
+        navigationManager.NavigateTo($"/document/{int.Parse(Id)}");
     }
 
     private Task EditHardware(int hardwareId)

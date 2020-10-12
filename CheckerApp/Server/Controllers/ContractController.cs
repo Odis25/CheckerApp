@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace CheckerApp.Server.Controllers
 {
-
     public class ContractController : ApiController
     {
-        [Authorize]
         [HttpGet]
         public async Task<ActionResult> GetAllContracts()
         {

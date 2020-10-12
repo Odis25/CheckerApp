@@ -1,0 +1,101 @@
+﻿@page "/document/{id}"
+
+@inject HttpClient HttpClient
+@using System.Text.Json
+@using CheckerApp.Shared.Common.JsonConverters
+
+<h1>Протокол испытаний оборудования СОИ</h1>
+<p>по договору @ContractStatus.Name, дог. @ContractStatus.ContractNumber, вн.проект @ContractStatus.DomesticNumber</p>
+
+@test
+
+<EditForm Model="ContractStatus">
+    @foreach (var item in ContractStatus.HardwareChecks)
+    {
+        switch (item.HardwareType)
+        {
+            case HardwareType.Cabinet:
+
+                var checkstatus = (CabinetCheckStatusDto)item;
+                var cabinet = ((CabinetCheckStatusDto)item).Cabinet;
+
+                <h4>@cabinet.Position (зав.№@cabinet.SerialNumber, завершение монтажа @cabinet.Constructed.ToShortDateString(), ответственный - @cabinet.ConstructedBy)</h4>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="cabinet-prot">
+                            наличие "Протокола проверки изделия", подписанного БТК и СбМР
+                        </label>
+                    </div>
+                    <div class="col">
+                        <InputCheckbox class="form-control" id="cabinet-prot" @bind-Value="checkstatus.HasProtocol"></InputCheckbox>
+                    </div>
+                    <div class="col">
+                        <InputTextArea class="form-control" @bind-Value="checkstatus.HasProtocolComment"></InputTextArea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="cabinet-cs">
+                            "холодный" пуск
+                        </label>
+                    </div>
+                    <div class="col">
+                        <InputCheckbox class="form-control" id="cabinet-cs" @bind-Value="checkstatus.ColdStart"></InputCheckbox>
+                    </div>
+                    <div class="col">
+                        <InputTextArea class="form-control" @bind-Value="checkstatus.ColdStartComment"></InputTextArea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="cabinet-apc">
+                            работоспособность ИБП
+                        </label>
+                    </div>
+                    <div class="col">
+                        <InputCheckbox class="form-control" id="cabinet-apc" @bind-Value="checkstatus.APC"></InputCheckbox>
+                    </div>
+                    <div class="col">
+                        <InputTextArea class="form-control" @bind-Value="checkstatus.APCComment"></InputTextArea>
+                    </div>
+                </div>
+                break;
+            case HardwareType.FlowComputer:
+                break;
+            case HardwareType.Flowmeter:
+                break;
+            case HardwareType.Network:
+                break;
+            case HardwareType.PLC:
+                break;
+            case HardwareType.Pressure:
+                break;
+            case HardwareType.Temperature:
+                break;
+            case HardwareType.Valve:
+                break;
+        }
+
+    }
+</EditForm>
+
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+    public string test;
+
+    ContractCheckStatusVm ContractStatus { get; set; } = new ContractCheckStatusVm();
+
+    protected async override Task OnInitializedAsync()
+    {
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            Converters = { new CheckStatusConverter() }
+        };
+
+        ContractStatus = await HttpClient.GetFromJsonAsync<ContractCheckStatusVm>($"api/document/{int.Parse(Id)}", options);
+    }
+}

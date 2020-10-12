@@ -1,6 +1,7 @@
 using CheckerApp.Application;
 using CheckerApp.Application.Common.Interfaces;
 using CheckerApp.Infrastructure;
+using CheckerApp.Server.Common.JsonConverters;
 using CheckerApp.Server.Common.Middleware;
 using CheckerApp.Server.Services;
 using FluentValidation;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Net.Http;
 using System.Reflection;
 
 namespace CheckerApp.Server
@@ -28,11 +30,20 @@ namespace CheckerApp.Server
 
             services.AddApplication();
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options=> 
+            {
+                options.JsonSerializerOptions.WriteIndented = true;
+                options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                options.JsonSerializerOptions.Converters.Add(new HardwareConverter());
+                options.JsonSerializerOptions.Converters.Add(new CheckStatusConverter());
+            });
 
             services.AddRazorPages();
 
             services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+            services.AddHttpClient();
+            services.AddScoped<HttpClient>();
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         }

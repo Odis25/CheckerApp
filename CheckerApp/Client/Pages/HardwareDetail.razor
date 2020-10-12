@@ -1,6 +1,8 @@
 ﻿@page "/hardware/{id}/detail"
 @inject HttpClient HttpClient
+
 @using System.Text.Json
+@using CheckerApp.Shared.Common.JsonConverters
 
 @if (Hardware == null)
 {
@@ -38,7 +40,7 @@ else
                 <Valve Vm="(ValveVm)Hardware"></Valve>
                 break;
         }
-    </div>   
+    </div>
 }
 
 @code {
@@ -50,45 +52,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var httpResponse = await HttpClient.GetAsync($"api/hardware/{int.Parse(Id)}");
-
-        httpResponse.EnsureSuccessStatusCode();
-
-        var jsonString = await httpResponse.Content.ReadAsStringAsync();
-
-        var options = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true,            
-        };
-
-        var hardware = JsonSerializer.Deserialize<HardwareVm>(jsonString, options);
-
-        switch (hardware.HardwareType)
-        {
-            case HardwareType.Cabinet:
-                Hardware = JsonSerializer.Deserialize<CabinetVm>(jsonString, options);
-                break;
-            case HardwareType.FlowComputer:
-                Hardware = JsonSerializer.Deserialize<FlowComputerVm>(jsonString, options);
-                break;
-            case HardwareType.Flowmeter:
-                Hardware = JsonSerializer.Deserialize<FlowmeterVm>(jsonString, options);
-                break;
-            case HardwareType.Network:
-                Hardware = JsonSerializer.Deserialize<NetworkHardwareVm>(jsonString, options);
-                break;
-            case HardwareType.PLC:
-                Hardware = JsonSerializer.Deserialize<PLCVm>(jsonString, options);
-                break;
-            case HardwareType.Pressure:
-                Hardware = JsonSerializer.Deserialize<PressureVm>(jsonString, options);
-                break;
-            case HardwareType.Temperature:
-                Hardware = JsonSerializer.Deserialize<TemperatureVm>(jsonString, options);
-                break;
-            case HardwareType.Valve:
-                Hardware = JsonSerializer.Deserialize<ValveVm>(jsonString, options);
-                break;
-        }
+        var options = new JsonSerializerOptions { Converters = { new HardwareConverter() } };
+        Hardware = await HttpClient.GetFromJsonAsync<HardwareVm>($"api/hardware/{int.Parse(Id)}", options);
     }
 }
