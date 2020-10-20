@@ -35,7 +35,6 @@ namespace CheckerApp.Server
                 options.JsonSerializerOptions.WriteIndented = true;
                 options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                 options.JsonSerializerOptions.Converters.Add(new HardwareConverter());
-                options.JsonSerializerOptions.Converters.Add(new CheckStatusConverter());
             });
 
             services.AddRazorPages();

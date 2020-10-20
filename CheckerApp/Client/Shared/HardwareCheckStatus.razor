@@ -1,0 +1,134 @@
+﻿
+<div class="alert border">
+
+    <h4>@Title</h4>
+
+    <hr />
+
+    @for (int i = 0; i < Value.CheckParameters.Count; i++)
+    {
+        var index = i;
+        <div class="form-group form-row">
+            <div class="col-5">
+                <label>@Value.CheckParameters[index].Description</label>
+            </div>
+            <div class="col-2">
+                <InputSelect class="form-control" @bind-Value="Value.CheckParameters[index].Method">
+                    <option value="">-</option>
+                    <option value="На оборудовании">На оборудовании</option>
+                    <option value="Имитация данных">Имитация данных</option>
+                </InputSelect>
+            </div>
+            <div class="col-1">
+                <InputCheckbox class="form-control" @bind-Value="Value.CheckParameters[index].Result" @onchange="ChangeModel"></InputCheckbox>
+            </div>
+            <div class="col">
+                <InputTextArea class="form-control" @bind-Value="Value.CheckParameters[index].Comment" @onchange="ChangeModel"></InputTextArea>
+            </div>
+        </div>
+    }
+
+</div>
+
+@code {
+
+    [Parameter]
+    public HardwareCheckStatusDto Value { get; set; }
+
+    [Parameter]
+    public EventCallback<HardwareCheckStatusDto> ValueChanged { get; set; }
+
+    string Title { get; set; }
+
+    protected override void OnInitialized()
+    {
+        string mbSettings;
+        switch (Value.Device.HardwareType)
+        {
+            case HardwareType.Cabinet:
+                var cabinet = (CabinetVm)Value.Device;
+                Title = cabinet.Position +
+                    $" зав.№{cabinet.SerialNumber}, " +
+                    $"завершение монтажа {cabinet.Constructed.ToShortDateString()}, " +
+                    $"ответственный - {cabinet.ConstructedBy})";
+                break;
+
+            case HardwareType.FlowComputer:
+                var flowcomputer = (FlowComputerVm)Value.Device;
+                Title = $"{flowcomputer.HardwareType.GetDisplayName()} {flowcomputer.Position} " +
+                    $"({flowcomputer.DeviceModel} " +
+                    $"- №{flowcomputer.SerialNumber} " +
+                    $"- IP={flowcomputer.IP} " +
+                    $"- ASSEMBLY_VERSION={flowcomputer.AssemblyVersion} " +
+                    $"- PRG_CRC32={flowcomputer.CRC32} " +
+                    $"- LASTDATECFG={flowcomputer.LastConfigDate}):";
+                break;
+
+            case HardwareType.Flowmeter:
+                var flowmeter = (FlowmeterVm)Value.Device;
+                var flowmeterMb = flowmeter.ModbusSettings;
+                mbSettings = flowmeter.SignalType == SignalType.RS485 ?
+                    $"({flowmeterMb.Address}/{flowmeterMb.BoudRate}/Modbus RTU/{Enum.GetName(typeof(Parity), flowmeterMb.Parity)[0]}/{flowmeterMb.DataBits}/{flowmeterMb.StopBit})"
+                    : "";
+
+                Title = $"{flowmeter.HardwareType.GetDisplayName()} {flowmeter.Position}" +
+                    $"(тип {flowmeter.DeviceType} " +
+                    $"- серия {flowmeter.DeviceModel} " +
+                    $"- зав.№{flowmeter.SerialNumber} " +
+                    $"- диап. {flowmeter.MinValue}...{flowmeter.MaxValue} {flowmeter.EU} " +
+                    $"- {flowmeter.Kfactor} имп/{flowmeter.EU} " +
+                    $"- {flowmeter.SignalType.GetDisplayName()} " +
+                    $"{mbSettings}):";
+                break;
+
+            case HardwareType.Network:
+                var network = (NetworkHardwareVm)Value.Device;
+                Title = $"{network.HardwareType.GetDisplayName()}: {network.Position}, " +
+                    $"тип {network.DeviceType}, " +
+                    $"модель {network.DeviceModel}, " +
+                    $"зав.№{network.SerialNumber}:";
+                break;
+
+            case HardwareType.PLC:
+                var plc = (PLCVm)Value.Device;
+                Title = $"{plc.HardwareType.GetDisplayName()} {plc.Position} " +
+                    $"({plc.DeviceModel} " +
+                    $"- №{plc.SerialNumber} " +
+                    $"- IP={plc.IP} " +
+                    $"- ASSEMBLY={plc.AssemblyVersion}):";
+                break;
+
+            case HardwareType.Pressure:
+            case HardwareType.Temperature:
+                var measurement = (MeasurementVm)Value.Device;
+                Title = $"{measurement.HardwareType.GetDisplayName()} {measurement.Position}" +
+                    $"(тип {measurement.DeviceType} " +
+                    $"- модель {measurement.DeviceModel} " +
+                    $"- зав.№{measurement.SerialNumber} " +
+                    $"- диап. {measurement.MinValue}...{measurement.MaxValue} {measurement.EU} " +
+                    $"- {measurement.SignalType.GetDisplayName()} ):";
+                break;
+
+            case HardwareType.Valve:
+                var valve = (ValveVm)Value.Device;
+                var valveMb = valve.ModbusSettings;
+                mbSettings = valve.SignalType == SignalType.RS485 ?
+                    $"({valveMb.Address}/{valveMb.BoudRate}/Modbus RTU/{Enum.GetName(typeof(Parity), valveMb.Parity)[0]}/{valveMb.DataBits}/{valveMb.StopBit})"
+                    : "";
+
+                Title = $"{valve.HardwareType.GetDisplayName()} {valve.Position} " +
+                    $"(тип {valve.DeviceType}, " +
+                    $"модель {valve.DeviceModel}, " +
+                    $"зав.№{valve.SerialNumber}, " +
+                    $"{valve.SignalType.GetDisplayName()} " +
+                    $"{mbSettings}):";
+                break;
+        };
+    }
+
+    private Task ChangeModel()
+    {
+        return ValueChanged.InvokeAsync(Value);
+    }
+
+}

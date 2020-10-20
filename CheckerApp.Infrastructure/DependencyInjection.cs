@@ -42,11 +42,6 @@ namespace CheckerApp.Infrastructure
                    options.IdentityResources["openid"].UserClaims.Add("FullName");
                    options.ApiResources.Single().UserClaims.Add("FullName");
                });
-            //.AddInMemoryClients(Config.GetClients())
-            //.AddInMemoryApiResources(Config.GetApiResources())
-            //.AddInMemoryIdentityResources(Config.GetIdentityResources())
-            //.AddDeveloperSigningCredential()
-            //.AddAspNetIdentity<ApplicationUser>();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
 

@@ -1,8 +1,6 @@
 ﻿using CheckerApp.Application.Documents.Queries;
-using CheckerApp.Server.Common.JsonConverters;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -29,10 +27,9 @@ namespace CheckerApp.Server.Controllers
             var jsonString = await httpResponse.Content.ReadAsStringAsync();
             var opt = new JsonSerializerOptions();
             opt.PropertyNameCaseInsensitive = true;
-            opt.Converters.Add(new CheckStatusConverter());
             var hardware = JsonSerializer.Deserialize<ContractCheckStatusVm>(jsonString, opt);
             var result = hardware.GetType();
-            var h = (CabinetCheckStatusDto)hardware.HardwareChecks.First();
+
             return Ok();
         }
     }

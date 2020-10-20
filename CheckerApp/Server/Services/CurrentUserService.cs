@@ -10,9 +10,11 @@ namespace CheckerApp.Server.Services
         public CurrentUserService(IHttpContextAccessor httpContextAccessor)
         {
             UserId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            UserName = httpContextAccessor.HttpContext?.User?.FindFirstValue("FullName");
             IsAuthenticated = UserId != null;
         }
         public string UserId { get; }
+        public string UserName { get; }
         public bool IsAuthenticated { get; }
     }
 }

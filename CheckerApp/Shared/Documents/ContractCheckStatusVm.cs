@@ -6,12 +6,12 @@ namespace CheckerApp.Shared.Documents
     {
         public ContractCheckStatusVm()
         {
-            HardwareChecks = new HashSet<HardwareCheckStatusDto>();
+            HardwareChecks = new List<HardwareCheckStatusDto>();
         }
 
         public string Name { get; set; }
         public string ContractNumber { get; set; }
         public string DomesticNumber { get; set; }
-        public ICollection<HardwareCheckStatusDto> HardwareChecks { get; set; }
+        public IList<HardwareCheckStatusDto> HardwareChecks { get; set; }
     }
 }
