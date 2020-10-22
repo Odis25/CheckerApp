@@ -1,5 +1,5 @@
 ﻿using CheckerApp.Shared.Enums;
-using CheckerApp.Shared.Hardware;
+using CheckerApp.Shared.Models.Hardware;
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;

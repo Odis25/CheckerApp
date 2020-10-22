@@ -22,7 +22,7 @@ namespace CheckerApp.Application.Common.Behaviors
         {
             var name = typeof(TRequest).Name;
 
-            _logger.LogInformation("[{date}] Запрос метода \"{Name}\" от пользователя \"{@UserId}\"",
+            _logger.LogInformation("[{RequestTime}] Запрос метода \"{MethodName}\" от пользователя \"{UserName}\"",
                 DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"), name, _currentUserService.UserName);
 
             return Task.CompletedTask;

@@ -1,6 +1,8 @@
 ﻿using CheckerApp.Application.Common.Interfaces;
 using CheckerApp.Domain.Common;
+using CheckerApp.Domain.Entities.CheckEntities;
 using CheckerApp.Domain.Entities.ContractEntities;
+using CheckerApp.Domain.Entities.Documents;
 using CheckerApp.Domain.Entities.HardwareEntities;
 using CheckerApp.Domain.Entities.Identity;
 using CheckerApp.Domain.Enums;
@@ -33,7 +35,8 @@ namespace CheckerApp.Infrastructure.Data
 
             builder.Entity<Flowmeter>().OwnsOne(e => e.Settings, ms => ms.ToTable("FlowmeterSettings"));
             builder.Entity<Valve>().OwnsOne(e => e.Settings, ms => ms.ToTable("ValveSettings"));
-            builder.Entity<NetworkHardware>().OwnsMany(e => e.NetworkDevices, nd => nd.ToTable("networkDevices"));
+            builder.Entity<NetworkHardware>().OwnsMany(e => e.NetworkDevices, nd => nd.ToTable("NetworkDevices"));
+            builder.Entity<HardwareCheck>().OwnsMany(e => e.CheckParameters, cp => cp.ToTable("CheckParameters"));
 
             builder.Entity<Hardware>().HasDiscriminator(e => e.HardwareType)
                 .HasValue<Cabinet>(HardwareType.Cabinet)
@@ -58,6 +61,8 @@ namespace CheckerApp.Infrastructure.Data
         public DbSet<Flowmeter> Flowmeters { get; set; }
         public DbSet<Valve> Valves { get; set; }
         public DbSet<NetworkHardware> NetworkHardwares { get; set; }
+        public DbSet<ContractCheck> ContractChecks { get; set; }
+        public DbSet<HardwareCheck> HardwareChecks { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

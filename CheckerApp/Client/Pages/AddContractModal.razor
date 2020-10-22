@@ -1,4 +1,5 @@
 ﻿@inject HttpClient HttpClient
+@using CheckerApp.Shared.Models.Commands
 
 <EditForm Model="@Contract" style="min-width:650px;" OnValidSubmit="Submit">
     <FluentValidationValidator />
@@ -32,11 +33,11 @@
     [CascadingParameter]
     BlazoredModalInstance BlazoredModal { get; set; }
 
-    CreateContractVm Contract;
+    CreateContractCommandVm Contract;
 
     protected override Task OnInitializedAsync()
     {
-        Contract = new CreateContractVm();
+        Contract = new CreateContractCommandVm();
         return base.OnInitializedAsync();
     }
 

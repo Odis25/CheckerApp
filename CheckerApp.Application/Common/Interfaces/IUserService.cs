@@ -1,5 +1,4 @@
-﻿using CheckerApp.Domain.Common;
-using CheckerApp.Domain.Entities.Identity;
+﻿using CheckerApp.Domain.Entities.Identity;
 using System.Threading.Tasks;
 
 namespace CheckerApp.Application.Common.Interfaces

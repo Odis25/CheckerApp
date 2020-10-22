@@ -11,8 +11,8 @@ namespace CheckerApp.Application.Contracts.Queries.GetContractsList
         public string Name { get; set; }
         public string ContractNumber { get; set; }
         public string DomesticNumber { get; set; }
-        public IList<HardwareDto> HardwareList {get;set;}
-        
+        public IEnumerable<HardwareDto> HardwareList { get; set; }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Contract, ContractDto>();

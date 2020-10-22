@@ -1,15 +1,13 @@
 ﻿@inject HttpClient HttpClient
-
+@using CheckerApp.Shared.Models.Commands
 
 <EditForm Model="Command" style="min-width:800px;" OnValidSubmit="Submit">
     <FluentValidationValidator />
 
     <h5>Шаг 1. Выберите тип оборудования:</h5>
 
-    <MatSelectItem @bind-Value="Command.HardwareType" Items="Enum.GetValues(typeof(HardwareType)).Cast<HardwareType>().ToArray()" Outlined="true" FullWidth="true">
-        <ItemTemplate Context="type">
-            @type.GetDisplayName()
-        </ItemTemplate>
+    <MatSelectItem @bind-Value="Command.HardwareType" Items="HardwareTypes" Outlined="true" FullWidth="true">
+        <ItemTemplate Context="type">@type.GetDisplayName()</ItemTemplate>
     </MatSelectItem>
     <hr />
 
@@ -351,7 +349,7 @@
                 </div>
             </div>
         }
-        else if(Command.HardwareType == HardwareType.Flowmeter || Command.HardwareType == HardwareType.Valve)
+        else if (Command.HardwareType == HardwareType.Flowmeter || Command.HardwareType == HardwareType.Valve)
         {
             if (Command.SignalType == SignalType.RS485)
             {
@@ -362,7 +360,6 @@
             }
         }
     </div>
-
     <hr />
     <MatButton type="submit" Raised="true" Style="width: 100%;" Icon="add"> Добавить</MatButton>
 
@@ -371,23 +368,28 @@
 @code {
 
     [CascadingParameter]
-    BlazoredModalInstance BlazoredModal { get; set; }
+    protected BlazoredModalInstance BlazoredModal { get; set; }
 
     [CascadingParameter]
-    IModalService Modal { get; set; }
+    protected IModalService Modal { get; set; }
 
     [Parameter]
     public string ContractId { get; set; }
 
     protected SignalType[] Signals { get; set; }
 
-    protected CreateHardwareVm Command { get; set; }
+    protected HardwareType[] HardwareTypes { get; set; }
+
+    protected CreateHardwareCommandVm Command { get; set; }
 
     protected override void OnInitialized()
     {
         Signals = Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray();
-        Command = new CreateHardwareVm();
-        Command.ContractId = int.Parse(ContractId);
+        HardwareTypes = Enum.GetValues(typeof(HardwareType)).Cast<HardwareType>().ToArray();
+        Command = new CreateHardwareCommandVm
+        {
+            ContractId = int.Parse(ContractId)
+        };
     }
 
     private void ChangeSettings(ModbusSettingsVm settings)
@@ -395,7 +397,7 @@
         Command.ModbusSettings = settings;
     }
 
-    protected async Task Submit()
+    private async Task Submit()
     {
         var hardwareId = await HttpClient.PostJsonAsync<int>("api/hardware", Command);
 

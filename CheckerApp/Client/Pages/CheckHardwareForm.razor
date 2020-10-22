@@ -1,21 +1,22 @@
-﻿@page "/document/{id}"
+﻿@page "/contract/{id}/check"
 
 @inject HttpClient HttpClient
 @using System.Text.Json
 @using CheckerApp.Shared.Common.JsonConverters
+@using CheckerApp.Shared.Models.Commands
 
 <div class="alert alert-primary">
     <h2>Протокол испытаний оборудования СОИ</h2>
-    <p>по договору @ContractStatus.Name, дог. @ContractStatus.ContractNumber, вн.проект @ContractStatus.DomesticNumber</p>
+    <p>по договору @ContractCheck.Contract.Name, дог. @ContractCheck.Contract.ContractNumber, вн.проект @ContractCheck.Contract.DomesticNumber</p>
 </div>
 
-<EditForm Model="ContractStatus" OnValidSubmit="Submit">
+<EditForm Model="ContractCheck" OnValidSubmit="Submit">
 
-    @for (int i = 0; i < ContractStatus.HardwareChecks.Count; i++)
+    @for (int i = 0; i < ContractCheck.HardwareChecks.Count; i++)
     {
         var index = i;
-        
-        <HardwareCheckStatus @bind-Value="ContractStatus.HardwareChecks[index]" />
+
+        <HardwareCheckStatus @bind-Value="ContractCheck.HardwareChecks[index]" />
     }
 
     <button type="submit" class="btn btn-success"> Отправить</button>
@@ -27,7 +28,7 @@
     [Parameter]
     public string Id { get; set; }
 
-    ContractCheckStatusVm ContractStatus { get; set; } = new ContractCheckStatusVm();
+    ContractCheckVm ContractCheck { get; set; } = new ContractCheckVm();
 
     JsonSerializerOptions JsonOptions { get; set; }
 
@@ -39,11 +40,12 @@
             Converters = { new HardwareConverter() }
         };
 
-        ContractStatus = await HttpClient.GetFromJsonAsync<ContractCheckStatusVm>($"api/document/{int.Parse(Id)}", JsonOptions);
+        ContractCheck = await HttpClient.GetFromJsonAsync<ContractCheckVm>($"api/check/{int.Parse(Id)}", JsonOptions);
     }
 
     protected async Task Submit()
     {
-        var result = await HttpClient.PostAsJsonAsync($"api/document", ContractStatus, JsonOptions);
+        var command = new CreateCheckCommandVm { ContractCheck = ContractCheck };
+        var result = await HttpClient.PostAsJsonAsync($"api/check", command, JsonOptions);
     }
 }

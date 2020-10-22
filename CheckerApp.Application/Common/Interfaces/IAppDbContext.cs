@@ -1,4 +1,6 @@
-﻿using CheckerApp.Domain.Entities.ContractEntities;
+﻿using CheckerApp.Domain.Entities.CheckEntities;
+using CheckerApp.Domain.Entities.ContractEntities;
+using CheckerApp.Domain.Entities.Documents;
 using CheckerApp.Domain.Entities.HardwareEntities;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
@@ -18,6 +20,8 @@ namespace CheckerApp.Application.Common.Interfaces
         DbSet<Flowmeter> Flowmeters { get; set; }
         DbSet<Valve> Valves { get; set; }
         DbSet<NetworkHardware> NetworkHardwares { get; set; }
+        DbSet<ContractCheck> ContractChecks { get; set; }
+        DbSet<HardwareCheck> HardwareChecks { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

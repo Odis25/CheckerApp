@@ -1,4 +1,5 @@
-﻿using CheckerApp.Application.Documents.Queries;
+﻿using CheckerApp.Application.Checks.Commands.CreateContractCheck;
+using CheckerApp.Application.Checks.Queries;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net.Http;
@@ -27,7 +28,7 @@ namespace CheckerApp.Server.Controllers
             var jsonString = await httpResponse.Content.ReadAsStringAsync();
             var opt = new JsonSerializerOptions();
             opt.PropertyNameCaseInsensitive = true;
-            var hardware = JsonSerializer.Deserialize<ContractCheckStatusVm>(jsonString, opt);
+            var hardware = JsonSerializer.Deserialize<ContractCheckVm>(jsonString, opt);
             var result = hardware.GetType();
 
             return Ok();
