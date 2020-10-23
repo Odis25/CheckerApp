@@ -5,7 +5,7 @@ using CheckerApp.Domain.Enums;
 
 namespace CheckerApp.Application.Hardwares.Queries
 {
-    public class HardwareVm : IMapFrom<Hardware>
+    public class HardwareDto : IMapFrom<Hardware>
     {
         public int Id { get; set; }
         public string Position { get; set; }
@@ -14,7 +14,7 @@ namespace CheckerApp.Application.Hardwares.Queries
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Hardware, HardwareVm>().IncludeAllDerived();
+            profile.CreateMap<Hardware, HardwareDto>().IncludeAllDerived();
         }
     }
 }

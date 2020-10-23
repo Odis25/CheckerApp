@@ -9,7 +9,7 @@ namespace CheckerApp.Server.Controllers
     public class CheckController: ApiController
     {
         [HttpGet("{contractId:int}")]
-        public async Task<ActionResult<ContractCheckVm>> Get(int contractId)
+        public async Task<ActionResult<ContractCheckDto>> Get(int contractId)
         {
             var result = await Mediator.Send(new GetCheckDocumentQuery { ContractId = contractId });
             return Ok(result);

@@ -1,8 +1,10 @@
-﻿using CheckerApp.Application.Checks.Commands.CreateContractCheck;
-using CheckerApp.Application.Checks.Queries;
+﻿using CheckerApp.Application.Checks.Queries;
+using CheckerApp.Shared.Common.JsonConverters;
+using CheckerApp.Shared.Models.Checks;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -21,15 +23,18 @@ namespace CheckerApp.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var httpResponse = await httpClient.GetAsync($"api/document/4");
-
+            var httpResponse = await httpClient.GetAsync($"api/check/4");
+            var res = await httpClient.GetFromJsonAsync<ContractCheckVm>($"api/check/4");
             httpResponse.EnsureSuccessStatusCode();
 
             var jsonString = await httpResponse.Content.ReadAsStringAsync();
-            var opt = new JsonSerializerOptions();
-            opt.PropertyNameCaseInsensitive = true;
+            var opt = new JsonSerializerOptions 
+            {
+                PropertyNameCaseInsensitive = true,
+                Converters = { new HardwareConverter() }
+            };
+
             var hardware = JsonSerializer.Deserialize<ContractCheckVm>(jsonString, opt);
-            var result = hardware.GetType();
 
             return Ok();
         }

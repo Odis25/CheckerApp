@@ -2,7 +2,7 @@
 
 namespace CheckerApp.Application.Contracts.Queries.GetContractsList
 {
-    public class GetContractsListQuery : IRequest<ContractsListVm>
+    public class GetContractsListQuery : IRequest<ContractsListDto>
     {
     }
 }

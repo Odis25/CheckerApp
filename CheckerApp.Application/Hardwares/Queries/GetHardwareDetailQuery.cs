@@ -2,7 +2,7 @@
 
 namespace CheckerApp.Application.Hardwares.Queries
 {
-    public class GetHardwareDetailQuery : IRequest<HardwareVm>
+    public class GetHardwareDetailQuery : IRequest<HardwareDto>
     {
         public int Id { get; set; }       
     }

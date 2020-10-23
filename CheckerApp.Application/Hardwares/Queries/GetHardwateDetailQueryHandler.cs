@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CheckerApp.Application.Hardwares.Queries
 {
-    public class GetHardwateDetailQueryHandler : IRequestHandler<GetHardwareDetailQuery, HardwareVm>
+    public class GetHardwateDetailQueryHandler : IRequestHandler<GetHardwareDetailQuery, HardwareDto>
     {
         private readonly IAppDbContext _context;
         private readonly IMapper _mapper;
@@ -18,12 +18,12 @@ namespace CheckerApp.Application.Hardwares.Queries
             _mapper = mapper;
         }
 
-        public async Task<HardwareVm> Handle(GetHardwareDetailQuery request, CancellationToken cancellationToken)
+        public async Task<HardwareDto> Handle(GetHardwareDetailQuery request, CancellationToken cancellationToken)
         {
             var result =  await _context.Hardwares
                 .FirstOrDefaultAsync(h => h.Id == request.Id);
 
-            return _mapper.Map<HardwareVm>(result);
+            return _mapper.Map<HardwareDto>(result);
         }
     }
 }

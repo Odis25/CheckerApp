@@ -33,8 +33,8 @@ namespace CheckerApp.Application.Checks.Commands.CreateContractCheck
                     Result = cp.Result,
                     Date = cp.Date,
                     Comment = cp.Comment
-                })
-            });
+                }).ToList()
+            }).ToList();
 
             var check = new ContractCheck
             {

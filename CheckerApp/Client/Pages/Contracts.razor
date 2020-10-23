@@ -18,7 +18,7 @@ else
         <button class="btn btn-primary" @onclick="AddContract"><span class="oi oi-plus" aria-hidden="true"></span> Новый договор</button>
     </div>
     <MatTable Items="@ContractsList.Contracts" Class="mat-elevation-z5" Striped="true" AllowSelection="true" 
-              ShowPaging="false" ShowFooter="false" OnRowDbClick="(item)=> NavigateTo(((ContractDetailVm)item).Id)">
+              ShowPaging="false" ShowFooter="false" OnRowDbClick="(item)=> NavigateTo(((ContractDto)item).Id)">
         <MatTableHeader>
             <th style="min-width:250px;">Номер договора</th>
             <th style="min-width:250px;">Внутренний номер</th>

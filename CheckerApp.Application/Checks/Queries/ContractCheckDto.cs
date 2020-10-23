@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace CheckerApp.Application.Checks.Queries
 {
-    public class ContractCheckVm
+    public class ContractCheckDto
     {
-        public ContractCheckVm()
+        public ContractCheckDto()
         {
             HardwareChecks = new HashSet<HardwareCheckDto>();
         }

@@ -13,7 +13,7 @@ namespace CheckerApp.Application.Checks.Queries
             CheckParameters = new HashSet<CheckParameterDto>();
         }
 
-        public HardwareVm Hardware { get; set; }
+        public HardwareDto Hardware { get; set; }
         public IEnumerable<CheckParameterDto> CheckParameters { get; set; }
 
         public void Mapping(Profile profile)

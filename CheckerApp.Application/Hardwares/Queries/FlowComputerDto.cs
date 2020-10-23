@@ -3,11 +3,13 @@ using CheckerApp.Domain.Entities.HardwareEntities;
 
 namespace CheckerApp.Application.Hardwares.Queries
 {
-    public class PLCVm : ControllerVm
+    public class FlowComputerDto : ControllerDto
     {
+        public string CRC32 { get; set; }
+        public ulong? LastConfigDate { get; set; }
         public new void Mapping(Profile profile)
         {
-            profile.CreateMap<PLC, PLCVm>();
+            profile.CreateMap<FlowComputer, FlowComputerDto>();
         }
     }
 }

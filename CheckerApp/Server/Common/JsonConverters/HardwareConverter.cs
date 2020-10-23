@@ -6,12 +6,12 @@ using System.Text.Json.Serialization;
 
 namespace CheckerApp.Server.Common.JsonConverters
 {
-    public class HardwareConverter : JsonConverter<HardwareVm>
+    public class HardwareConverter : JsonConverter<HardwareDto>
     {
         public override bool CanConvert(Type typeToConvert) =>
-            typeof(HardwareVm).IsAssignableFrom(typeToConvert);
+            typeof(HardwareDto).IsAssignableFrom(typeToConvert);
 
-        public override HardwareVm Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override HardwareDto Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             if (reader.TokenType != JsonTokenType.StartObject)
             {
@@ -30,20 +30,20 @@ namespace CheckerApp.Server.Common.JsonConverters
 
                 return type switch
                 {
-                    HardwareType.Cabinet => JsonSerializer.Deserialize<CabinetVm>(jsonObject),
-                    HardwareType.FlowComputer => JsonSerializer.Deserialize<FlowComputerVm>(jsonObject),
-                    HardwareType.Flowmeter => JsonSerializer.Deserialize<FlowmeterVm>(jsonObject),
-                    HardwareType.Network => JsonSerializer.Deserialize<NetworkHardwareVm>(jsonObject),
-                    HardwareType.PLC => JsonSerializer.Deserialize<PLCVm>(jsonObject),
-                    HardwareType.Pressure => JsonSerializer.Deserialize<PressureVm>(jsonObject),
-                    HardwareType.Temperature => JsonSerializer.Deserialize<TemperatureVm>(jsonObject),
-                    HardwareType.Valve => JsonSerializer.Deserialize<ValveVm>(jsonObject),
+                    HardwareType.Cabinet => JsonSerializer.Deserialize<CabinetDto>(jsonObject),
+                    HardwareType.FlowComputer => JsonSerializer.Deserialize<FlowComputerDto>(jsonObject),
+                    HardwareType.Flowmeter => JsonSerializer.Deserialize<FlowmeterDto>(jsonObject),
+                    HardwareType.Network => JsonSerializer.Deserialize<NetworkHardwareDto>(jsonObject),
+                    HardwareType.PLC => JsonSerializer.Deserialize<PlcDto>(jsonObject),
+                    HardwareType.Pressure => JsonSerializer.Deserialize<PressureDto>(jsonObject),
+                    HardwareType.Temperature => JsonSerializer.Deserialize<TemperatureDto>(jsonObject),
+                    HardwareType.Valve => JsonSerializer.Deserialize<ValveDto>(jsonObject),
                     _ => throw new NotSupportedException(),
                 };
             }
         }
 
-        public override void Write(Utf8JsonWriter writer, HardwareVm value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, HardwareDto value, JsonSerializerOptions options)
         {
             JsonSerializer.Serialize(writer, (object)value);
         }

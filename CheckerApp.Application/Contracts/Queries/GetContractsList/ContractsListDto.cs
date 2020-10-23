@@ -2,7 +2,7 @@
 
 namespace CheckerApp.Application.Contracts.Queries.GetContractsList
 {
-    public class ContractsListVm
+    public class ContractsListDto
     {
         public IList<ContractDto> Contracts { get; set; }
     }

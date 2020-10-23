@@ -3,7 +3,7 @@ using CheckerApp.Domain.Entities.HardwareEntities;
 
 namespace CheckerApp.Application.Hardwares.Queries
 {
-    public class ControllerVm : HardwareVm
+    public class ControllerDto : HardwareDto
     {
         public string DeviceModel { get; set; }
         public string AssemblyVersion { get; set; }
@@ -11,7 +11,7 @@ namespace CheckerApp.Application.Hardwares.Queries
 
         public new void Mapping(Profile profile)
         {
-            profile.CreateMap<Controller, ControllerVm>();
+            profile.CreateMap<Controller, ControllerDto>();
         }
 
     }

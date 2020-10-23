@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CheckerApp.Application.Hardwares.Queries
 {
-    public class NetworkHardwareVm : HardwareVm
+    public class NetworkHardwareDto : HardwareDto
     {
         public string DeviceType { get; set; }
         public string DeviceModel { get; set; }
@@ -13,7 +13,7 @@ namespace CheckerApp.Application.Hardwares.Queries
 
         public new void Mapping(Profile profile)
         {
-            profile.CreateMap<NetworkHardware, NetworkHardwareVm>();
+            profile.CreateMap<NetworkHardware, NetworkHardwareDto>();
         }
     }
 }

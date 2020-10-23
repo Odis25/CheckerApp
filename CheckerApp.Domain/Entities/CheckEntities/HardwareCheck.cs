@@ -6,7 +6,7 @@ namespace CheckerApp.Domain.Entities.CheckEntities
     {
         public int Id { get; set; }
         public int HardwareId { get; set; }
-        public IEnumerable<CheckParameter> CheckParameters { get; set; }
+        public virtual IEnumerable<CheckParameter> CheckParameters { get; set; }
 
     }
 }

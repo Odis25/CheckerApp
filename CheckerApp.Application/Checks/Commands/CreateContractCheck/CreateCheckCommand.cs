@@ -5,6 +5,6 @@ namespace CheckerApp.Application.Checks.Commands.CreateContractCheck
 {
     public class CreateCheckCommand : IRequest<int>
     {
-        public ContractCheckVm ContractCheck { get; set; }
+        public ContractCheckDto ContractCheck { get; set; }
     }
 }

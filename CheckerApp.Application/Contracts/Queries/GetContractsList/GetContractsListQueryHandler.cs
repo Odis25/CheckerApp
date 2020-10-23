@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace CheckerApp.Application.Contracts.Queries.GetContractsList
 {
 
-    public class GetContractsListQueryHandler : IRequestHandler<GetContractsListQuery, ContractsListVm>
+    public class GetContractsListQueryHandler : IRequestHandler<GetContractsListQuery, ContractsListDto>
     {
         private readonly IAppDbContext _context;
         private readonly IMapper _mapper;
@@ -19,13 +19,13 @@ namespace CheckerApp.Application.Contracts.Queries.GetContractsList
             _context = context;
             _mapper = mapper;
         }
-        public async Task<ContractsListVm> Handle(GetContractsListQuery request, CancellationToken cancellationToken)
+        public async Task<ContractsListDto> Handle(GetContractsListQuery request, CancellationToken cancellationToken)
         {
             var contracts = await _context.Contracts
                 .ProjectTo<ContractDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
 
-            var vm = new ContractsListVm
+            var vm = new ContractsListDto
             {
                 Contracts = contracts
             };

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CheckerApp.Application.Checks.Queries
 {
-    public class GetCheckDocumentQueryHandler : IRequestHandler<GetCheckDocumentQuery, ContractCheckVm>
+    public class GetCheckDocumentQueryHandler : IRequestHandler<GetCheckDocumentQuery, ContractCheckDto>
     {
         private readonly IAppDbContext _context;
         private readonly IMapper _mapper;
@@ -20,14 +20,15 @@ namespace CheckerApp.Application.Checks.Queries
             _mapper = mapper;
         }
 
-        public async Task<ContractCheckVm> Handle(GetCheckDocumentQuery request, CancellationToken cancellationToken)
+        public async Task<ContractCheckDto> Handle(GetCheckDocumentQuery request, CancellationToken cancellationToken)
         {
             var contract = await _context.Contracts.FindAsync(request.ContractId);
 
-            var vm = new ContractCheckVm
+            var vm = new ContractCheckDto
             {
                 Contract = new ContractDto
                 {
+                    Id = contract.Id,
                     ContractNumber = contract.ContractNumber,
                     DomesticNumber = contract.DomesticNumber,
                     Name = contract.Name
