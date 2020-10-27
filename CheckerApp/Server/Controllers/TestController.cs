@@ -23,18 +23,18 @@ namespace CheckerApp.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var httpResponse = await httpClient.GetAsync($"api/check/4");
-            var res = await httpClient.GetFromJsonAsync<ContractCheckVm>($"api/check/4");
-            httpResponse.EnsureSuccessStatusCode();
+            var httpResponse = await httpClient.GetAsync($"api/check/download/1");
+            //var res = await httpClient.GetFromJsonAsync<ContractCheckVm>($"api/check/4");
+            //httpResponse.EnsureSuccessStatusCode();
 
-            var jsonString = await httpResponse.Content.ReadAsStringAsync();
-            var opt = new JsonSerializerOptions 
-            {
-                PropertyNameCaseInsensitive = true,
-                Converters = { new HardwareConverter() }
-            };
+            //var jsonString = await httpResponse.Content.ReadAsStringAsync();
+            //var opt = new JsonSerializerOptions 
+            //{
+            //    PropertyNameCaseInsensitive = true,
+            //    Converters = { new HardwareConverter() }
+            //};
 
-            var hardware = JsonSerializer.Deserialize<ContractCheckVm>(jsonString, opt);
+            //var hardware = JsonSerializer.Deserialize<ContractCheckVm>(jsonString, opt);
 
             return Ok();
         }

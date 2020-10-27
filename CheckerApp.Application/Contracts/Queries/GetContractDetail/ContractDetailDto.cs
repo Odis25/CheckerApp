@@ -11,11 +11,13 @@ namespace CheckerApp.Application.Contracts.Queries.GetContractDetail
         public string Name { get; set; }
         public string ContractNumber { get; set; }
         public string DomesticNumber { get; set; }
+        public bool HasProtocol { get; set; }
         public IEnumerable<HardwareDto> HardwareList { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Contract, ContractDetailDto>();
+            profile.CreateMap<Contract, ContractDetailDto>()
+                .ForMember(dest=>dest.HasProtocol, m => m.MapFrom(src=> src.CheckResult != null));
         }
     }
 }

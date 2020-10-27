@@ -27,12 +27,17 @@ else
                 <td class="pr-4 font-weight-bold">Название</td>
                 <td>@Contract.Name</td>
             </tr>
+            <tr>
+                <td class="pr-4 font-weight-bold">Протокол проверки</td>
+                <td>@(Contract.HasProtocol ? "Есть": "Нет")</td>
+            </tr>
         </tbody>
     </table>
     <hr />
     <div>
         <button class="btn btn-primary" @onclick="AddHardware"><span class="oi oi-plus" aria-hidden="true"></span> Добавить оборудование</button>
-        <button class="btn btn-primary" @onclick="AddDocument"><span class="oi oi-document" aria-hidden="true"></span> Создать протокол</button>
+        <button class="btn btn-secondary" @onclick="AddDocument"><span class="oi oi-document" aria-hidden="true"></span> Создать протокол проверки</button>
+        <button class="btn btn-success" @onclick="DownloadFile" disabled="@(Contract.HasProtocol == false)"><span class="oi oi-cloud-download" aria-hidden="true"></span> Скачать протокол проверки</button>
     </div>
     <hr />
 
@@ -90,6 +95,12 @@ else
         {
             Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
         }
+    }
+
+    private void DownloadFile()
+    {
+        //var result = HttpClient.GetAsync("api/check/download/1");
+        NavigationManager.NavigateTo($"/api/check/download/{Id}", true);
     }
 
     private void AddDocument()

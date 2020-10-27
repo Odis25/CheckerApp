@@ -1,57 +1,64 @@
 ﻿using AutoMapper;
 using CheckerApp.Application.Common.Interfaces;
-using CheckerApp.Application.Contracts.Queries.GetContractsList;
+using CheckerApp.Application.Hardwares.Queries;
 using CheckerApp.Domain.Enums;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CheckerApp.Application.Checks.Queries
+namespace CheckerApp.Application.Checks.Queries.GetCheckResult
 {
-    public class GetCheckDocumentQueryHandler : IRequestHandler<GetCheckDocumentQuery, ContractCheckDto>
+    public class GetCheckResultQueryHandler : IRequestHandler<GetCheckResultQuery, CheckResultDto>
     {
         private readonly IAppDbContext _context;
         private readonly IMapper _mapper;
 
-        public GetCheckDocumentQueryHandler(IAppDbContext context, IMapper mapper)
+        public GetCheckResultQueryHandler(IAppDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
-
-        public async Task<ContractCheckDto> Handle(GetCheckDocumentQuery request, CancellationToken cancellationToken)
+        public async Task<CheckResultDto> Handle(GetCheckResultQuery request, CancellationToken cancellationToken)
         {
-            var contract = await _context.Contracts.FindAsync(request.ContractId);
+            var contract = await _context.Contracts.FirstOrDefaultAsync(c => c.Id == request.ContractId);
 
-            var vm = new ContractCheckDto
+            if (contract.CheckResult != null)
             {
-                Contract = new ContractDto
-                {
-                    Id = contract.Id,
-                    ContractNumber = contract.ContractNumber,
-                    DomesticNumber = contract.DomesticNumber,
-                    Name = contract.Name
-                }
+                return _mapper.Map<CheckResultDto>(contract.CheckResult);
+            }
+
+            var hardwareChecks = contract.HardwareList.Select(h => new HardwareCheckDto
+            {
+                Hardware = _mapper.Map<HardwareDto>(h),
+                CheckParameters = SetCheckParameters(h.HardwareType)
+            });
+
+            var vm = new CheckResultDto
+            {
+                Contract = _mapper.Map<ContractDto>(contract),
+                HardwareChecks = hardwareChecks
             };
 
-            foreach (var item in contract.HardwareList)
-            {
-                var hardware = _mapper.Map<HardwareCheckDto>(item);
+            return vm;
+        }
 
-                switch (item.HardwareType)
-                {
-                    case HardwareType.Cabinet:
-                        hardware.CheckParameters = new HashSet<CheckParameterDto>
+        private IEnumerable<CheckParameterDto> SetCheckParameters(HardwareType type)
+        {
+            switch (type)
+            {
+                case HardwareType.Cabinet:
+                    return new HashSet<CheckParameterDto>
                         {
                             new CheckParameterDto { Description = "Наличие \"Протокола проверки изделия\", подписанного БТК и СбМР"},
                             new CheckParameterDto { Description = "\"Холодный\" пуск"},
                             new CheckParameterDto { Description = "Работоспособность ИБП"}
                         };
-                        break;
 
-                    case HardwareType.FlowComputer:
-                        hardware.CheckParameters = new HashSet<CheckParameterDto>
+                case HardwareType.FlowComputer:
+                    return new HashSet<CheckParameterDto>
                         {
                             new CheckParameterDto { Description = "Соответствие реализованной схемы подключения прибора проектной документации"},
                             new CheckParameterDto { Description = "Включение и выход на рабочий режим"},
@@ -66,17 +73,16 @@ namespace CheckerApp.Application.Checks.Queries
                             new CheckParameterDto { Description = "Контроль алгоритмов работы вискозиметра (-ов)"},
                             new CheckParameterDto { Description = "Контроль параметров накоплений и архивирования данных"},
                             new CheckParameterDto { Description = "Контроль параметров среды"},
-                            new CheckParameterDto { Description = "Фиксирование  настроек связи"},
+                            new CheckParameterDto { Description = "Фиксирование настроек связи"},
                             new CheckParameterDto { Description = "Контроль текущей даты и времени"},
-                            new CheckParameterDto { Description = "Фиксирование  контрольных сумм и версий внутреннего  ПО"},
+                            new CheckParameterDto { Description = "Фиксирование контрольных сумм и версий внутреннего ПО"},
                             new CheckParameterDto { Description = "Контроль функции синхронизации ИВК"},
                             new CheckParameterDto { Description = "Создание резервной копии конфигурации ИВК или отчета по конфигурации"},
                             new CheckParameterDto { Description = "Восстановление с резервной копии конфигурации ИВК или сопоставление отчета по конфигурации с его фактическими настройками"}
                         };
-                        break;
 
-                    case HardwareType.Flowmeter:
-                        hardware.CheckParameters = new HashSet<CheckParameterDto>
+                case HardwareType.Flowmeter:
+                    return new HashSet<CheckParameterDto>
                         {
                             new CheckParameterDto { Description = "Соответствие реализованной схемы подключения прибора проектной документации"},
                             new CheckParameterDto { Description = "Включение и выход на рабочий режим"},
@@ -91,20 +97,18 @@ namespace CheckerApp.Application.Checks.Queries
                             new CheckParameterDto { Description = "Создание отчета о конфигурации устройства"},
                             new CheckParameterDto { Description = "Сопоставление отчета о конфигурации устройства с его фактическими настройками"}
                         };
-                        break;
 
-                    case HardwareType.Network:
-                        hardware.CheckParameters = new HashSet<CheckParameterDto>
+                case HardwareType.Network:
+                    return new HashSet<CheckParameterDto>
                         {
                             new CheckParameterDto { Description = "Включение и выход на рабочий режим"},
                             new CheckParameterDto { Description = "Наличие связи со всеми устройствами в локальной сети"},
                             new CheckParameterDto { Description = "Создание резервной копии конфигурации сетевого оборудования или отчета по конфигурации"},
                             new CheckParameterDto { Description = "Восстановление с резервной копии конфигурации сетевого оборудования или сопоставление отчета по конфигурации с его фактическими настройками"}
                         };
-                        break;
 
-                    case HardwareType.PLC:
-                        hardware.CheckParameters = new HashSet<CheckParameterDto>
+                case HardwareType.PLC:
+                    return new HashSet<CheckParameterDto>
                         {
                             new CheckParameterDto { Description = "Соответствие реализованной схемы подключения прибора проектной документации"},
                             new CheckParameterDto { Description = "Включение и выход на рабочий режим"},
@@ -120,17 +124,15 @@ namespace CheckerApp.Application.Checks.Queries
                             new CheckParameterDto { Description = "Контроль алгоритмов управления электропитанием ШК и ШП"},
                             new CheckParameterDto { Description = "Фиксирование настроек связи"},
                             new CheckParameterDto { Description = "Контроль текущей даты и времени"},
-                            new CheckParameterDto { Description = "Фиксирование  контрольных сумм и версий внутреннего  ПО"},
+                            new CheckParameterDto { Description = "Фиксирование контрольных сумм и версий внутреннего  ПО"},
                             new CheckParameterDto { Description = "Контроль резервирования ПЛК"},
                             new CheckParameterDto { Description = "Создание резервной копии конфигурации ПЛК или отчета по конфигурации"},
                             new CheckParameterDto { Description = "Восстановление с резервной копии конфигурации ПЛК или сопоставление отчета по конфигурации с его фактическими настройками"}
                         };
-                        break;
 
-                    case HardwareType.Pressure:
-                    case HardwareType.Temperature:
-
-                        hardware.CheckParameters = new HashSet<CheckParameterDto>
+                case HardwareType.Pressure:
+                case HardwareType.Temperature:
+                    return new HashSet<CheckParameterDto>
                         {
                             new CheckParameterDto { Description = "Соответствие реализованной схемы подключения прибора проектной документации"},
                             new CheckParameterDto { Description = "Включение и выход на рабочий режим"},
@@ -138,10 +140,9 @@ namespace CheckerApp.Application.Checks.Queries
                             new CheckParameterDto { Description = "Контроль текущего измерения на воздухе"},
                             new CheckParameterDto { Description = "Имитация выходного сигнала в диапазоне 0-100 % шкалы"}
                         };
-                        break;
 
-                    case HardwareType.Valve:
-                        hardware.CheckParameters = new HashSet<CheckParameterDto>
+                case HardwareType.Valve:
+                    return new HashSet<CheckParameterDto>
                         {
                             new CheckParameterDto { Description = "Сответствие реализованной схемы подключения прибора проектной документации"},
                             new CheckParameterDto { Description = "Включение и выход на рабочий режим"},
@@ -150,13 +151,9 @@ namespace CheckerApp.Application.Checks.Queries
                             new CheckParameterDto { Description = "Контроль управления в местном режиме"},
                             new CheckParameterDto { Description = "Контроль управления в дистанционном режиме"}
                         };
-                        break;
-                }
-
-                vm.HardwareChecks.Add(hardware);
+                default:
+                    return null;
             }
-
-            return vm;
         }
     }
 }

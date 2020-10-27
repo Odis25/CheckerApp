@@ -9,6 +9,7 @@ namespace CheckerApp.Shared.Models.Contract
         public string Name { get; set; }
         public string ContractNumber { get; set; }
         public string DomesticNumber { get; set; }
+        public bool HasProtocol { get; set; }
         public IEnumerable<HardwareVm> HardwareList { get; set; }
     }
 }

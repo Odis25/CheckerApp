@@ -36,13 +36,13 @@ namespace CheckerApp.Application.Checks.Commands.CreateContractCheck
                 }).ToList()
             }).ToList();
 
-            var check = new ContractCheck
+            var check = new CheckResult
             {
                 ContractId = vm.Contract.Id,
                 HardwareChecks = hardwareChecks
             };
 
-            _context.ContractChecks.Add(check);
+            _context.CheckResults.Add(check);
             await _context.SaveChangesAsync(cancellationToken);
 
             return check.Id;

@@ -14,7 +14,7 @@ namespace CheckerApp.Server.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult> Get(int id)
+        public async Task<ActionResult> GetHardware(int id)
         {
             return Ok(await Mediator.Send(new GetHardwareDetailQuery { Id = id }));
         }

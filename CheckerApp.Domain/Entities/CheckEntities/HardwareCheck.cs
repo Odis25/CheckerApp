@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CheckerApp.Domain.Entities.HardwareEntities;
+using System.Collections.Generic;
 
 namespace CheckerApp.Domain.Entities.CheckEntities
 {
@@ -6,7 +7,7 @@ namespace CheckerApp.Domain.Entities.CheckEntities
     {
         public int Id { get; set; }
         public int HardwareId { get; set; }
+        public virtual Hardware Hardware { get; set; }
         public virtual IEnumerable<CheckParameter> CheckParameters { get; set; }
-
     }
 }

@@ -43,87 +43,87 @@
     protected override void OnInitialized()
     {
         string mbSettings;
-        //switch (Value.Hardware.HardwareType)
-        //{
-        //    case HardwareType.Cabinet:
-        //        var cabinet = (CabinetVm)Value.Hardware;
-        //        Title = cabinet.Position +
-        //            $" зав.№{cabinet.SerialNumber}, " +
-        //            $"завершение монтажа {cabinet.Constructed.ToShortDateString()}, " +
-        //            $"ответственный - {cabinet.ConstructedBy})";
-        //        break;
+        switch (Value.Hardware.HardwareType)
+        {
+            case HardwareType.Cabinet:
+                var cabinet = (CabinetVm)Value.Hardware;
+                Title = cabinet.Position +
+                    $" (зав.№{cabinet.SerialNumber}, " +
+                    $"завершение монтажа {cabinet.Constructed.ToShortDateString()}, " +
+                    $"ответственный - {cabinet.ConstructedBy})";
+                break;
 
-        //    case HardwareType.FlowComputer:
-        //        var flowcomputer = (FlowComputerVm)Value.Hardware;
-        //        Title = $"{flowcomputer.HardwareType.GetDisplayName()} {flowcomputer.Position} " +
-        //            $"({flowcomputer.DeviceModel} " +
-        //            $"- №{flowcomputer.SerialNumber} " +
-        //            $"- IP={flowcomputer.IP} " +
-        //            $"- ASSEMBLY_VERSION={flowcomputer.AssemblyVersion} " +
-        //            $"- PRG_CRC32={flowcomputer.CRC32} " +
-        //            $"- LASTDATECFG={flowcomputer.LastConfigDate}):";
-        //        break;
+            case HardwareType.FlowComputer:
+                var flowcomputer = (FlowComputerVm)Value.Hardware;
+                Title = $"{flowcomputer.HardwareType.GetDisplayName()} {flowcomputer.Position} " +
+                    $"({flowcomputer.DeviceModel} " +
+                    $"- №{flowcomputer.SerialNumber} " +
+                    $"- IP={flowcomputer.IP} " +
+                    $"- ASSEMBLY_VERSION={flowcomputer.AssemblyVersion} " +
+                    $"- PRG_CRC32={flowcomputer.CRC32} " +
+                    $"- LASTDATECFG={flowcomputer.LastConfigDate}):";
+                break;
 
-        //    case HardwareType.Flowmeter:
-        //        var flowmeter = (FlowmeterVm)Value.Hardware;
-        //        var flowmeterMb = flowmeter.ModbusSettings;
-        //        mbSettings = flowmeter.SignalType == SignalType.RS485 ?
-        //            $"({flowmeterMb.Address}/{flowmeterMb.BoudRate}/Modbus RTU/{Enum.GetName(typeof(Parity), flowmeterMb.Parity)[0]}/{flowmeterMb.DataBits}/{flowmeterMb.StopBit})"
-        //            : "";
+            case HardwareType.Flowmeter:
+                var flowmeter = (FlowmeterVm)Value.Hardware;
+                var flowmeterMb = flowmeter.ModbusSettings;
+                mbSettings = flowmeter.SignalType == SignalType.RS485 ?
+                    $"({flowmeterMb.Address}/{flowmeterMb.BoudRate}/Modbus RTU/{Enum.GetName(typeof(Parity), flowmeterMb.Parity)[0]}/{flowmeterMb.DataBits}/{flowmeterMb.StopBit})"
+                    : "";
 
-        //        Title = $"{flowmeter.HardwareType.GetDisplayName()} {flowmeter.Position}" +
-        //            $"(тип {flowmeter.DeviceType} " +
-        //            $"- серия {flowmeter.DeviceModel} " +
-        //            $"- зав.№{flowmeter.SerialNumber} " +
-        //            $"- диап. {flowmeter.MinValue}...{flowmeter.MaxValue} {flowmeter.EU} " +
-        //            $"- {flowmeter.Kfactor} имп/{flowmeter.EU} " +
-        //            $"- {flowmeter.SignalType.GetDisplayName()} " +
-        //            $"{mbSettings}):";
-        //        break;
+                Title = $"{flowmeter.HardwareType.GetDisplayName()} {flowmeter.Position}" +
+                    $"(тип {flowmeter.DeviceType} " +
+                    $"- серия {flowmeter.DeviceModel} " +
+                    $"- зав.№{flowmeter.SerialNumber} " +
+                    $"- диап. {flowmeter.MinValue}...{flowmeter.MaxValue} {flowmeter.EU} " +
+                    $"- {flowmeter.Kfactor} имп/{flowmeter.EU} " +
+                    $"- {flowmeter.SignalType.GetDisplayName()} " +
+                    $"{mbSettings}):";
+                break;
 
-        //    case HardwareType.Network:
-        //        var network = (NetworkHardwareVm)Value.Hardware;
-        //        Title = $"{network.HardwareType.GetDisplayName()}: {network.Position}, " +
-        //            $"тип {network.DeviceType}, " +
-        //            $"модель {network.DeviceModel}, " +
-        //            $"зав.№{network.SerialNumber}:";
-        //        break;
+            case HardwareType.Network:
+                var network = (NetworkHardwareVm)Value.Hardware;
+                Title = $"{network.HardwareType.GetDisplayName()}: {network.Position}, " +
+                    $"тип {network.DeviceType}, " +
+                    $"модель {network.DeviceModel}, " +
+                    $"зав.№{network.SerialNumber}:";
+                break;
 
-        //    case HardwareType.PLC:
-        //        var plc = (PLCVm)Value.Hardware;
-        //        Title = $"{plc.HardwareType.GetDisplayName()} {plc.Position} " +
-        //            $"({plc.DeviceModel} " +
-        //            $"- №{plc.SerialNumber} " +
-        //            $"- IP={plc.IP} " +
-        //            $"- ASSEMBLY={plc.AssemblyVersion}):";
-        //        break;
+            case HardwareType.PLC:
+                var plc = (PLCVm)Value.Hardware;
+                Title = $"{plc.HardwareType.GetDisplayName()} {plc.Position} " +
+                    $"({plc.DeviceModel} " +
+                    $"- №{plc.SerialNumber} " +
+                    $"- IP={plc.IP} " +
+                    $"- ASSEMBLY={plc.AssemblyVersion}):";
+                break;
 
-        //    case HardwareType.Pressure:
-        //    case HardwareType.Temperature:
-        //        var measurement = (MeasurementVm)Value.Hardware;
-        //        Title = $"{measurement.HardwareType.GetDisplayName()} {measurement.Position}" +
-        //            $"(тип {measurement.DeviceType} " +
-        //            $"- модель {measurement.DeviceModel} " +
-        //            $"- зав.№{measurement.SerialNumber} " +
-        //            $"- диап. {measurement.MinValue}...{measurement.MaxValue} {measurement.EU} " +
-        //            $"- {measurement.SignalType.GetDisplayName()} ):";
-        //        break;
+            case HardwareType.Pressure:
+            case HardwareType.Temperature:
+                var measurement = (MeasurementVm)Value.Hardware;
+                Title = $"{measurement.HardwareType.GetDisplayName()} {measurement.Position}" +
+                    $"(тип {measurement.DeviceType} " +
+                    $"- модель {measurement.DeviceModel} " +
+                    $"- зав.№{measurement.SerialNumber} " +
+                    $"- диап. {measurement.MinValue}...{measurement.MaxValue} {measurement.EU} " +
+                    $"- {measurement.SignalType.GetDisplayName()} ):";
+                break;
 
-        //    case HardwareType.Valve:
-        //        var valve = (ValveVm)Value.Hardware;
-        //        var valveMb = valve.ModbusSettings;
-        //        mbSettings = valve.SignalType == SignalType.RS485 ?
-        //            $"({valveMb.Address}/{valveMb.BoudRate}/Modbus RTU/{Enum.GetName(typeof(Parity), valveMb.Parity)[0]}/{valveMb.DataBits}/{valveMb.StopBit})"
-        //            : "";
+            case HardwareType.Valve:
+                var valve = (ValveVm)Value.Hardware;
+                var valveMb = valve.ModbusSettings;
+                mbSettings = valve.SignalType == SignalType.RS485 ?
+                    $"({valveMb.Address}/{valveMb.BoudRate}/Modbus RTU/{Enum.GetName(typeof(Parity), valveMb.Parity)[0]}/{valveMb.DataBits}/{valveMb.StopBit})"
+                    : "";
 
-        //        Title = $"{valve.HardwareType.GetDisplayName()} {valve.Position} " +
-        //            $"(тип {valve.DeviceType}, " +
-        //            $"модель {valve.DeviceModel}, " +
-        //            $"зав.№{valve.SerialNumber}, " +
-        //            $"{valve.SignalType.GetDisplayName()} " +
-        //            $"{mbSettings}):";
-        //        break;
-        //};
+                Title = $"{valve.HardwareType.GetDisplayName()} {valve.Position} " +
+                    $"(тип {valve.DeviceType}, " +
+                    $"модель {valve.DeviceModel}, " +
+                    $"зав.№{valve.SerialNumber}, " +
+                    $"{valve.SignalType.GetDisplayName()} " +
+                    $"{mbSettings}):";
+                break;
+        };
     }
 
     private Task ChangeModel()

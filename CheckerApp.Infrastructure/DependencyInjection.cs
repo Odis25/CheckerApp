@@ -52,6 +52,8 @@ namespace CheckerApp.Infrastructure
 
             services.AddScoped<IUserService, UserService>();
 
+            services.AddScoped<IFileService, FileService>();
+
             return services;
         }
     }

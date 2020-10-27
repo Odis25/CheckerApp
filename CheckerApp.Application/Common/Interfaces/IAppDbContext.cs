@@ -20,7 +20,7 @@ namespace CheckerApp.Application.Common.Interfaces
         DbSet<Flowmeter> Flowmeters { get; set; }
         DbSet<Valve> Valves { get; set; }
         DbSet<NetworkHardware> NetworkHardwares { get; set; }
-        DbSet<ContractCheck> ContractChecks { get; set; }
+        DbSet<CheckResult> CheckResults { get; set; }
         DbSet<HardwareCheck> HardwareChecks { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);

@@ -61,7 +61,7 @@ namespace CheckerApp.Infrastructure.Data
         public DbSet<Flowmeter> Flowmeters { get; set; }
         public DbSet<Valve> Valves { get; set; }
         public DbSet<NetworkHardware> NetworkHardwares { get; set; }
-        public DbSet<ContractCheck> ContractChecks { get; set; }
+        public DbSet<CheckResult> CheckResults { get; set; }
         public DbSet<HardwareCheck> HardwareChecks { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

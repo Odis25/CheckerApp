@@ -5,14 +5,16 @@ using CheckerApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CheckerApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201027173106_Rename CheckResult")]
+    partial class RenameCheckResult
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,7 +104,7 @@ namespace CheckerApp.Infrastructure.Migrations
                     b.HasIndex("ContractId")
                         .IsUnique();
 
-                    b.ToTable("CheckResults");
+                    b.ToTable("ContractChecks");
                 });
 
             modelBuilder.Entity("CheckerApp.Domain.Entities.HardwareEntities.Hardware", b =>
@@ -324,15 +326,15 @@ namespace CheckerApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8b9b9f24-563f-4b8c-97c5-673d27d93f50",
-                            ConcurrencyStamp = "453be366-205f-458b-bfa7-1b69b6ddd8d2",
+                            Id = "8dd2711c-61a8-4bfa-9362-55952c602c25",
+                            ConcurrencyStamp = "d5701b22-f574-4402-892e-c486e4625b1a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "08e7ad60-6130-4c2b-9686-1804794e241d",
-                            ConcurrencyStamp = "b6ad5952-f927-48af-bef3-32d01582d3fa",
+                            Id = "a2fbeaf4-ce4c-472b-9d10-772892e62757",
+                            ConcurrencyStamp = "80c0c21f-4a29-4900-9e65-6f47fa2e00d9",
                             Name = "User",
                             NormalizedName = "USER"
                         });

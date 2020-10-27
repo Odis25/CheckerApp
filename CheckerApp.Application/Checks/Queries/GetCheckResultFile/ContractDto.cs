@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using CheckerApp.Application.Common.Mappings;
 using CheckerApp.Domain.Entities.ContractEntities;
-using System.Collections.Generic;
 
-namespace CheckerApp.Application.Contracts.Queries.GetContractsList
+namespace CheckerApp.Application.Checks.Queries.GetCheckResultFile
 {
     public class ContractDto : IMapFrom<Contract>
     {
@@ -11,13 +10,10 @@ namespace CheckerApp.Application.Contracts.Queries.GetContractsList
         public string Name { get; set; }
         public string ContractNumber { get; set; }
         public string DomesticNumber { get; set; }
-        public bool HasProtocol { get; set; }
-        public IEnumerable<HardwareDto> HardwareList { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Contract, ContractDto>()
-                .ForMember(dest => dest.HasProtocol, m => m.MapFrom(src => src.CheckResult != null)); ;
+            profile.CreateMap<Contract, ContractDto>();
         }
     }
 }
