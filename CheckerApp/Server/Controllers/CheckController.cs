@@ -1,9 +1,8 @@
-﻿using CheckerApp.Application.Checks.Commands.CreateContractCheck;
-using CheckerApp.Application.Checks.Queries.GetCheckResultFile;
+﻿using CheckerApp.Application.Checks.Queries.GetCheckResultFile;
 using CheckerApp.Application.Checks.Queries.GetCheckResult;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-
+using CheckerApp.Application.Checks.Commands.UpsertCheckResult;
 
 namespace CheckerApp.Server.Controllers
 {
@@ -17,7 +16,7 @@ namespace CheckerApp.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> CreateCheckResult([FromBody] CreateCheckCommand command)
+        public async Task<ActionResult<int>> CreateCheckResult([FromBody] UpsertCheckResultCommand command)
         {
             var result = await Mediator.Send(command);
             return Ok(result);

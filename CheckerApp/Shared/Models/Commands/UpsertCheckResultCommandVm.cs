@@ -2,8 +2,8 @@
 
 namespace CheckerApp.Shared.Models.Commands
 {
-    public class CreateCheckCommandVm
+    public class UpsertCheckResultCommandVm
     {
-        public ContractCheckVm ContractCheck { get; set; }
+        public CheckResultVm CheckResult { get; set; }
     }
 }

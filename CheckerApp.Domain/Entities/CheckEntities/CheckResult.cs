@@ -7,9 +7,13 @@ namespace CheckerApp.Domain.Entities.Documents
 {
     public class CheckResult : AuditableEntity
     {
+        public CheckResult()
+        {
+            HardwareChecks = new HashSet<HardwareCheck>();
+        }
         public int Id { get; set; }
         public int ContractId { get; set; }
         public virtual Contract Contract { get; set; }
-        public virtual IEnumerable<HardwareCheck> HardwareChecks { get; set; }
+        public virtual ICollection<HardwareCheck> HardwareChecks { get; private set; }
     }
 }

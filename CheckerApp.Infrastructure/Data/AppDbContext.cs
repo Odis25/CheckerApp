@@ -74,6 +74,7 @@ namespace CheckerApp.Infrastructure.Data
                         entity.Entity.LastModified = DateTime.Now;
                         entity.Entity.LastModifiedBy = _currentUserService.UserId;
                         break;
+
                     case EntityState.Added:
                         entity.Entity.Created = DateTime.Now;
                         entity.Entity.CreatedBy = _currentUserService.UserId;

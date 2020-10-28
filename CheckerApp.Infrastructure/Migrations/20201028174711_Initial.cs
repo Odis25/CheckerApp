@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CheckerApp.Infrastructure.Migrations
 {
-    public partial class Initialmigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,7 +59,8 @@ namespace CheckerApp.Infrastructure.Migrations
                     LastModifiedBy = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     ContractNumber = table.Column<string>(nullable: true),
-                    DomesticNumber = table.Column<string>(nullable: true)
+                    DomesticNumber = table.Column<string>(nullable: true),
+                    HasProtocol = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -207,6 +208,29 @@ namespace CheckerApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CheckResults",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Created = table.Column<DateTime>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    LastModified = table.Column<DateTime>(nullable: true),
+                    LastModifiedBy = table.Column<string>(nullable: true),
+                    ContractId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CheckResults", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CheckResults_Contracts_ContractId",
+                        column: x => x.ContractId,
+                        principalTable: "Contracts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Hardwares",
                 columns: table => new
                 {
@@ -277,7 +301,33 @@ namespace CheckerApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "networkDevices",
+                name: "HardwareChecks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CheckResultId = table.Column<int>(nullable: false),
+                    HardwareId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HardwareChecks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HardwareChecks_CheckResults_CheckResultId",
+                        column: x => x.CheckResultId,
+                        principalTable: "CheckResults",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HardwareChecks_Hardwares_HardwareId",
+                        column: x => x.HardwareId,
+                        principalTable: "Hardwares",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NetworkDevices",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -289,9 +339,9 @@ namespace CheckerApp.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_networkDevices", x => new { x.NetworkHardwareId, x.Id });
+                    table.PrimaryKey("PK_NetworkDevices", x => new { x.NetworkHardwareId, x.Id });
                     table.ForeignKey(
-                        name: "FK_networkDevices_Hardwares_NetworkHardwareId",
+                        name: "FK_NetworkDevices_Hardwares_NetworkHardwareId",
                         column: x => x.NetworkHardwareId,
                         principalTable: "Hardwares",
                         principalColumn: "Id",
@@ -320,15 +370,39 @@ namespace CheckerApp.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "b8db499e-cc1f-4890-958b-dcb90202f2db", "d38b210d-9c95-4d7d-9a9c-8462df33ffa4", "Admin", "ADMIN" });
+            migrationBuilder.CreateTable(
+                name: "CheckParameters",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HardwareCheckId = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Method = table.Column<string>(nullable: true),
+                    Result = table.Column<bool>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
+                    Comment = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CheckParameters", x => new { x.HardwareCheckId, x.Id });
+                    table.ForeignKey(
+                        name: "FK_CheckParameters_HardwareChecks_HardwareCheckId",
+                        column: x => x.HardwareCheckId,
+                        principalTable: "HardwareChecks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "be84eb31-03c9-40d0-a3f4-e6a0abf6c861", "a61921a4-6b60-4efb-89e3-d587404ed7fa", "User", "USER" });
+                values: new object[] { "21192bc5-1023-4ab0-9802-ccc92ac2e963", "1f79dc7d-b344-48c6-8f2e-2b9a57395c28", "Admin", "ADMIN" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "6b62492d-85ac-459c-bf61-f94faeeaf9f1", "c461c864-8a90-4dfe-932f-b717416acd08", "User", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -370,6 +444,11 @@ namespace CheckerApp.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CheckResults_ContractId",
+                table: "CheckResults",
+                column: "ContractId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DeviceCodes_DeviceCode",
                 table: "DeviceCodes",
                 column: "DeviceCode",
@@ -379,6 +458,17 @@ namespace CheckerApp.Infrastructure.Migrations
                 name: "IX_DeviceCodes_Expiration",
                 table: "DeviceCodes",
                 column: "Expiration");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HardwareChecks_CheckResultId",
+                table: "HardwareChecks",
+                column: "CheckResultId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HardwareChecks_HardwareId",
+                table: "HardwareChecks",
+                column: "HardwareId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Hardwares_ContractId",
@@ -414,13 +504,16 @@ namespace CheckerApp.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CheckParameters");
+
+            migrationBuilder.DropTable(
                 name: "DeviceCodes");
 
             migrationBuilder.DropTable(
                 name: "FlowmeterSettings");
 
             migrationBuilder.DropTable(
-                name: "networkDevices");
+                name: "NetworkDevices");
 
             migrationBuilder.DropTable(
                 name: "PersistedGrants");
@@ -433,6 +526,12 @@ namespace CheckerApp.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "HardwareChecks");
+
+            migrationBuilder.DropTable(
+                name: "CheckResults");
 
             migrationBuilder.DropTable(
                 name: "Hardwares");

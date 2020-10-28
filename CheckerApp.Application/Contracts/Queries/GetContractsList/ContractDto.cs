@@ -16,8 +16,7 @@ namespace CheckerApp.Application.Contracts.Queries.GetContractsList
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Contract, ContractDto>()
-                .ForMember(dest => dest.HasProtocol, m => m.MapFrom(src => src.CheckResult != null)); ;
+            profile.CreateMap<Contract, ContractDto>();
         }
     }
 }

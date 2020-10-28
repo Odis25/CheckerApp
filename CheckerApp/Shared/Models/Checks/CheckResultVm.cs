@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace CheckerApp.Shared.Models.Checks
 {
-    public class ContractCheckVm
+    public class CheckResultVm
     {
-        public ContractCheckVm()
+        public CheckResultVm()
         {
             HardwareChecks = new List<HardwareCheckDto>();
         }
-
+        public int? Id { get; set; }
         public ContractDto Contract { get; set; }
         public IList<HardwareCheckDto> HardwareChecks { get; set; }
     }

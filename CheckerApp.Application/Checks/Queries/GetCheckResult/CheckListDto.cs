@@ -5,20 +5,20 @@ using System.Collections.Generic;
 
 namespace CheckerApp.Application.Checks.Queries.GetCheckResult
 {
-    public class CheckResultDto : IMapFrom<CheckResult>
+    public class CheckListDto : IMapFrom<CheckResult>
     {
-        public CheckResultDto()
+        public CheckListDto()
         {
             HardwareChecks = new HashSet<HardwareCheckDto>();
         }
 
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public ContractDto Contract { get; set; }
-        public IEnumerable<HardwareCheckDto> HardwareChecks { get; set; }
+        public ICollection<HardwareCheckDto> HardwareChecks { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CheckResult, CheckResultDto>();
+            profile.CreateMap<CheckResult, CheckListDto>();
         } 
     }
 }

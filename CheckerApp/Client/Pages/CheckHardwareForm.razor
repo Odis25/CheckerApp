@@ -8,16 +8,16 @@
 
 <div class="alert alert-secondary">
     <h2>Протокол испытаний оборудования СОИ</h2>
-    <p>по договору @ContractCheck.Contract?.Name, дог. @ContractCheck.Contract?.ContractNumber, вн.проект @ContractCheck.Contract?.DomesticNumber</p>
+    <p>по договору @CheckResult.Contract?.Name, дог. @CheckResult.Contract?.ContractNumber, вн.проект @CheckResult.Contract?.DomesticNumber</p>
 </div>
 
-<EditForm Model="ContractCheck" OnValidSubmit="Submit">
+<EditForm Model="CheckResult" OnValidSubmit="Submit">
 
-    @for (int i = 0; i < ContractCheck.HardwareChecks.Count; i++)
+    @for (int i = 0; i < CheckResult.HardwareChecks.Count; i++)
     {
         var index = i;
 
-        <HardwareCheckStatus @bind-Value="ContractCheck.HardwareChecks[index]" />
+        <HardwareCheckStatus @bind-Value="CheckResult.HardwareChecks[index]" />
     }
 
     <button type="submit" class="btn btn-success"> Отправить</button>
@@ -29,7 +29,7 @@
     [Parameter]
     public string Id { get; set; }
 
-    ContractCheckVm ContractCheck { get; set; } = new ContractCheckVm();
+    CheckResultVm CheckResult { get; set; } = new CheckResultVm();
 
     JsonSerializerOptions JsonOptions { get; set; }
 
@@ -43,12 +43,12 @@
             Converters = { new HardwareConverter() }
         };
 
-        ContractCheck = await HttpClient.GetFromJsonAsync<ContractCheckVm>($"api/check/{int.Parse(Id)}", JsonOptions);
+        CheckResult = await HttpClient.GetFromJsonAsync<CheckResultVm>($"api/check/{int.Parse(Id)}", JsonOptions);
     }
 
     protected async Task Submit()
     {
-        var command = new CreateCheckCommandVm { ContractCheck = ContractCheck };
+        var command = new UpsertCheckResultCommandVm { CheckResult = CheckResult };
         var result = await HttpClient.PostAsJsonAsync($"api/check", command, JsonOptions);
 
         if (result.IsSuccessStatusCode)

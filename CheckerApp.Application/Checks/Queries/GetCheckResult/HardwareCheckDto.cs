@@ -8,8 +8,12 @@ namespace CheckerApp.Application.Checks.Queries.GetCheckResult
 {
     public class HardwareCheckDto : IMapFrom<HardwareCheck>
     {
+        public HardwareCheckDto()
+        {
+            CheckParameters = new HashSet<CheckParameterDto>();
+        }
         public HardwareDto Hardware { get; set; }
-        public IEnumerable<CheckParameterDto> CheckParameters { get; set; }
+        public ICollection<CheckParameterDto> CheckParameters { get; set; }
 
         public void Mapping(Profile profile)
         {

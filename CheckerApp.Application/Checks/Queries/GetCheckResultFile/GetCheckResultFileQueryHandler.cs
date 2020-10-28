@@ -21,9 +21,9 @@ namespace CheckerApp.Application.Checks.Queries.GetCheckResultFile
         }
         public async Task<CheckResultFileDto> Handle(GetCheckResultFileQuery request, CancellationToken cancellationToken)
         {
-            var contract = await _context.Contracts.FirstOrDefaultAsync(c => c.Id == request.ContractId);
-
-            var contractCheckDto = _mapper.Map<CheckResultDto>(contract.CheckResult);
+            var checkResult = await _context.CheckResults.FirstOrDefaultAsync(cr => cr.ContractId == request.ContractId);
+            
+            var contractCheckDto = _mapper.Map<CheckResultDto>(checkResult);
 
             var content = await _fileService.BuildExcelFileAsync(contractCheckDto);
 

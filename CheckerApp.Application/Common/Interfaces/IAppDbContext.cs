@@ -3,6 +3,7 @@ using CheckerApp.Domain.Entities.ContractEntities;
 using CheckerApp.Domain.Entities.Documents;
 using CheckerApp.Domain.Entities.HardwareEntities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,5 +25,7 @@ namespace CheckerApp.Application.Common.Interfaces
         DbSet<HardwareCheck> HardwareChecks { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+
+        EntityEntry Update(object entity);
     }
 }
