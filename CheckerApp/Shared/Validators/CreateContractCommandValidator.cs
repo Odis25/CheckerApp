@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace CheckerApp.Shared.Validators
 {
-    public class CreateContractCommandVmValidator : AbstractValidator<CreateContractCommandVm>
+    public class CreateContractCommandValidator : AbstractValidator<CreateContractCommandVm>
     {
-        public CreateContractCommandVmValidator()
+        public CreateContractCommandValidator()
         {
             RuleFor(c => c.ContractNumber).NotEmpty().WithMessage("Не указан номер договора.");
             RuleFor(c => c.DomesticNumber).NotEmpty().WithMessage("Не указан внутренний номер договора.");

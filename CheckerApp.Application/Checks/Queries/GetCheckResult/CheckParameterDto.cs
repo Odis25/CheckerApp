@@ -7,11 +7,18 @@ namespace CheckerApp.Application.Checks.Queries.GetCheckResult
 {
     public class CheckParameterDto : IMapFrom<CheckParameter>
     {
-        public string Description { get; set; } = string.Empty;
-        public string Method { get; set; } = "На оборудовании";
+        public CheckParameterDto()
+        {
+            Description = string.Empty;
+            Method = "На оборудовании";
+            Date = DateTime.Now.Date;
+            Comment = string.Empty;
+        }
+        public string Description { get; set; }
+        public string Method { get; set; }
         public bool Result { get; set; }
         public DateTime Date { get; set; }
-        public string Comment { get; set; } = string.Empty;
+        public string Comment { get; set; }
 
         public void Mapping(Profile profile)
         {

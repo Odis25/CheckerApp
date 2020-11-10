@@ -34,7 +34,7 @@ namespace CheckerApp.Shared.Common.JsonConverters
                     HardwareType.FlowComputer => JsonSerializer.Deserialize<FlowComputerVm>(jsonObject),
                     HardwareType.Flowmeter => JsonSerializer.Deserialize<FlowmeterVm>(jsonObject),
                     HardwareType.Network => JsonSerializer.Deserialize<NetworkHardwareVm>(jsonObject),
-                    HardwareType.PLC => JsonSerializer.Deserialize<PLCVm>(jsonObject),
+                    HardwareType.PLC => JsonSerializer.Deserialize<PlcVm>(jsonObject),
                     HardwareType.Pressure => JsonSerializer.Deserialize<PressureVm>(jsonObject),
                     HardwareType.Temperature => JsonSerializer.Deserialize<TemperatureVm>(jsonObject),
                     HardwareType.Valve => JsonSerializer.Deserialize<ValveVm>(jsonObject),

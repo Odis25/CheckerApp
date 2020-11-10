@@ -1,0 +1,98 @@
+﻿@using CheckerApp.Shared.Models.Commands
+
+<div class="mb-2 row">
+    <div class="col">
+        <MatTextField Label="Позиция по проекту" @bind-Value="Value.Position" Outlined="true" Style="width:100%"></MatTextField>
+        <ValidationMessage For="()=> Value.Position"></ValidationMessage>
+    </div>
+</div>
+<div class="mb-2 row">
+    <div class="col">
+        <MatTextField Label="Серийный номер" @bind-Value="Value.SerialNumber" Outlined="true" Style="width:100%"></MatTextField>
+        <ValidationMessage For="()=> Value.SerialNumber"></ValidationMessage>
+    </div>
+</div>
+<div class="mb-2 row">
+    <div class="col">
+        <MatTextField Label="Тип прибора" @bind-Value="Value.DeviceType" Outlined="true" Style="width:100%"></MatTextField>
+        <ValidationMessage For="()=> Value.DeviceType"></ValidationMessage>
+    </div>
+</div>
+<div class="mb-2 row">
+    <div class="col">
+        <MatTextField Label="Модель прибора" @bind-Value="Value.DeviceModel" Outlined="true" Style="width:100%"></MatTextField>
+        <ValidationMessage For="()=> Value.DeviceModel"></ValidationMessage>
+    </div>
+</div>
+<div class="mb-2 row">
+    <div class="col">
+        <MatNumericUpDownField Label="Нижний предел измерений" @bind-Value="Value.MinValue"
+                               DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
+        <ValidationMessage For="()=> Value.MinValue"></ValidationMessage>
+    </div>
+    <div class="col">
+        <MatNumericUpDownField Label="Верхний предел измерений" @bind-Value="Value.MaxValue"
+                               DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
+        <ValidationMessage For="()=> Value.MaxValue"></ValidationMessage>
+    </div>
+    <div class="col">
+        <MatSelectItem Label="Единицы измерения" @bind-Value="Value.EU" Outlined="true" FullWidth="true" Items="euArray">
+            <ItemTemplate Context="eu">@eu</ItemTemplate>
+        </MatSelectItem>
+    </div>
+</div>
+<div class="mb-2 row">
+    <div class="col">
+        <MatNumericUpDownField @bind-Value="Value.KFactor" 
+                               Label="К-фактор"                                
+                               DecimalPlaces="1" 
+                               Outlined="true" 
+                               Style="width:100%"></MatNumericUpDownField>
+        <ValidationMessage For="()=> Value.KFactor"></ValidationMessage>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <MatSelectItem ValueExpression="()=>Value.SignalType" 
+                       Value="Value.SignalType" 
+                       ValueChanged="((SignalType value) => SignalChanged(value))" 
+                       Label="Способ подключения" 
+                       Outlined="true" 
+                       FullWidth="true" 
+                       Items="signals">
+            <ItemTemplate Context="signal">@signal.GetDisplayName()</ItemTemplate>
+        </MatSelectItem>
+    </div>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public CreateHardwareCommandVm Value { get; set; }
+
+    [Parameter]
+    public EventCallback<CreateHardwareCommandVm> ValueChanged { get; set; }
+
+    private SignalType[] signals = Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray();
+
+    private string[] euArray = { "м3", "тыс.м3", "т", "кг" };
+
+    private async Task SignalChanged(SignalType value)
+    {
+        Value.SignalType = value;
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    protected override void OnInitialized()
+    {
+        var hasEu = euArray.Any(eu => eu == Value.EU);
+
+        if (!hasEu)
+        {
+            Value.EU = euArray[0];
+        }
+
+        base.OnInitialized();
+    }
+}

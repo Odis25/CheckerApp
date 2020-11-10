@@ -17,7 +17,7 @@ namespace CheckerApp.Application.Contracts.Commands.UpdateContract
         }
         public async Task<Unit> Handle(UpdateContractCommand request, CancellationToken cancellationToken)
         {
-            var contract = await _context.Contracts.Include(c => c.HardwareList).FirstOrDefaultAsync();
+            var contract = await _context.Contracts.FirstOrDefaultAsync();
             
             contract.Name = request.Name;
             contract.ContractNumber = request.ContractNumber;

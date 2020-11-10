@@ -14,6 +14,7 @@ namespace CheckerApp.Domain.Entities.CheckEntities
         public int CheckResultId { get; set; }
         public int HardwareId { get; set; }
         public virtual Hardware Hardware { get; set; }
+
         public virtual ICollection<CheckParameter> CheckParameters { get; private set; }
     }
 }

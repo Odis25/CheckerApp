@@ -1,4 +1,5 @@
 ﻿using CheckerApp.Application.Contracts.Commands.CreateContract;
+using CheckerApp.Application.Contracts.Commands.DeleteContract;
 using CheckerApp.Application.Contracts.Commands.UpdateContract;
 using CheckerApp.Application.Contracts.Queries.GetContractDetail;
 using CheckerApp.Application.Contracts.Queries.GetContractsList;
@@ -34,6 +35,14 @@ namespace CheckerApp.Server.Controllers
         public async Task<ActionResult> UpdateContract([FromBody] UpdateContractCommand command)
         {
             await Mediator.Send(command);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteContract(int id)
+        {
+            await Mediator.Send(new DeleteContractCommand { Id = id });
 
             return NoContent();
         }

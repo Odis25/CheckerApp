@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CheckerApp.Infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -397,12 +397,12 @@ namespace CheckerApp.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "21192bc5-1023-4ab0-9802-ccc92ac2e963", "1f79dc7d-b344-48c6-8f2e-2b9a57395c28", "Admin", "ADMIN" });
+                values: new object[] { "b43a67b5-773f-4810-9275-210da3effb52", "e42ff4b6-d7bb-497c-bfeb-eadb4d5e2fe4", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "6b62492d-85ac-459c-bf61-f94faeeaf9f1", "c461c864-8a90-4dfe-932f-b717416acd08", "User", "USER" });
+                values: new object[] { "502213f0-0490-4c56-9ceb-3f17906ce8ef", "967f3d52-f9b9-414b-b3e8-6330b8f19c44", "User", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

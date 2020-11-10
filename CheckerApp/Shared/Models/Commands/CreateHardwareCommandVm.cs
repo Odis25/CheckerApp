@@ -11,6 +11,7 @@ namespace CheckerApp.Shared.Models.Commands
         {
             ModbusSettings = new ModbusSettingsVm();
             NetworkDevices = new HashSet<NetworkDeviceDto>();
+            NetworkAdapters = new HashSet<NetworkAdapterDto>();
             Constructed = DateTime.Now;
         }
         public HardwareType HardwareType { get; set; }
@@ -33,5 +34,17 @@ namespace CheckerApp.Shared.Models.Commands
         public string Mask { get; set; }
         public ICollection<NetworkDeviceDto> NetworkDevices { get; private set; }
         public ModbusSettingsVm ModbusSettings { get; set; }
+
+        public string ArmName { get; set; }
+        public string Monitor { get; set; }
+        public string MonitorSN { get; set; }
+        public string Keyboard { get; set; }
+        public string KeyboardSN { get; set; }
+        public string Mouse { get; set; }
+        public string MouseSN { get; set; }
+        public bool HasRAID { get; set; }
+        public string OS { get; set; }
+        public string ProductKeyOS { get; set; }
+        public ICollection<NetworkAdapterDto> NetworkAdapters { get; set; }
     }
 }

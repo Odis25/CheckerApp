@@ -4,9 +4,9 @@ using FluentValidation;
 
 namespace CheckerApp.Shared.Validators
 {
-    public class CreateHardwareCommandVmValidator : AbstractValidator<CreateHardwareCommandVm>
+    public class CreateHardwareCommandValidator : AbstractValidator<CreateHardwareCommandVm>
     {
-        public CreateHardwareCommandVmValidator()
+        public CreateHardwareCommandValidator()
         {
             When(m => m.HardwareType == HardwareType.Cabinet, () =>
             {
@@ -53,6 +53,13 @@ namespace CheckerApp.Shared.Validators
                 RuleFor(m => m.Position).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
                 RuleFor(m => m.DeviceType).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
                 RuleFor(m => m.DeviceModel).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
+            });
+            When(m => m.HardwareType == HardwareType.ARM, () =>
+            {
+                RuleFor(m => m.SerialNumber).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
+                RuleFor(m => m.ArmName).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
+                RuleFor(m => m.Monitor).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
+                RuleFor(m => m.MonitorSN).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
             });
         }
     }

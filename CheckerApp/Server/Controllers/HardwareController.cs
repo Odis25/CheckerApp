@@ -1,4 +1,5 @@
 ﻿using CheckerApp.Application.Hardwares.Commands.CreateHardware;
+using CheckerApp.Application.Hardwares.Commands.DeleteHardware;
 using CheckerApp.Application.Hardwares.Queries;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -17,6 +18,14 @@ namespace CheckerApp.Server.Controllers
         public async Task<ActionResult> GetHardware(int id)
         {
             return Ok(await Mediator.Send(new GetHardwareDetailQuery { Id = id }));
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteHardware(int id)
+        {
+            await Mediator.Send(new DeleteHardwareCommand { Id = id });
+
+            return NoContent();
         }
     }
 }

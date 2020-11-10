@@ -1,0 +1,56 @@
+﻿@using CheckerApp.Shared.Models.Commands
+
+<div class="row mb-2">
+    <div class="col">
+        <MatTextField Label="Позиция по проекту" @bind-Value="Value.Position" Outlined="true" Style="width:100%"></MatTextField>
+        <ValidationMessage For="()=> Value.Position"></ValidationMessage>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col">
+        <MatTextField Label="Серийный номер" @bind-Value="Value.SerialNumber" Outlined="true" Style="width:100%"></MatTextField>
+        <ValidationMessage For="()=> Value.SerialNumber"></ValidationMessage>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col">
+        <MatTextField Label="Тип крана" @bind-Value="Value.DeviceType" Outlined="true" Style="width:100%"></MatTextField>
+        <ValidationMessage For="()=> Value.DeviceType"></ValidationMessage>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col">
+        <MatTextField Label="Модель крана" @bind-Value="Value.DeviceModel" Outlined="true" Style="width:100%"></MatTextField>
+        <ValidationMessage For="()=> Value.DeviceModel"></ValidationMessage>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <MatSelectItem ValueExpression="()=>Value.SignalType" 
+                       Value="Value.SignalType" 
+                       ValueChanged="((SignalType value) => SignalChanged(value))" 
+                       Label="Способ подключения" 
+                       Outlined="true" 
+                       FullWidth="true" 
+                       Items="signals">
+            <ItemTemplate Context="signal">@signal.GetDisplayName()</ItemTemplate>
+        </MatSelectItem>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public CreateHardwareCommandVm Value { get; set; }
+
+    [Parameter]
+    public EventCallback<CreateHardwareCommandVm> ValueChanged { get; set; }
+
+    private SignalType[] signals = Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray();
+
+    private async Task SignalChanged(SignalType value)
+    {
+        Value.SignalType = value;
+        await ValueChanged.InvokeAsync(Value);
+    }
+}

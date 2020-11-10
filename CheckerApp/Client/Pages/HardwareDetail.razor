@@ -1,8 +1,10 @@
 ﻿@page "/hardware/{id}/detail"
-@inject HttpClient HttpClient
 
 @using System.Text.Json
+@using CheckerApp.Client.Shared.Hardwares.Details
 @using CheckerApp.Shared.Common.JsonConverters
+
+@inject HttpClient HttpClient
 
 @if (Hardware == null)
 {
@@ -28,7 +30,7 @@ else
                 <NetworkHardware Vm="(NetworkHardwareVm)Hardware"></NetworkHardware>
                 break;
             case HardwareType.PLC:
-                <PLC Vm="(PLCVm)Hardware"></PLC>
+                <PLC Vm="(PlcVm)Hardware"></PLC>
                 break;
             case HardwareType.Pressure:
                 <Measurement Vm="(MeasurementVm)Hardware"></Measurement>

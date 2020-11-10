@@ -25,6 +25,7 @@ namespace CheckerApp.Application.Checks.Commands.UpsertCheckResult
             if (checkResultDto.Id.HasValue)
             {
                 entity = await _context.CheckResults.FindAsync(checkResultDto.Id.Value);
+
                 _context.Update(entity);
             }
             else

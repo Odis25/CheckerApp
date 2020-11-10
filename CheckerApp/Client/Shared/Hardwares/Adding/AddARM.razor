@@ -1,0 +1,129 @@
+﻿@using CheckerApp.Shared.Models.Commands
+@using CheckerApp.Client.Shared.Modal
+
+
+<div class="mb-2 row">
+    <div class="col">
+        <MatTextField Label="Модель операторской станции" @bind-Value="Value.ArmName" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.ArmName"></ValidationMessage>
+    </div>
+    <div class="col">
+        <MatTextField Label="Серийный номер" @bind-Value="Value.SerialNumber" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.SerialNumber"></ValidationMessage>
+    </div>
+</div>
+
+<div class="mb-2 row">
+    <div class="col">
+        <MatTextField Label="Модель монитора" @bind-Value="Value.Monitor" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.Monitor"></ValidationMessage>
+    </div>
+    <div class="col">
+        <MatTextField Label="Серийный номер монитора" @bind-Value="Value.MonitorSN" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.MonitorSN"></ValidationMessage>
+    </div>
+</div>
+
+<div class="mb-2 row">
+    <div class="col">
+        <MatTextField Label="Модель клавиатуры" @bind-Value="Value.Keyboard" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.Keyboard"></ValidationMessage>
+    </div>
+    <div class="col">
+        <MatTextField Label="Серийный номер клавиатуры" @bind-Value="Value.KeyboardSN" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.KeyboardSN"></ValidationMessage>
+    </div>
+</div>
+
+<div class="mb-2 row">
+    <div class="col">
+        <MatTextField Label="Модель мыши" @bind-Value="Value.Mouse" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.Mouse"></ValidationMessage>
+    </div>
+    <div class="col">
+        <MatTextField Label="Серийный номер мыши" @bind-Value="Value.MouseSN" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.MouseSN"></ValidationMessage>
+    </div>
+</div>
+
+<div class="mb-2 row">
+    <div class="col">
+        <MatSelect Label="Операционная система" @bind-Value="Value.OS" Outlined="true" FullWidth="true">
+            <MatOptionString></MatOptionString>
+            <MatOptionString Value="Windows 7(x86)">Windows 7(x86)</MatOptionString>
+            <MatOptionString Value="Windows 7(x64)">Windows 7(x64)</MatOptionString>
+            <MatOptionString Value="Windows 10(x86)">Windows 10(x86)</MatOptionString>
+            <MatOptionString Value="Windows 10(x64)">Windows 10(x64)</MatOptionString>
+            <MatOptionString Value="Windows Server 2008(x86)">Windows Server 2008(x86)</MatOptionString>
+            <MatOptionString Value="Windows Server 2008(x64)">Windows Server 2008(x64)</MatOptionString>
+            <MatOptionString Value="Windows Server 2016(x86)">Windows Server 2016(x86)</MatOptionString>
+            <MatOptionString Value="Windows Server 2016(x64)">Windows Server 2016(x64)</MatOptionString>
+        </MatSelect>
+    </div>
+    <div class="col">
+        <MatTextField Label="Код продукта" @bind-Value="Value.ProductKeyOS" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.ProductKeyOS"></ValidationMessage>
+    </div>
+</div>
+<div class="mb-2 row">
+    <div class="col d-flex">
+        <div class="custom-control custom-checkbox align-self-center">
+            <InputCheckbox class="custom-control-input" id="raid" @bind-Value="Value.HasRAID"></InputCheckbox>
+            <label class="custom-control-label" for="raid">
+                RAID-массив
+            </label>
+        </div>
+    </div>
+    <div class="col">
+        <MatTextField Label="Позиция по проекту" @bind-Value="Value.Position" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.Position"></ValidationMessage>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col">
+        <MatChipSet @ref="chipset" @bind-SelectedChip="selectedChip">
+            <MatButton Type="button" class="mr-2 border" @onclick="AddNetworkAdapter">Добавить сетевую карту</MatButton>
+            @foreach (var option in Value.NetworkAdapters)
+            {
+                <MatChip class="mt-1" Label="@(option.IP + " ("+option.MacAddress + ") ")" Value="option" TrailingIcon="clear" TrailingIconClick="OnTrailingIconClick"></MatChip>
+            }
+        </MatChipSet>
+    </div>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public CreateHardwareCommandVm Value { get; set; }
+
+    [Parameter]
+    public EventCallback<CreateHardwareCommandVm> ValueChanged { get; set; }
+
+    [CascadingParameter]
+    protected IModalService Modal { get; set; }
+
+    MatChip selectedChip = null;
+    MatChipSet chipset = null;
+
+    private async Task AddNetworkAdapter()
+    {
+        var modalForm = Modal.Show<AddNetworkAdapterModal>("");
+        var result = await modalForm.Result;
+
+        if (!result.Cancelled)
+        {
+            var adapter = (NetworkAdapterDto)result.Data;
+            Value.NetworkAdapters.Add(adapter);
+        }
+    }
+
+    private void OnTrailingIconClick(MatChip chip)
+    {
+        Value.NetworkAdapters.Remove(((NetworkAdapterDto)chip.Value));
+        chipset?.UnregisterChip(chip); // <-- to avoid memleak
+    }
+}

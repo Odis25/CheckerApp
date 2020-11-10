@@ -19,4 +19,8 @@
     <ProjectReference Include="..\CheckerApp.Domain\CheckerApp.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Softwares\Commands\" />
+  </ItemGroup>
+
 </Project>

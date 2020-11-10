@@ -19,6 +19,8 @@ namespace CheckerApp.Shared.Enums
         [Display(Name = "Датчик температуры")]
         Temperature,
         [Display(Name = "Кран с электроприводом")]
-        Valve
+        Valve,
+        [Display(Name = "АРМ оператора")]
+        ARM
     }
 }

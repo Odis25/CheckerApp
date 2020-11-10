@@ -1,4 +1,5 @@
 ﻿using CheckerApp.Shared.Models.Hardware;
+using CheckerApp.Shared.Models.Software;
 using System.Collections.Generic;
 
 namespace CheckerApp.Shared.Models.Contract
@@ -10,6 +11,8 @@ namespace CheckerApp.Shared.Models.Contract
         public string ContractNumber { get; set; }
         public string DomesticNumber { get; set; }
         public bool HasProtocol { get; set; }
+
         public IEnumerable<HardwareVm> HardwareList { get; set; }
+        public IEnumerable<SoftwareVm> SoftwareList { get; set; }
     }
 }

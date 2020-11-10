@@ -14,6 +14,7 @@ namespace CheckerApp.Domain.Entities.Documents
         public int Id { get; set; }
         public int ContractId { get; set; }
         public virtual Contract Contract { get; set; }
+
         public virtual ICollection<HardwareCheck> HardwareChecks { get; private set; }
     }
 }

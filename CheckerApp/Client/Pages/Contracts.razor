@@ -1,6 +1,8 @@
 ﻿@page "/contracts"
 @attribute [Authorize]
 
+@using CheckerApp.Client.Shared.Modal
+
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 @inject IModalService Modal
@@ -23,11 +25,16 @@ else
             <th style="min-width:250px;">Номер договора</th>
             <th style="min-width:250px;">Внутренний номер</th>
             <th>Название</th>
+            <th></th>
         </MatTableHeader>
         <MatTableRow>
             <td>@context.ContractNumber</td>
             <td>@context.DomesticNumber</td>
             <td>@context.Name</td>
+            <td>
+                <button class="btn btn-secondary" @onclick="@(async ()=> await EditContract(context.Id))"><span class="oi oi-pencil"></span> Редактировать</button>
+                <button class="btn btn-danger" @onclick="@(async ()=> await DeleteContract(context.Id))"><span class="oi oi-trash"></span> Удалить</button>
+            </td>
         </MatTableRow>
     </MatTable>
 }
@@ -55,5 +62,18 @@ else
         {
             ContractsList = await HttpClient.GetFromJsonAsync<ContractsListVm>("api/contract");
         }
+    }
+
+    private Task EditContract(int id)
+    {
+        //await HttpClient.PutAsJsonAsync("");
+        return Task.CompletedTask;
+    }
+
+    private async Task DeleteContract(int id)
+    {
+        await HttpClient.DeleteAsync($"api/contract/{id}");
+
+        ContractsList = await HttpClient.GetFromJsonAsync<ContractsListVm>("api/contract");
     }
 }

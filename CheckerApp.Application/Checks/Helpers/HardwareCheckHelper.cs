@@ -11,23 +11,55 @@ namespace CheckerApp.Application.Hardwares.Helpers
             switch (type)
             {
                 case HardwareType.Cabinet:
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Наличие \"Протокола проверки изделия\", подписанного БТК и СбМР" });
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "\"Холодный\" пуск" });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Наличие \"Протокола проверки изделия\", подписанного БТК и СбМР",
+                        Method = "-"
+                    });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "\"Холодный\" пуск",
+                        Method = "-"
+                    });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Работоспособность ИБП" });
                     break;
 
                 case HardwareType.FlowComputer:
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Соответствие реализованной схемы подключения прибора проектной документации" });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Соответствие реализованной схемы подключения прибора проектной документации",
+                        Method = "-"
+                    });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Включение и выход на рабочий режим" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль уровней доступа" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Сопоставление выставленных диапазонов и единиц измерения с фактическими настройками датчиков" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Фиксирование настроек каналов ввода-вывода" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль алгоритмов учета" });
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль алгоритмов работы плотномера (-ов)" });
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль алгоритмов работы влагомера (-ов)" });
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль алгоритмов работы гигрометра (-ов)" });
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль алгоритмов работы хроматографа (-ов)" });
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль алгоритмов работы вискозиметра (-ов)" });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Контроль алгоритмов работы плотномера (-ов)",
+                        Method = "Имитация данных"
+                    });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Контроль алгоритмов работы влагомера (-ов)",
+                        Method = "Имитация данных"
+                    });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Контроль алгоритмов работы гигрометра (-ов)",
+                        Method = "Имитация данных"
+                    });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Контроль алгоритмов работы хроматографа (-ов)",
+                        Method = "Имитация данных"
+                    });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Контроль алгоритмов работы вискозиметра (-ов)",
+                        Method = "Имитация данных"
+                    });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль параметров накоплений и архивирования данных" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль параметров среды" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Фиксирование настроек связи" });
@@ -39,7 +71,11 @@ namespace CheckerApp.Application.Hardwares.Helpers
                     break;
 
                 case HardwareType.Flowmeter:
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Соответствие реализованной схемы подключения прибора проектной документации" });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Соответствие реализованной схемы подключения прибора проектной документации",
+                        Method = "-"
+                    });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Включение и выход на рабочий режим" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Имитация выходного сигнала в диапазоне 0-100 % шкалы" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль уровней доступа" });
@@ -57,13 +93,25 @@ namespace CheckerApp.Application.Hardwares.Helpers
 
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Включение и выход на рабочий режим" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Наличие связи со всеми устройствами в локальной сети" });
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Создание резервной копии конфигурации сетевого оборудования или отчета по конфигурации" });
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Восстановление с резервной копии конфигурации сетевого оборудования или сопоставление отчета по конфигурации с его фактическими настройками" });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Создание резервной копии конфигурации сетевого оборудования или отчета по конфигурации",
+                        Method = "-"
+                    });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Восстановление с резервной копии конфигурации сетевого оборудования или сопоставление отчета по конфигурации с его фактическими настройками",
+                        Method = "-"
+                    });
                     break;
 
                 case HardwareType.PLC:
 
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Соответствие реализованной схемы подключения прибора проектной документации" });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Соответствие реализованной схемы подключения прибора проектной документации",
+                        Method = "-"
+                    });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Включение и выход на рабочий режим" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль уровней доступа" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Фиксирование настроек каналов ввода-вывода" });
@@ -72,9 +120,21 @@ namespace CheckerApp.Application.Hardwares.Helpers
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль алгоритмов управления элекроприводными кранами и регуляторами" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль алгоритмов управления системой обогрева блок-боксов" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль алгоритмов управления системой вентиляции" });
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль алгоритмов управления автоматическим пробоотбором" });
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль алгоритмов управления насосами" });
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль алгоритмов управления электропитанием ШК и ШП" });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Контроль алгоритмов управления автоматическим пробоотбором",
+                        Method = "Имитация данных"
+                    });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Контроль алгоритмов управления насосами",
+                        Method = "Имитация данных"
+                    });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Контроль алгоритмов управления электропитанием ШК и ШП",
+                        Method = "Имитация данных"
+                    });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Фиксирование настроек связи" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль текущей даты и времени" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Фиксирование контрольных сумм и версий внутреннего  ПО" });
@@ -86,7 +146,11 @@ namespace CheckerApp.Application.Hardwares.Helpers
                 case HardwareType.Pressure:
                 case HardwareType.Temperature:
 
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Соответствие реализованной схемы подключения прибора проектной документации" });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Соответствие реализованной схемы подключения прибора проектной документации",
+                        Method = "-"
+                    });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Включение и выход на рабочий режим" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Сопоставление выставленных диапазонов и единиц измерения с документацией на прибор" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль текущего измерения на воздухе" });
@@ -95,7 +159,11 @@ namespace CheckerApp.Application.Hardwares.Helpers
 
                 case HardwareType.Valve:
 
-                    hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Сответствие реализованной схемы подключения прибора проектной документации" });
+                    hardwareCheck.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Сответствие реализованной схемы подключения прибора проектной документации",
+                        Method = "-"
+                    });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Включение и выход на рабочий режим" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Контроль сработки концевых выключателей" });
                     hardwareCheck.CheckParameters.Add(new CheckParameterDto { Description = "Фиксирование настроек связи" });

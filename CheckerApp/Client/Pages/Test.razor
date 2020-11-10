@@ -1,9 +1,0 @@
-﻿@page "/test"
-@inject HttpClient client
-
-@code {
-    protected async override Task OnInitializedAsync()
-    {
-        await client.GetAsync("api/test");
-    }
-}

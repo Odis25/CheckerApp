@@ -20,7 +20,6 @@ namespace CheckerApp.Application.Contracts.Queries.GetContractDetail
         public async Task<ContractDetailDto> Handle(GetContractDetailQuery request, CancellationToken cancellationToken)
         {
             var res = await _context.Contracts
-                .Include(c => c.HardwareList)
                 .ProjectTo<ContractDetailDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(c => c.Id == request.Id);
             return res;

@@ -13,6 +13,7 @@ namespace CheckerApp.Application.Contracts.Queries.GetContractsList
         public string DomesticNumber { get; set; }
         public bool HasProtocol { get; set; }
         public IEnumerable<HardwareDto> HardwareList { get; set; }
+        public IEnumerable<SoftwareDto> SoftwareList { get; set; }
 
         public void Mapping(Profile profile)
         {

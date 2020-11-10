@@ -115,7 +115,7 @@ namespace CheckerApp.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ContractId")
+                    b.Property<int>("ContractId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Created")
@@ -214,6 +214,34 @@ namespace CheckerApp.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("CheckerApp.Domain.Entities.SoftwareEntities.Software", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ContractId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SoftwareType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Version")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContractId");
+
+                    b.ToTable("Softwares");
+
+                    b.HasDiscriminator<int>("SoftwareType").HasValue(1);
                 });
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
@@ -327,15 +355,15 @@ namespace CheckerApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "21192bc5-1023-4ab0-9802-ccc92ac2e963",
-                            ConcurrencyStamp = "1f79dc7d-b344-48c6-8f2e-2b9a57395c28",
+                            Id = "95a2a7e7-8365-4f35-a523-863d105eabca",
+                            ConcurrencyStamp = "e97ef188-29a7-4262-8a1e-335f5890bc9f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "6b62492d-85ac-459c-bf61-f94faeeaf9f1",
-                            ConcurrencyStamp = "c461c864-8a90-4dfe-932f-b717416acd08",
+                            Id = "59ed7ef6-aba9-4ea1-aceb-97e71bd3bba2",
+                            ConcurrencyStamp = "aa110c66-6f7e-4ed1-bb98-1c453142da6a",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -447,6 +475,43 @@ namespace CheckerApp.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("CheckerApp.Domain.Entities.HardwareEntities.ARM", b =>
+                {
+                    b.HasBaseType("CheckerApp.Domain.Entities.HardwareEntities.Hardware");
+
+                    b.Property<bool>("HasRAID")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Keyboard")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("KeyboardSN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Monitor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MonitorSN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mouse")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MouseSN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OS")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductKeyOS")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue(8);
                 });
 
             modelBuilder.Entity("CheckerApp.Domain.Entities.HardwareEntities.Cabinet", b =>
@@ -618,6 +683,13 @@ namespace CheckerApp.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue(7);
                 });
 
+            modelBuilder.Entity("CheckerApp.Domain.Entities.SoftwareEntities.SCADA", b =>
+                {
+                    b.HasBaseType("CheckerApp.Domain.Entities.SoftwareEntities.Software");
+
+                    b.HasDiscriminator().HasValue(0);
+                });
+
             modelBuilder.Entity("CheckerApp.Domain.Entities.CheckEntities.HardwareCheck", b =>
                 {
                     b.HasOne("CheckerApp.Domain.Entities.Documents.CheckResult", null)
@@ -679,6 +751,15 @@ namespace CheckerApp.Infrastructure.Migrations
                 {
                     b.HasOne("CheckerApp.Domain.Entities.ContractEntities.Contract", null)
                         .WithMany("HardwareList")
+                        .HasForeignKey("ContractId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CheckerApp.Domain.Entities.SoftwareEntities.Software", b =>
+                {
+                    b.HasOne("CheckerApp.Domain.Entities.ContractEntities.Contract", null)
+                        .WithMany("SoftwareList")
                         .HasForeignKey("ContractId");
                 });
 
@@ -731,6 +812,33 @@ namespace CheckerApp.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CheckerApp.Domain.Entities.HardwareEntities.ARM", b =>
+                {
+                    b.OwnsMany("CheckerApp.Domain.Entities.HardwareEntities.NetworkAdapter", "NetworkAdapters", b1 =>
+                        {
+                            b1.Property<int>("ARMId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("IP")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("MacAddress")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("ARMId", "Id");
+
+                            b1.ToTable("NetworkAdapters");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ARMId");
+                        });
                 });
 
             modelBuilder.Entity("CheckerApp.Domain.Entities.HardwareEntities.Flowmeter", b =>

@@ -1,0 +1,153 @@
+﻿@inject HttpClient HttpClient
+
+@using CheckerApp.Shared.Models.Commands
+@using CheckerApp.Client.Shared.Hardwares.Adding
+
+<EditForm Model="Command" style="min-width:800px;" OnValidSubmit="Submit">
+    <FluentValidationValidator />
+
+    <h5>Шаг 1. Выберите тип оборудования:</h5>
+
+    <MatSelectItem @bind-Value="Command.HardwareType" Items="hardwareTypes" Outlined="true" FullWidth="true">
+        <ItemTemplate Context="type">@type.GetDisplayName()</ItemTemplate>
+    </MatSelectItem>
+    <hr />
+
+    <div class="row">
+        <div class="col">
+            <h5>Шаг 2. Параметры оборудования:</h5>
+            <div class="border p-2">
+                @switch (Command.HardwareType)
+                {
+                    case HardwareType.Cabinet:
+                        <AddCabinet @bind-Value="Command" />
+                        break;
+
+                    case HardwareType.FlowComputer:
+                        <AddFlowComputer @bind-Value="Command" />
+                        break;
+
+                    case HardwareType.Flowmeter:
+                        <AddFlowmeter @bind-Value="Command" />
+                        break;
+
+                    case HardwareType.Network:
+                        <AddNetwork @bind-Value="Command" />
+                        break;
+
+                    case HardwareType.PLC:
+                        <AddPLC @bind-Value="Command" />
+                        break;
+
+                    case HardwareType.Pressure:
+                        <AddPressure @bind-Value="Command" />
+                        break;
+
+                    case HardwareType.Temperature:
+                        <AddTemperature @bind-Value="Command" />
+                        break;
+
+                    case HardwareType.Valve:
+                        <AddValve @bind-Value="Command" />
+                        break;
+                    case HardwareType.ARM:
+                        <AddARM @bind-Value="Command" />
+                        break;
+                }
+            </div>
+        </div>
+        @if (Command.HardwareType == HardwareType.Network)
+        {
+            <div class="col">
+                <h5>Подключенное оборудование:</h5>
+                <div class="border p-2">
+                    <div class="row">
+                        <div class="col py-2">
+                            <MatButton Type="button" @onclick="AddNetworkDevice" Raised="true" Style="width:100%;">Добавить</MatButton>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <table class="table table-sm table-striped table-hover" style="min-width:500px;">
+                                <thead>
+                                    <tr>
+                                        <th class="w-50">Название</th>
+                                        <th class="w-25">IP</th>
+                                        <th class="w-25">MAC-адрес</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Command.NetworkDevices)
+                                    {
+                                        <tr>
+                                            <td class="w-50">@item.Name</td>
+                                            <td class="w-25">@item.IP</td>
+                                            <td class="w-25">@item.MacAddress</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (Command.HardwareType == HardwareType.Flowmeter || Command.HardwareType == HardwareType.Valve)
+        {
+            if (Command.SignalType == SignalType.RS485)
+            {
+                <div class="col-sm-4">
+                    <h5>Шаг 3. Настройки Modbus</h5>
+                    <ModbusSettings @bind-Value="Command.ModbusSettings" />
+                </div>
+            }
+        }
+    </div>
+    <hr />
+
+    <MatButton type="submit" Raised="true" Style="width: 100%;" Icon="add"> Добавить</MatButton>
+
+</EditForm>
+
+@code {
+
+    [CascadingParameter]
+    protected BlazoredModalInstance BlazoredModal { get; set; }
+
+    [CascadingParameter]
+    protected IModalService Modal { get; set; }
+
+    [Parameter]
+    public string ContractId { get; set; }
+
+    private HardwareType[] hardwareTypes = Enum.GetValues(typeof(HardwareType)).Cast<HardwareType>().ToArray();
+
+    protected CreateHardwareCommandVm Command { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Command = new CreateHardwareCommandVm
+        {
+            ContractId = int.Parse(ContractId)
+        };
+    }
+
+    private async Task Submit()
+    {
+        var hardwareId = await HttpClient.PostJsonAsync<int>("api/hardware", Command);
+
+        await BlazoredModal.Close(ModalResult.Ok(hardwareId));
+    }
+
+    private async Task AddNetworkDevice()
+    {
+        var modalForm = Modal.Show<AddNetworkDeviceModal>("");
+        var result = await modalForm.Result;
+
+        if (!result.Cancelled)
+        {
+            var device = (NetworkDeviceDto)result.Data;
+            Command.NetworkDevices.Add(device);
+        }
+    }
+}

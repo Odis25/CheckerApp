@@ -1,5 +1,4 @@
 ﻿using CheckerApp.Application.Common.Interfaces;
-using CheckerApp.Application.Hardwares.Helpers;
 using CheckerApp.Domain.Entities.HardwareEntities;
 using CheckerApp.Domain.Enums;
 using MediatR;
@@ -147,6 +146,31 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                             StopBit = request.ModbusSettings.StopBit
                         }
                     };
+                    break;
+                case HardwareType.ARM:
+                    entity = new ARM
+                    {
+                        Position = request.Position,
+                        Name = request.ArmName,
+                        SerialNumber = request.SerialNumber,
+                        Monitor = request.Monitor,
+                        MonitorSN = request.MonitorSN,
+                        Keyboard = request.Keyboard,
+                        KeyboardSN = request.KeyboardSN,
+                        Mouse = request.Mouse,
+                        MouseSN = request.MouseSN,
+                        OS = request.OS,
+                        ProductKeyOS = request.ProductKeyOS,
+                        HasRAID = request.HasRAID
+                    };
+                    foreach (var item in request.NetworkAdapters)
+                    {
+                        ((ARM)entity).NetworkAdapters.Add(new NetworkAdapter
+                        {
+                            IP = item.IP,
+                            MacAddress = item.MacAddress
+                        });
+                    }
                     break;
                 default:
                     entity = null;

@@ -9,18 +9,21 @@
     {
         var index = i;
         <div class="form-group form-row">
-            <div class="col-5">
+            <div class="col-4">
                 <label>@Value.CheckParameters[index].Description</label>
             </div>
             <div class="col-2">
                 <InputSelect class="form-control" @bind-Value="Value.CheckParameters[index].Method">
-                    <option value="">-</option>
+                    <option value="-">-</option>
                     <option value="На оборудовании">На оборудовании</option>
                     <option value="Имитация данных">Имитация данных</option>
                 </InputSelect>
             </div>
             <div class="col-1">
                 <InputCheckbox class="form-control" @bind-Value="Value.CheckParameters[index].Result" @onchange="ChangeModel"></InputCheckbox>
+            </div>
+            <div class="col-2">
+                <InputDate class="form-control" @bind-Value="Value.CheckParameters[index].Date" @onchange="ChangeModel"></InputDate>
             </div>
             <div class="col">
                 <InputTextArea class="form-control" @bind-Value="Value.CheckParameters[index].Comment" @onchange="ChangeModel"></InputTextArea>
@@ -90,7 +93,7 @@
                 break;
 
             case HardwareType.PLC:
-                var plc = (PLCVm)Value.Hardware;
+                var plc = (PlcVm)Value.Hardware;
                 Title = $"{plc.HardwareType.GetDisplayName()} {plc.Position} " +
                     $"({plc.DeviceModel} " +
                     $"- №{plc.SerialNumber} " +

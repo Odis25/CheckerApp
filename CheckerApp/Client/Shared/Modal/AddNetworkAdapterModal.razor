@@ -1,0 +1,36 @@
+﻿
+<EditForm Model="Device" OnValidSubmit="Save" style="width: 500px">
+    <FluentValidationValidator/>
+    <div class="row mb-2">
+        <div class="col">
+            <MatTextField Label="IP" @bind-Value="Device.IP" Outlined="true" Style="width:100%"></MatTextField>
+            <ValidationMessage For="()=> Device.IP"></ValidationMessage>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col">
+            <MatTextField Label="MAC-Address" @bind-Value="Device.MacAddress" Outlined="true" Style="width:100%"></MatTextField>
+            <ValidationMessage For="()=> Device.MacAddress"></ValidationMessage>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="">
+        <MatButton Raised="true" Type="submit" Style="width:100%">Добавить</MatButton>
+    </div>
+</EditForm>
+
+
+@code {
+
+    public NetworkAdapterDto Device { get; set; } = new NetworkAdapterDto();
+
+    [CascadingParameter]
+    public BlazoredModalInstance BlazoredModal { get; set; }
+
+    private void Save()
+    {
+        BlazoredModal.Close(ModalResult.Ok(Device));
+    }
+}

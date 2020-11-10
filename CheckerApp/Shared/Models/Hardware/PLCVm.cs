@@ -1,6 +1,12 @@
-﻿namespace CheckerApp.Shared.Models.Hardware
+﻿using CheckerApp.Shared.Enums;
+
+namespace CheckerApp.Shared.Models.Hardware
 {
-    public class PLCVm : ControllerVm
+    public class PlcVm : ControllerVm
     {
+        public PlcVm()
+        {
+            HardwareType = HardwareType.PLC;
+        }
     }
 }

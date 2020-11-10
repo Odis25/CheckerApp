@@ -27,5 +27,17 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
         public string Mask { get; set; }
         public ICollection<NetworkDeviceDto> NetworkDevices { get; set; }
         public ModbusSettingsDto ModbusSettings { get; set; }
+
+        public string ArmName { get; set; }
+        public string Monitor { get; set; }
+        public string MonitorSN { get; set; }
+        public string Keyboard { get; set; }
+        public string KeyboardSN { get; set; }
+        public string Mouse { get; set; }
+        public string MouseSN { get; set; }
+        public bool HasRAID { get; set; }
+        public string OS { get; set; }
+        public string ProductKeyOS { get; set; }
+        public ICollection<NetworkAdapterDto> NetworkAdapters { get; set; }
     }
 }

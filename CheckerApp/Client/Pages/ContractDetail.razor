@@ -1,9 +1,12 @@
 ﻿@page "/contract/{id}/detail"
 
+@using CheckerApp.Client.Shared.Modal
+@using CheckerApp.Shared.Models.Commands
+
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 @inject IModalService Modal
-@using CheckerApp.Shared.Models.Commands
+
 
 @if (Contract == null)
 {
@@ -42,7 +45,7 @@ else
     <hr />
 
     <MatTable Items="@Contract.HardwareList" Class="mat-elevation-z5" Striped="true" AllowSelection="true"
-              ShowPaging="false" ShowFooter="false" OnRowDbClick="(item)=> NavigateTo(((HardwareVm)item).Id)">
+              ShowPaging="false" ShowFooter="false" PageSize="10"  OnRowDbClick="(item)=> NavigateTo(((HardwareVm)item).Id)">
         <MatTableHeader>
             <th style="min-width:300px">Тип оборудования</th>
             <th style="min-width:300px">Позиция по прокту</th>
@@ -54,8 +57,8 @@ else
             <td>@context.Position</td>
             <td>@context.SerialNumber</td>
             <td>
-                <button class="btn btn-secondary" @onclick="@(async ()=> await EditHardware(context.Id))"><span class="oi oi-pencil"></span></button>
-                <button class="btn btn-danger" @onclick="@(async ()=> await DeleteHardware(context.Id))"><span class="oi oi-trash"></span></button>
+                <button class="btn btn-secondary" @onclick="@(async ()=> await EditHardware(context.Id))"><span class="oi oi-pencil"></span> Редактировать</button>
+                <button class="btn btn-danger" @onclick="@(async ()=> await DeleteHardware(context.Id))"><span class="oi oi-trash"></span> Удалить</button>
             </td>
         </MatTableRow>
     </MatTable>
@@ -99,7 +102,6 @@ else
 
     private void DownloadFile()
     {
-        //var result = HttpClient.GetAsync("api/check/download/1");
         NavigationManager.NavigateTo($"/api/check/download/{Id}", true);
     }
 
@@ -110,12 +112,15 @@ else
 
     private Task EditHardware(int hardwareId)
     {
+        //await HttpClient.PutAsJsonAsync("");
         return Task.CompletedTask;
     }
 
-    private Task DeleteHardware(int hardwareId)
+    private async Task DeleteHardware(int id)
     {
-        return Task.CompletedTask;
+        await HttpClient.DeleteAsync($"api/hardware/{id}");
+
+        Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
     }
 
 }

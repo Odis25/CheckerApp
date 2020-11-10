@@ -1,0 +1,53 @@
+﻿@using CheckerApp.Shared.Models.Commands
+
+<div class="row mb-2">
+    <div class="col">
+        <MatTextField Label="Позиция по проекту" @bind-Value="Value.Position" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.Position"></ValidationMessage>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col">
+        <MatTextField Label="Серийный номер" @bind-Value="Value.SerialNumber" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.SerialNumber"></ValidationMessage>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col">
+        <MatTextField Label="Модель контроллера" @bind-Value="Value.DeviceModel" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.DeviceModel"></ValidationMessage>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col">
+        <MatTextField Label="IP адрес" @bind-Value="Value.IPAddress" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.IPAddress"></ValidationMessage>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col">
+        <MatTextField Label="Версия сборки" @bind-Value="Value.AssemblyVersion" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.AssemblyVersion"></ValidationMessage>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col">
+        <MatTextField Label="Контрольная сумма" @bind-Value="Value.CRC32" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.CRC32"></ValidationMessage>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <MatNumericUpDownField Label="Дата последней конфигурации" @bind-Value="Value.LastConfigDate"
+                               DecimalPlaces="0" Outlined="true" Style="width: 100%;"></MatNumericUpDownField>
+        <ValidationMessage For="()=> Value.LastConfigDate"></ValidationMessage>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public CreateHardwareCommandVm Value { get; set; }
+
+    [Parameter]
+    public EventCallback<CreateHardwareCommandVm> ValueChanged { get; set; }
+}

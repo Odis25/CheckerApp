@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CheckerApp.Shared.Enums;
 
 namespace CheckerApp.Shared.Models.Hardware
 {
@@ -7,6 +8,7 @@ namespace CheckerApp.Shared.Models.Hardware
         public NetworkHardwareVm()
         {
             NetworkDevices = new HashSet<NetworkDeviceDto>();
+            HardwareType = HardwareType.Network;
         }
         public string DeviceType { get; set; }
         public string DeviceModel { get; set; }

@@ -1,10 +1,11 @@
 ﻿@page "/contract/{id}/check"
 
-@inject HttpClient HttpClient
-@inject NavigationManager Navigation
 @using System.Text.Json
 @using CheckerApp.Shared.Common.JsonConverters
 @using CheckerApp.Shared.Models.Commands
+
+@inject HttpClient HttpClient
+@inject NavigationManager Navigation
 
 <div class="alert alert-secondary">
     <h2>Протокол испытаний оборудования СОИ</h2>
@@ -32,8 +33,6 @@
     CheckResultVm CheckResult { get; set; } = new CheckResultVm();
 
     JsonSerializerOptions JsonOptions { get; set; }
-
-    string json;
 
     protected async override Task OnInitializedAsync()
     {
