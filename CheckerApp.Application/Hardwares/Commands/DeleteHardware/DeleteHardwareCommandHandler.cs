@@ -19,15 +19,26 @@ namespace CheckerApp.Application.Hardwares.Commands.DeleteHardware
         public async Task<Unit> Handle(DeleteHardwareCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.Hardwares.FindAsync(request.Id);
-            
+
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Hardware), request.Id);
             }
 
+            var parameters = entity.CheckResult?.CheckParameters;
+
+            _context.CheckParameters.RemoveRange(parameters);
+
             _context.Hardwares.Remove(entity);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
 
             return Unit.Value;
         }

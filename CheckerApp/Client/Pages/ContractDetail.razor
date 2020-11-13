@@ -39,30 +39,53 @@ else
     <hr />
     <div>
         <button class="btn btn-primary" @onclick="AddHardware"><span class="oi oi-plus" aria-hidden="true"></span> Добавить оборудование</button>
+        <button class="btn btn-primary" @onclick="AddSoftware"><span class="oi oi-plus" aria-hidden="true"></span> Добавить ПО</button>
         <button class="btn btn-secondary" @onclick="AddDocument"><span class="oi oi-document" aria-hidden="true"></span> Создать протокол проверки</button>
         <button class="btn btn-success" @onclick="DownloadFile" disabled="@(Contract.HasProtocol == false)"><span class="oi oi-cloud-download" aria-hidden="true"></span> Скачать протокол проверки</button>
     </div>
     <hr />
-
-    <MatTable Items="@Contract.HardwareList" Class="mat-elevation-z5" Striped="true" AllowSelection="true"
-              ShowPaging="false" ShowFooter="false" PageSize="10"  OnRowDbClick="(item)=> NavigateTo(((HardwareVm)item).Id)">
-        <MatTableHeader>
-            <th style="min-width:300px">Тип оборудования</th>
-            <th style="min-width:300px">Позиция по прокту</th>
-            <th style="min-width:300px">Серийный номер</th>
-            <th></th>
-        </MatTableHeader>
-        <MatTableRow>
-            <td>@context.HardwareType.GetDisplayName()</td>
-            <td>@context.Position</td>
-            <td>@context.SerialNumber</td>
-            <td>
-                <button class="btn btn-secondary" @onclick="@(async ()=> await EditHardware(context.Id))"><span class="oi oi-pencil"></span> Редактировать</button>
-                <button class="btn btn-danger" @onclick="@(async ()=> await DeleteHardware(context.Id))"><span class="oi oi-trash"></span> Удалить</button>
-            </td>
-        </MatTableRow>
-    </MatTable>
-
+    <div class="row">
+        <div class="col-sm">
+            <MatTable Items="@Contract.HardwareList" Class="mat-elevation-z5" Striped="true" AllowSelection="true"
+                      ShowPaging="false" ShowFooter="false" PageSize="10" OnRowDbClick="(item)=> NavigateTo(((HardwareVm)item).Id)">
+                <MatTableHeader>
+                    <th style="min-width:300px">Тип оборудования</th>
+                    <th style="min-width:300px">Позиция по прокту</th>
+                    <th style="min-width:300px">Серийный номер</th>
+                    <th></th>
+                </MatTableHeader>
+                <MatTableRow>
+                    <td>@context.HardwareType.GetDisplayName()</td>
+                    <td>@context.Position</td>
+                    <td>@context.SerialNumber</td>
+                    <td>
+                        <button class="btn btn-secondary" @onclick="@(async ()=> await EditHardware(context.Id))"><span class="oi oi-pencil"></span> </button>
+                        <button class="btn btn-danger" @onclick="@(async ()=> await DeleteHardware(context.Id))"><span class="oi oi-trash"></span> Удалить</button>
+                    </td>
+                </MatTableRow>
+            </MatTable>
+        </div>
+        <div class="col-sm">
+            <MatTable Items="@Contract.SoftwareList" Class="mat-elevation-z5" Striped="true" AllowSelection="true"
+                      ShowPaging="false" ShowFooter="false" PageSize="10" OnRowDbClick="(item)=> NavigateTo(((HardwareVm)item).Id)">
+                <MatTableHeader>
+                    <th style="min-width:300px">Тип ПО</th>
+                    <th style="min-width:300px">Название ПО</th>
+                    <th style="min-width:300px">Версия ПО</th>
+                    <th></th>
+                </MatTableHeader>
+                <MatTableRow>
+                    <td>@context.SoftwareType.GetDisplayName()</td>
+                    <td>@context.Name</td>
+                    <td>@context.Version</td>
+                    <td>
+                        <button class="btn btn-secondary" @onclick="@(async ()=> await EditHardware(context.Id))"><span class="oi oi-pencil"></span> </button>
+                        <button class="btn btn-danger" @onclick="@(async ()=> await DeleteSoftware(context.Id))"><span class="oi oi-trash"></span> Удалить</button>
+                    </td>
+                </MatTableRow>
+            </MatTable>
+        </div>
+    </div>   
 }
 
 
@@ -100,6 +123,21 @@ else
         }
     }
 
+    private async Task AddSoftware()
+    {
+        var parameters = new ModalParameters();
+
+        parameters.Add("ContractId", Id);
+
+        var modalForm = Modal.Show<AddSoftwareModal>("Новое ПО", parameters);
+        var result = await modalForm.Result;
+
+        if (!result.Cancelled)
+        {
+            Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
+        }
+    }
+
     private void DownloadFile()
     {
         NavigationManager.NavigateTo($"/api/check/download/{Id}", true);
@@ -119,6 +157,13 @@ else
     private async Task DeleteHardware(int id)
     {
         await HttpClient.DeleteAsync($"api/hardware/{id}");
+
+        Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
+    }
+
+    private async Task DeleteSoftware(int id)
+    {
+        await HttpClient.DeleteAsync($"api/software/{id}");
 
         Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
     }

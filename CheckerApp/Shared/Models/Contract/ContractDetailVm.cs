@@ -13,6 +13,6 @@ namespace CheckerApp.Shared.Models.Contract
         public bool HasProtocol { get; set; }
 
         public IEnumerable<HardwareVm> HardwareList { get; set; }
-        public IEnumerable<SoftwareVm> SoftwareList { get; set; }
+        public IEnumerable<SoftwareDto> SoftwareList { get; set; }
     }
 }

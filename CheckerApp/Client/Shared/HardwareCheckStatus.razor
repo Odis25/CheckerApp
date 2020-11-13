@@ -20,13 +20,13 @@
                 </InputSelect>
             </div>
             <div class="col-1">
-                <InputCheckbox class="form-control" @bind-Value="Value.CheckParameters[index].Result" @onchange="ChangeModel"></InputCheckbox>
+                <InputCheckbox class="form-control" @bind-Value="Value.CheckParameters[index].Result"></InputCheckbox>
             </div>
             <div class="col-2">
-                <InputDate class="form-control" @bind-Value="Value.CheckParameters[index].Date" @onchange="ChangeModel"></InputDate>
+                <InputDate class="form-control" @bind-Value="Value.CheckParameters[index].Date"></InputDate>
             </div>
             <div class="col">
-                <InputTextArea class="form-control" @bind-Value="Value.CheckParameters[index].Comment" @onchange="ChangeModel"></InputTextArea>
+                <InputTextArea class="form-control" @bind-Value="Value.CheckParameters[index].Comment"></InputTextArea>
             </div>
         </div>
     }
@@ -126,6 +126,19 @@
                     $"{valve.SignalType.GetDisplayName()} " +
                     $"{mbSettings}):";
                 break;
+            case HardwareType.ARM:
+                var arm = (ArmVm)Value.Hardware;
+                var raid = arm.HasRAID ? "есть" : "отсутствует";
+                var net = arm.NetworkAdapters.Select(na => $"{na.IP} - MAC-адрес {na.MacAddress};");
+
+                Title = $"{arm.HardwareType.GetDisplayName()}: " +
+                    $"{arm.Name} зав.№{arm.SerialNumber}, " +
+                    $"монитор {arm.Monitor} зав.№{arm.MonitorSN}, " +
+                    $"клавиатура {arm.Keyboard} зав.№{arm.KeyboardSN}, " +
+                    $"мышь {arm.Mouse} зав.№{arm.MouseSN}; " +
+                    $"RAID-массив {raid}; " +
+                    $"{arm.OS}({arm.ProductKeyOS}); " + string.Join("",net);
+                break;
         };
     }
 
@@ -133,5 +146,4 @@
     {
         return ValueChanged.InvokeAsync(Value);
     }
-
 }

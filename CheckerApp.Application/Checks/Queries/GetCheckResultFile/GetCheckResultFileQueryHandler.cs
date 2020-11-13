@@ -2,6 +2,7 @@
 using CheckerApp.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,17 +22,24 @@ namespace CheckerApp.Application.Checks.Queries.GetCheckResultFile
         }
         public async Task<CheckResultFileDto> Handle(GetCheckResultFileQuery request, CancellationToken cancellationToken)
         {
-            var checkResult = await _context.CheckResults.FirstOrDefaultAsync(cr => cr.ContractId == request.ContractId);
-            
-            var contractCheckDto = _mapper.Map<CheckResultDto>(checkResult);
+            var contract = await _context.Contracts.FirstOrDefaultAsync(c => c.Id == request.ContractId);
+            var hardwarechecks = contract.HardwareList.Select(e => _mapper.Map<HardwareCheckDto>(e.CheckResult));
+            var softwarechecks = contract.SoftwareList.Select(e => _mapper.Map<SoftwareCheckDto>(e.CheckResult));
 
-            var content = await _fileService.BuildExcelFileAsync(contractCheckDto);
+            var vm = new CheckResultDto
+            {
+                Contract = _mapper.Map<ContractDto>(contract),
+                HardwareChecks = hardwarechecks,
+                SoftwareChecks = softwarechecks
+            };
+
+            var content = await _fileService.BuildExcelFileAsync(vm);
 
             return new CheckResultFileDto
             {
                 Content = content,
                 ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                FileName = $"Протокол проверки оборудования по договору {contractCheckDto.Contract.DomesticNumber}.xlsx"
+                FileName = $"Протокол проверки оборудования по договору {contract.DomesticNumber}.xlsx"
             };
         }
     }

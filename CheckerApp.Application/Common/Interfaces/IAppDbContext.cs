@@ -24,8 +24,10 @@ namespace CheckerApp.Application.Common.Interfaces
         DbSet<Valve> Valves { get; set; }
         DbSet<ARM> ARMs { get; set; }
         DbSet<NetworkHardware> NetworkHardwares { get; set; }
-        DbSet<CheckResult> CheckResults { get; set; }
+        DbSet<CheckList> CheckLists { get; set; }
         DbSet<HardwareCheck> HardwareChecks { get; set; }
+        DbSet<SoftwareCheck> SoftwareChecks { get; set; }
+        DbSet<CheckParameter> CheckParameters { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

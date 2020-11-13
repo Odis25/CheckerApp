@@ -1,5 +1,64 @@
-﻿<h3>AddSoftwareModal</h3>
+﻿@inject HttpClient HttpClient
+
+@using CheckerApp.Shared.Models.Commands
+
+<EditForm Model="Command" style="min-width:500px;" OnValidSubmit="Submit">
+    <FluentValidationValidator />
+
+    <h5>Шаг 1. Выберите тип ПО:</h5>
+
+    <MatSelectItem @bind-Value="Command.SoftwareType" Items="softwareTypes" Outlined="true" FullWidth="true">
+        <ItemTemplate Context="type">@type.GetDisplayName()</ItemTemplate>
+    </MatSelectItem>
+
+    <hr />
+
+    <div class="mb-2 row">
+        <div class="col">
+            <MatTextField Label="Название" @bind-Value="Command.Name" Outlined="true" Style="width: 100%;"></MatTextField>
+            <ValidationMessage For="()=> Command.Name"></ValidationMessage>
+        </div>
+    </div>
+    <div class="mb-2 row">
+        <div class="col">
+            <MatTextField Label="Версия" @bind-Value="Command.Version" Outlined="true" Style="width: 100%;"></MatTextField>
+            <ValidationMessage For="()=> Command.Version"></ValidationMessage>
+        </div>
+    </div>
+
+    <hr />
+
+    <MatButton type="submit" Raised="true" Style="width: 100%;" Icon="add"> Добавить</MatButton>
+
+</EditForm>
 
 @code {
 
+    [CascadingParameter]
+    protected BlazoredModalInstance BlazoredModal { get; set; }
+
+    [CascadingParameter]
+    protected IModalService Modal { get; set; }
+
+    [Parameter]
+    public string ContractId { get; set; }
+
+    private SoftwareType[] softwareTypes = Enum.GetValues(typeof(SoftwareType)).Cast<SoftwareType>().ToArray();
+
+    protected CreateSoftwareCommandVm Command { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Command = new CreateSoftwareCommandVm
+        {
+            ContractId = int.Parse(ContractId)
+        };
+    }
+
+    private async Task Submit()
+    {
+        var softwareId = await HttpClient.PostJsonAsync<int>("api/software", Command);
+
+        await BlazoredModal.Close(ModalResult.Ok(softwareId));
+    }
 }

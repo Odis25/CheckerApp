@@ -1,4 +1,5 @@
-﻿using CheckerApp.Domain.Enums;
+﻿using CheckerApp.Domain.Entities.CheckEntities;
+using CheckerApp.Domain.Enums;
 
 namespace CheckerApp.Domain.Entities.SoftwareEntities
 {
@@ -8,5 +9,7 @@ namespace CheckerApp.Domain.Entities.SoftwareEntities
         public string Name { get; set; }
         public string Version { get; set; }
         public SoftwareType SoftwareType { get; set; }
+
+        public virtual SoftwareCheck CheckResult { get; set; }
     }
 }

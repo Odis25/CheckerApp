@@ -177,6 +177,8 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                     break;
             }
 
+            entity.HardwareType = request.HardwareType;
+
             contract.HardwareList.Add(entity);
 
             await _context.SaveChangesAsync(cancellationToken);

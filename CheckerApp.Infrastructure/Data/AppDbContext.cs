@@ -38,19 +38,31 @@ namespace CheckerApp.Infrastructure.Data
             builder.Entity<Valve>().OwnsOne(e => e.Settings, ms => ms.ToTable("ValveSettings"));
             builder.Entity<NetworkHardware>().OwnsMany(e => e.NetworkDevices, nd => nd.ToTable("NetworkDevices"));
             builder.Entity<ARM>().OwnsMany(e => e.NetworkAdapters, na => na.ToTable("NetworkAdapters"));
-            builder.Entity<HardwareCheck>().OwnsMany(e => e.CheckParameters, cp => cp.ToTable("CheckParameters"));
 
-            builder.Entity<Hardware>()
-                .HasDiscriminator(e => e.HardwareType)
-                .HasValue<Cabinet>(HardwareType.Cabinet)
-                .HasValue<FlowComputer>(HardwareType.FlowComputer)
-                .HasValue<PLC>(HardwareType.PLC)
-                .HasValue<Pressure>(HardwareType.Pressure)
-                .HasValue<Temperature>(HardwareType.Temperature)
-                .HasValue<Flowmeter>(HardwareType.Flowmeter)
-                .HasValue<NetworkHardware>(HardwareType.Network)
-                .HasValue<Valve>(HardwareType.Valve)
-                .HasValue<ARM>(HardwareType.ARM);
+            // Table-Per-Type
+            builder.Entity<Hardware>().ToTable("Hardwares");
+            builder.Entity<Cabinet>().ToTable("Cabinets");
+            builder.Entity<FlowComputer>().ToTable("FlowComputers");
+            builder.Entity<PLC>().ToTable("PLCs");
+            builder.Entity<Pressure>().ToTable("Pressures");
+            builder.Entity<Temperature>().ToTable("Temperatures");
+            builder.Entity<Flowmeter>().ToTable("Flowmeters");
+            builder.Entity<NetworkHardware>().ToTable("NetworkHardwares");
+            builder.Entity<Valve>().ToTable("Valves");
+            builder.Entity<ARM>().ToTable("ARMs");
+
+
+            //builder.Entity<Hardware>()
+            //    .HasDiscriminator(e => e.HardwareType)
+            //    .HasValue<Cabinet>(HardwareType.Cabinet)
+            //    .HasValue<FlowComputer>(HardwareType.FlowComputer)
+            //    .HasValue<PLC>(HardwareType.PLC)
+            //    .HasValue<Pressure>(HardwareType.Pressure)
+            //    .HasValue<Temperature>(HardwareType.Temperature)
+            //    .HasValue<Flowmeter>(HardwareType.Flowmeter)
+            //    .HasValue<NetworkHardware>(HardwareType.Network)
+            //    .HasValue<Valve>(HardwareType.Valve)
+            //    .HasValue<ARM>(HardwareType.ARM);
 
             builder.Entity<Software>()
                 .HasDiscriminator(e => e.SoftwareType)
@@ -72,8 +84,10 @@ namespace CheckerApp.Infrastructure.Data
         public DbSet<Valve> Valves { get; set; }
         public DbSet<ARM> ARMs { get; set; }
         public DbSet<NetworkHardware> NetworkHardwares { get; set; }
-        public DbSet<CheckResult> CheckResults { get; set; }
+        public DbSet<CheckList> CheckLists { get; set; }
+        public DbSet<CheckParameter> CheckParameters { get; set; }
         public DbSet<HardwareCheck> HardwareChecks { get; set; }
+        public DbSet<SoftwareCheck> SoftwareChecks { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

@@ -10,5 +10,9 @@ namespace CheckerApp.Domain.Entities.CheckEntities
         public bool Result { get; set; }
         public DateTime Date { get; set; }
         public string Comment { get; set; }
+
+        //public int HardwareCheckId { get; set; }
+        //public virtual HardwareCheck HardwareCheck { get; set; }
+        //public virtual SoftwareCheck SoftwareCheck { get; set; }
     }
 }

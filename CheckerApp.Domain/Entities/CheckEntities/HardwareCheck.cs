@@ -11,7 +11,6 @@ namespace CheckerApp.Domain.Entities.CheckEntities
         }
 
         public int Id { get; set; }
-        public int CheckResultId { get; set; }
         public int HardwareId { get; set; }
         public virtual Hardware Hardware { get; set; }
 

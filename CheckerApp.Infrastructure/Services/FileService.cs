@@ -1,11 +1,11 @@
 ﻿using CheckerApp.Application.Checks.Queries.GetCheckResultFile;
 using CheckerApp.Application.Common.Interfaces;
 using CheckerApp.Application.Hardwares.Queries;
+using CheckerApp.Application.Softwares.Queries.GetSoftwaresList;
 using CheckerApp.Domain.Enums;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,117 +15,141 @@ namespace CheckerApp.Infrastructure.Services
     {
         public async Task<byte[]> BuildExcelFileAsync(CheckResultDto checkResult)
         {
-            try
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using (ExcelPackage excelPackage = new ExcelPackage())
             {
-                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-                using (ExcelPackage excelPackage = new ExcelPackage())
+                //Общие настройки книги
+                excelPackage.Workbook.Properties.Author = "Incomsystem";
+                excelPackage.Workbook.Properties.Title = "Акт заводских испытаний";
+                excelPackage.Workbook.Properties.Subject = "Какая-то тема";
+                excelPackage.Workbook.Properties.Created = DateTime.Now;
+
+                // Создаем лист документа
+                ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Акт");
+
+                worksheet.Cells.Style.Font.Size = 14;
+                worksheet.Cells.Style.Font.Name = "Times New Roman";
+
+                // Заголовок документа
+                var contract = checkResult.Contract;
+
+                worksheet.Cells["A1:F4"].Merge = true;
+                worksheet.Cells["A1"].Value = $"Протокол \r\n испытаний оборудования СОИ \"{contract.Name}\",  дог.{contract.ContractNumber}, вн.проект {contract.DomesticNumber}";
+                worksheet.Cells["A1"].Style.Font.Bold = true;
+                worksheet.Cells["A1"].Style.Font.Size = 16;
+                worksheet.Cells["A1"].Style.Font.Name = "Times New Roman";
+                worksheet.Cells["A1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+                // Дата и место
+                worksheet.Cells["A6:B6"].Merge = true;
+                worksheet.Cells["A6:F6"].Style.Font.UnderLine = true;
+                worksheet.Cells["A6:F6"].Style.Font.Bold = true;
+                worksheet.Cells["A6"].Value = "г.Казань, ЗАО НИЦ \"ИНКОМСИСТЕМ\"";
+                worksheet.Cells["F6"].Value = $"Дата: {DateTime.Now.ToShortDateString()}";
+
+                // Заголовок таблицы. 1 строка
+                worksheet.Cells["A8"].Value = "п/п";
+                worksheet.Cells["B8"].Value = "Вид контроля (испытаний)";
+                worksheet.Cells["C8"].Value = "Метод проверки";
+                worksheet.Cells["D8"].Value = "Результат проверки";
+                worksheet.Cells["E8"].Value = "Дата проведения";
+                worksheet.Cells["F8"].Value = "Примечание";
+
+                // Заголовок таблицы. 2 строка
+                worksheet.Cells["A9"].Value = "1";
+                worksheet.Cells["B9"].Value = "2";
+                worksheet.Cells["C9"].Value = "3";
+                worksheet.Cells["D9"].Value = "4";
+                worksheet.Cells["E9"].Value = "5";
+                worksheet.Cells["F9"].Value = "6";
+
+                worksheet.Cells["A8:F9"].Style.Font.Bold = true;
+                worksheet.Cells["A8:F9"].Style.Font.Name = "Times New Roman";
+                worksheet.Cells["A8:F9"].Style.Font.Size = 14;
+                worksheet.Cells["A8:F9"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells["A8:F9"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                var hardwares = checkResult.HardwareChecks.ToArray();
+                var row = 10;
+
+                for (int i = 0; i < hardwares.Length; i++)
                 {
-                    //Общие настройки книги
-                    excelPackage.Workbook.Properties.Author = "Incomsystem";
-                    excelPackage.Workbook.Properties.Title = "Акт заводских испытаний";
-                    excelPackage.Workbook.Properties.Subject = "Какая-то тема";
-                    excelPackage.Workbook.Properties.Created = DateTime.Now;
+                    var parameters = hardwares[i].CheckParameters.ToArray();
 
-                    // Создаем лист документа
-                    ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Акт");
+                    worksheet.Cells[$"A{row}"].Value = $"{i + 1}";
+                    worksheet.Cells[$"B{row}:F{row}"].Merge = true;
+                    worksheet.Cells[$"A{row}:B{row}"].Style.Font.Bold = true;
+                    worksheet.Cells[$"B{row}"].Value = GetHardwareHeader(hardwares[i]);
 
-                    worksheet.Cells.Style.Font.Size = 14;
-                    worksheet.Cells.Style.Font.Name = "Times New Roman";
-                    
-                    // Заголовок документа
-                    var contract = checkResult.Contract;
-
-                    worksheet.Cells["A1:F4"].Merge = true;
-                    worksheet.Cells["A1"].Value = $"Протокол \r\n испытаний оборудования СОИ \"{contract.Name}\",  дог.{contract.ContractNumber}, вн.проект {contract.DomesticNumber}";
-                    worksheet.Cells["A1"].Style.Font.Bold = true;
-                    worksheet.Cells["A1"].Style.Font.Size = 16;
-                    worksheet.Cells["A1"].Style.Font.Name = "Times New Roman";
-                    worksheet.Cells["A1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
-                    // Дата и место
-                    worksheet.Cells["A6:B6"].Merge = true;
-                    worksheet.Cells["A6:F6"].Style.Font.UnderLine = true;
-                    worksheet.Cells["A6:F6"].Style.Font.Bold = true;
-                    worksheet.Cells["A6"].Value = "г.Казань, ЗАО НИЦ \"ИНКОМСИСТЕМ\"";
-                    worksheet.Cells["F6"].Value = $"Дата: {DateTime.Now.ToShortDateString()}";
-
-                    // Заголовок таблицы. 1 строка
-                    worksheet.Cells["A8"].Value = "п/п";
-                    worksheet.Cells["B8"].Value = "Вид контроля (испытаний)";
-                    worksheet.Cells["C8"].Value = "Метод проверки";
-                    worksheet.Cells["D8"].Value = "Результат проверки";
-                    worksheet.Cells["E8"].Value = "Дата проведения";
-                    worksheet.Cells["F8"].Value = "Примечание";
-
-                    // Заголовок таблицы. 2 строка
-                    worksheet.Cells["A9"].Value = "1";
-                    worksheet.Cells["B9"].Value = "2";
-                    worksheet.Cells["C9"].Value = "3";
-                    worksheet.Cells["D9"].Value = "4";
-                    worksheet.Cells["E9"].Value = "5";
-                    worksheet.Cells["F9"].Value = "6";
-
-                    worksheet.Cells["A8:F9"].Style.Font.Bold = true;
-                    worksheet.Cells["A8:F9"].Style.Font.Name = "Times New Roman";
-                    worksheet.Cells["A8:F9"].Style.Font.Size = 14;
-                    worksheet.Cells["A8:F9"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    worksheet.Cells["A8:F9"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    
-                    var hardwares = checkResult.HardwareChecks.ToArray();
-                    var row = 10;
-
-                    for (int i = 0; i < hardwares.Length; i++)
+                    for (int j = 0; j < parameters.Length; j++)
                     {
-                        var parameters = hardwares[i].CheckParameters.ToArray();
-                        
-                        worksheet.Cells[$"A{row}"].Value = $"{i+1}";
-                        worksheet.Cells[$"B{row}:F{row}"].Merge = true;
-                        worksheet.Cells[$"A{row}:B{row}"].Style.Font.Bold = true;
-                        worksheet.Cells[$"B{row}"].Value = GetHardwareHeader(hardwares[i]);
-
-                        for (int j = 0; j < parameters.Length; j++)
-                        {
-                            var subRow = row + 1 + j;
-                            worksheet.Cells[$"A{subRow}"].Value = $"{i+1}.{j+1}";
-                            worksheet.Cells[$"B{subRow}"].Value = parameters[j].Description;
-                            worksheet.Cells[$"C{subRow}"].Value = parameters[j].Method;
-                            worksheet.Cells[$"D{subRow}"].Value = parameters[j].Result ? "Соответствует" : "Не соответствует";
-                            worksheet.Cells[$"E{subRow}"].Value = parameters[j].Date.ToShortDateString();
-                            worksheet.Cells[$"F{subRow}"].Value = parameters[j].Comment;
-                        }
-                        row += parameters.Length + 1;
+                        var subRow = row + 1 + j;
+                        worksheet.Cells[$"A{subRow}"].Value = $"{i + 1}.{j + 1}";
+                        worksheet.Cells[$"B{subRow}"].Value = parameters[j].Description;
+                        worksheet.Cells[$"C{subRow}"].Value = parameters[j].Method;
+                        worksheet.Cells[$"D{subRow}"].Value = parameters[j].Result ? "Соответствует" : "Не соответствует";
+                        worksheet.Cells[$"E{subRow}"].Value = parameters[j].Date.ToShortDateString();
+                        worksheet.Cells[$"F{subRow}"].Value = parameters[j].Comment;
                     }
-
-                    worksheet.Cells[$"A8:F{row}"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                    worksheet.Cells[$"A8:F{row}"].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                    worksheet.Cells[$"A8:F{row}"].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                    worksheet.Cells[$"A8:F{row}"].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-
-                    worksheet.Cells[$"A8:A{row}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    worksheet.Cells[$"A8:A{row}"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    worksheet.Cells[$"C8:F{row}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    worksheet.Cells[$"C8:F{row}"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-
-                    worksheet.Cells[$"F10:F{row}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-
-                    worksheet.Cells[$"A6:F{row}"].Style.Font.Name = "Times New Roman";                    
-                    worksheet.Cells[$"A6:F{row}"].Style.Font.Size = 14;                    
-
-                    worksheet.Cells.AutoFitColumns();
-
-                    worksheet.PrinterSettings.PaperSize = ePaperSize.A4;
-                    worksheet.PrinterSettings.Orientation = eOrientation.Portrait;
-                    worksheet.PrinterSettings.FitToPage = true;
-
-                    var bytes = await excelPackage.GetAsByteArrayAsync();
-                    return bytes;
+                    row += parameters.Length + 1;
                 }
+
+                //var softwares = checkResult.SoftwareChecks.Where(e=> e.Software is ScadaDto).ToArray();
+                var scadaList = checkResult.SoftwareChecks.Where(e => e.Software is ScadaDto).ToArray();
+
+                for (int i = 0; i < scadaList.Length; i++)
+                {
+                    var parameters = scadaList[i].CheckParameters.ToArray();
+
+                    worksheet.Cells[$"A{row}"].Value = $"{i + 1}";
+                    worksheet.Cells[$"B{row}:F{row}"].Merge = true;
+                    worksheet.Cells[$"A{row}:B{row}"].Style.Font.Bold = true;
+                    worksheet.Cells[$"B{row}"].Value = GetSoftwareHeader(scadaList[i]);
+
+                    for (int j = 0; j < parameters.Length; j++)
+                    {
+                        var subRow = row + 1 + j;
+                        worksheet.Cells[$"A{subRow}"].Value = $"{i + 1}.{j + 1}";
+                        worksheet.Cells[$"B{subRow}"].Value = parameters[j].Description;
+                        worksheet.Cells[$"C{subRow}"].Value = parameters[j].Method;
+                        worksheet.Cells[$"D{subRow}"].Value = parameters[j].Result ? "Соответствует" : "Не соответствует";
+                        worksheet.Cells[$"E{subRow}"].Value = parameters[j].Date.ToShortDateString();
+                        worksheet.Cells[$"F{subRow}"].Value = parameters[j].Comment;
+                    }
+                    row += parameters.Length + 1;
+                }
+
+                worksheet.Cells[$"A8:F{row}"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells[$"A8:F{row}"].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells[$"A8:F{row}"].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells[$"A8:F{row}"].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                worksheet.Cells[$"A8:A{row}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[$"A8:A{row}"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                worksheet.Cells[$"C8:F{row}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[$"C8:F{row}"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                worksheet.Cells[$"F10:F{row}"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+
+                worksheet.Cells[$"A6:F{row}"].Style.Font.Name = "Times New Roman";
+                worksheet.Cells[$"A6:F{row}"].Style.Font.Size = 14;
+
+                worksheet.Cells.AutoFitColumns();
+
+                worksheet.PrinterSettings.PaperSize = ePaperSize.A4;
+                worksheet.PrinterSettings.Orientation = eOrientation.Portrait;
+                worksheet.PrinterSettings.FitToPage = true;
+
+                var bytes = await excelPackage.GetAsByteArrayAsync();
+                return bytes;
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            
+
+
+        }
+
+        private string GetSoftwareHeader(SoftwareCheckDto check)
+        {
+            return $"SCADA-система: {check.Software.Name} ver.{check.Software.Version}";
         }
 
         private string GetHardwareHeader(HardwareCheckDto check)
@@ -133,6 +157,7 @@ namespace CheckerApp.Infrastructure.Services
             var device = check.Hardware;
             string header = "";
             string mbSettings = "";
+
             switch (device.HardwareType)
             {
                 case HardwareType.Cabinet:

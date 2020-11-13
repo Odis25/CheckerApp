@@ -25,9 +25,22 @@ namespace CheckerApp.Application.Contracts.Commands.DeleteContract
                 throw new NotFoundException(nameof(Contract), entity);
             }
 
+            // Удаляем оборудование
             foreach (var hardware in entity.HardwareList)
             {
+                var parameters = hardware.CheckResult?.CheckParameters;
+
+                _context.CheckParameters.RemoveRange(parameters);
                 _context.Hardwares.Remove(hardware);
+            }
+
+            // Удаляем ПО
+            foreach (var software in entity.SoftwareList)
+            {
+                var parameters = software.CheckResult?.CheckParameters;
+
+                _context.CheckParameters.RemoveRange(parameters);
+                _context.Softwares.Remove(software);
             }
 
             _context.Contracts.Remove(entity);
@@ -38,7 +51,6 @@ namespace CheckerApp.Application.Contracts.Commands.DeleteContract
             }
             catch (System.Exception ex)
             {
-
                 throw ex;
             }
 

@@ -30,13 +30,15 @@ namespace CheckerApp.Server
 
             services.AddApplication();
 
+            services.AddDatabaseDeveloperPageExceptionFilter();
+
             services.AddControllers().AddJsonOptions(options=> 
             {
                 options.JsonSerializerOptions.WriteIndented = true;
                 options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                 options.JsonSerializerOptions.Converters.Add(new HardwareConverter());
+                options.JsonSerializerOptions.Converters.Add(new SoftwareConverter());
             });
-
             services.AddRazorPages();
 
             services.AddScoped<ICurrentUserService, CurrentUserService>();
@@ -52,7 +54,7 @@ namespace CheckerApp.Server
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseMigrationsEndPoint();
                 app.UseWebAssemblyDebugging();
             }
             else
@@ -64,9 +66,7 @@ namespace CheckerApp.Server
             app.UseCustomExceptionHandler();
 
             app.UseHttpsRedirection();
-
             app.UseBlazorFrameworkFiles();
-
             app.UseStaticFiles();
 
             app.UseRouting();

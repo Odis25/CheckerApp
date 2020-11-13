@@ -10,7 +10,8 @@ namespace CheckerApp.Application.Hardwares.Queries
 
         public new void Mapping(Profile profile)
         {
-            profile.CreateMap<Flowmeter, FlowmeterDto>();
+            profile.CreateMap<Flowmeter, FlowmeterDto>()
+                .ForMember(dest => dest.ModbusSettings, opt => opt.MapFrom(src => src.Settings)); ;
         }
     }
 }

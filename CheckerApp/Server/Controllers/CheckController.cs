@@ -1,22 +1,22 @@
 ﻿using CheckerApp.Application.Checks.Queries.GetCheckResultFile;
-using CheckerApp.Application.Checks.Queries.GetCheckResult;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using CheckerApp.Application.Checks.Commands.UpsertCheckResult;
+using CheckerApp.Application.Checks.Queries.GetCheckList;
+using CheckerApp.Application.Checks.Commands.SaveCheckResult;
 
 namespace CheckerApp.Server.Controllers
 {
     public class CheckController: ApiController
     {
         [HttpGet("{contractId:int}")]
-        public async Task<IActionResult> GetCheckResult(int contractId)
+        public async Task<IActionResult> GetCheckList(int contractId)
         {
-            var result = await Mediator.Send(new GetCheckResultQuery { ContractId = contractId });
+            var result = await Mediator.Send(new GetCheckListQuery { ContractId = contractId });
             return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> CreateCheckResult([FromBody] UpsertCheckResultCommand command)
+        public async Task<ActionResult<int>> SaveCheckResult([FromBody] SaveCheckResultCommand command)
         {
             var result = await Mediator.Send(command);
             return Ok(result);

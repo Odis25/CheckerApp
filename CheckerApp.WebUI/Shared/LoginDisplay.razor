@@ -1,9 +1,0 @@
-﻿<AuthorizeView>
-    <Authorized>
-        <a href="Identity/Account/Manage">Пользователь: @context.User.Identity.Name</a>
-        <a href="logoutuser" class="nav-link btn btn-link">Выход</a>
-    </Authorized>
-    <NotAuthorized>
-        <a href="login?returnUrl=/">Вход</a>
-    </NotAuthorized>
-</AuthorizeView>

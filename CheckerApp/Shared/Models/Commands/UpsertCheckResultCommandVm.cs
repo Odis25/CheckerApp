@@ -4,6 +4,6 @@ namespace CheckerApp.Shared.Models.Commands
 {
     public class UpsertCheckResultCommandVm
     {
-        public CheckResultVm CheckResult { get; set; }
+        public CheckListVm CheckResult { get; set; }
     }
 }

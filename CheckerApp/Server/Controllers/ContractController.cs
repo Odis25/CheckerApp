@@ -12,13 +12,13 @@ namespace CheckerApp.Server.Controllers
     public class ContractController : ApiController
     {
         [HttpGet]
-        public async Task<ActionResult> GetAllContracts()
+        public async Task<IActionResult> GetContractsList()
         {
             return Ok(await Mediator.Send(new GetContractsListQuery()));
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult> GetContract(int id)
+        public async Task<IActionResult> GetContract(int id)
         {
             return Ok(await Mediator.Send(new GetContractDetailQuery { Id = id }));
         }

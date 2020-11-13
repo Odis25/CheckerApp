@@ -9,16 +9,29 @@
 
 <div class="alert alert-secondary">
     <h2>Протокол испытаний оборудования СОИ</h2>
-    <p>по договору @CheckResult.Contract?.Name, дог. @CheckResult.Contract?.ContractNumber, вн.проект @CheckResult.Contract?.DomesticNumber</p>
+    <p>по договору @CheckList.Contract?.Name, дог. @CheckList.Contract?.ContractNumber, вн.проект @CheckList.Contract?.DomesticNumber</p>
 </div>
 
-<EditForm Model="CheckResult" OnValidSubmit="Submit">
+<EditForm Model="CheckList" OnValidSubmit="Submit">
 
-    @for (int i = 0; i < CheckResult.HardwareChecks.Count; i++)
+    @for (int i = 0; i < CheckList.HardwareChecks.Count; i++)
     {
         var index = i;
 
-        <HardwareCheckStatus @bind-Value="CheckResult.HardwareChecks[index]" />
+        <HardwareCheckStatus @bind-Value="CheckList.HardwareChecks[index]" />
+    }
+
+    @if (ScadaList == null)
+    {
+        <div class="spinner"></div>
+    }
+    else
+    {
+        @for (int i = 0; i < ScadaList.Length; i++)
+        {
+            var index = i;
+            <SoftwareCheckStatus @bind-Value="ScadaList[index]" />
+        }
     }
 
     <button type="submit" class="btn btn-success"> Отправить</button>
@@ -30,7 +43,9 @@
     [Parameter]
     public string Id { get; set; }
 
-    CheckResultVm CheckResult { get; set; } = new CheckResultVm();
+    CheckListVm CheckList { get; set; } = new CheckListVm();
+
+    SoftwareCheckDto[] ScadaList { get; set; }
 
     JsonSerializerOptions JsonOptions { get; set; }
 
@@ -39,15 +54,16 @@
         JsonOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
-            Converters = { new HardwareConverter() }
+            Converters = { new HardwareConverter(), new SoftwareConverter() }
         };
 
-        CheckResult = await HttpClient.GetFromJsonAsync<CheckResultVm>($"api/check/{int.Parse(Id)}", JsonOptions);
+        CheckList = await HttpClient.GetFromJsonAsync<CheckListVm>($"api/check/{int.Parse(Id)}", JsonOptions);
+        ScadaList = CheckList.SoftwareChecks.Where(e=> e.Software is CheckerApp.Shared.Models.Software.ScadaDto).ToArray();
     }
 
     protected async Task Submit()
     {
-        var command = new UpsertCheckResultCommandVm { CheckResult = CheckResult };
+        var command = new UpsertCheckResultCommandVm { CheckResult = CheckList };
         var result = await HttpClient.PostAsJsonAsync($"api/check", command, JsonOptions);
 
         if (result.IsSuccessStatusCode)

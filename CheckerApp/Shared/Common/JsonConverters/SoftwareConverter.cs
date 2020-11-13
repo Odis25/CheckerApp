@@ -6,12 +6,12 @@ using System.Text.Json.Serialization;
 
 namespace CheckerApp.Shared.Common.JsonConverters
 {
-    public class SoftwareConverter : JsonConverter<SoftwareVm>
+    public class SoftwareConverter : JsonConverter<SoftwareDto>
     {
         public override bool CanConvert(Type typeToConvert) =>
-            typeof(SoftwareVm).IsAssignableFrom(typeToConvert);
+            typeof(SoftwareDto).IsAssignableFrom(typeToConvert);
 
-        public override SoftwareVm Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override SoftwareDto Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             if (reader.TokenType != JsonTokenType.StartObject)
             {
@@ -31,14 +31,14 @@ namespace CheckerApp.Shared.Common.JsonConverters
 
                 return type switch
                 {
-                    SoftwareType.SCADA => JsonSerializer.Deserialize<ScadaVm>(jsonObject),
-                    SoftwareType.Other => JsonSerializer.Deserialize<SoftwareVm>(jsonObject),
+                    SoftwareType.SCADA => JsonSerializer.Deserialize<ScadaDto>(jsonObject),
+                    SoftwareType.Other => JsonSerializer.Deserialize<SoftwareDto>(jsonObject),
                     _ => throw new NotSupportedException()
                 };
             }
         }
 
-        public override void Write(Utf8JsonWriter writer, SoftwareVm value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, SoftwareDto value, JsonSerializerOptions options)
         {
             JsonSerializer.Serialize(writer, (object)value);
         }

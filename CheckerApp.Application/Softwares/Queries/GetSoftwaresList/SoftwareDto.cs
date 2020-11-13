@@ -14,7 +14,7 @@ namespace CheckerApp.Application.Softwares.Queries.GetSoftwaresList
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Software, SoftwareDto>();
+            profile.CreateMap<Software, SoftwareDto>().IncludeAllDerived();
         }
     }
 }
