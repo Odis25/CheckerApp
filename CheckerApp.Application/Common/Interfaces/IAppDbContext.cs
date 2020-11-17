@@ -1,6 +1,5 @@
 ﻿using CheckerApp.Domain.Entities.CheckEntities;
 using CheckerApp.Domain.Entities.ContractEntities;
-using CheckerApp.Domain.Entities.Documents;
 using CheckerApp.Domain.Entities.HardwareEntities;
 using CheckerApp.Domain.Entities.SoftwareEntities;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +23,6 @@ namespace CheckerApp.Application.Common.Interfaces
         DbSet<Valve> Valves { get; set; }
         DbSet<ARM> ARMs { get; set; }
         DbSet<NetworkHardware> NetworkHardwares { get; set; }
-        DbSet<CheckList> CheckLists { get; set; }
         DbSet<HardwareCheck> HardwareChecks { get; set; }
         DbSet<SoftwareCheck> SoftwareChecks { get; set; }
         DbSet<CheckParameter> CheckParameters { get; set; }

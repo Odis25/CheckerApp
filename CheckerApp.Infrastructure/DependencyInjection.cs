@@ -20,7 +20,7 @@ namespace CheckerApp.Infrastructure
             services.AddDbContext<AppDbContext>(options =>
             options.UseLazyLoadingProxies()
                    .UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
+                   b => b.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery)));
 
             services.AddDefaultIdentity<ApplicationUser>()
                     .AddRoles<IdentityRole>()

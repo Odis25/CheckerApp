@@ -27,12 +27,15 @@ namespace CheckerApp.Application.Hardwares.Commands.DeleteHardware
 
             var parameters = entity.CheckResult?.CheckParameters;
 
-            _context.CheckParameters.RemoveRange(parameters);
-
-            _context.Hardwares.Remove(entity);
+            if (parameters != null)
+            {
+                _context.CheckParameters.RemoveRange(parameters);
+            }
 
             try
             {
+                _context.Hardwares.Remove(entity);
+
                 await _context.SaveChangesAsync(cancellationToken);
             }
             catch (System.Exception ex)

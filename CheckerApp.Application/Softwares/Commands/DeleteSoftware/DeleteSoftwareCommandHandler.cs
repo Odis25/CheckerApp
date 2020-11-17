@@ -15,6 +15,7 @@ namespace CheckerApp.Application.Softwares.Commands.DeleteSoftware
         {
             _context = context;
         }
+
         public async Task<Unit> Handle(DeleteSoftwareCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.Softwares.FindAsync(request.Id);
@@ -26,12 +27,15 @@ namespace CheckerApp.Application.Softwares.Commands.DeleteSoftware
 
             var parameters = entity.CheckResult?.CheckParameters;
 
-            _context.CheckParameters.RemoveRange(parameters);
-
-            _context.Softwares.Remove(entity);
+            if (parameters != null)
+            {
+                _context.CheckParameters.RemoveRange(parameters);
+            }
 
             try
             {
+                _context.Softwares.Remove(entity);
+
                 await _context.SaveChangesAsync(cancellationToken);
             }
             catch (System.Exception ex)

@@ -2,7 +2,6 @@
 using CheckerApp.Domain.Common;
 using CheckerApp.Domain.Entities.CheckEntities;
 using CheckerApp.Domain.Entities.ContractEntities;
-using CheckerApp.Domain.Entities.Documents;
 using CheckerApp.Domain.Entities.HardwareEntities;
 using CheckerApp.Domain.Entities.Identity;
 using CheckerApp.Domain.Entities.SoftwareEntities;
@@ -51,19 +50,6 @@ namespace CheckerApp.Infrastructure.Data
             builder.Entity<Valve>().ToTable("Valves");
             builder.Entity<ARM>().ToTable("ARMs");
 
-
-            //builder.Entity<Hardware>()
-            //    .HasDiscriminator(e => e.HardwareType)
-            //    .HasValue<Cabinet>(HardwareType.Cabinet)
-            //    .HasValue<FlowComputer>(HardwareType.FlowComputer)
-            //    .HasValue<PLC>(HardwareType.PLC)
-            //    .HasValue<Pressure>(HardwareType.Pressure)
-            //    .HasValue<Temperature>(HardwareType.Temperature)
-            //    .HasValue<Flowmeter>(HardwareType.Flowmeter)
-            //    .HasValue<NetworkHardware>(HardwareType.Network)
-            //    .HasValue<Valve>(HardwareType.Valve)
-            //    .HasValue<ARM>(HardwareType.ARM);
-
             builder.Entity<Software>()
                 .HasDiscriminator(e => e.SoftwareType)
                 .HasValue<SCADA>(SoftwareType.SCADA)
@@ -84,7 +70,6 @@ namespace CheckerApp.Infrastructure.Data
         public DbSet<Valve> Valves { get; set; }
         public DbSet<ARM> ARMs { get; set; }
         public DbSet<NetworkHardware> NetworkHardwares { get; set; }
-        public DbSet<CheckList> CheckLists { get; set; }
         public DbSet<CheckParameter> CheckParameters { get; set; }
         public DbSet<HardwareCheck> HardwareChecks { get; set; }
         public DbSet<SoftwareCheck> SoftwareChecks { get; set; }
