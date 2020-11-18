@@ -1,7 +1,18 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
+<AuthorizeView>
+    <Authorized>
+        <h2>
+            Привет @context.User.FindFirst(c=>c.Type == "full_name").Value,
+            вот список твоих клаймов:
+        </h2>
+        <ul>
+            @foreach (var claim in context.User.Claims)
+            {
+                <li><b>@claim.Type</b>: @claim.Value</li>
+            }
+        </ul>
+    </Authorized>
+</AuthorizeView>
 
 <SurveyPrompt Title="How is Blazor working for you?" />

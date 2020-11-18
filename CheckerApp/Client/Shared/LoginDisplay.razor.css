@@ -1,0 +1,11 @@
+﻿.top-row a, .top-row button {
+    font-weight: bold;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+    .top-row a:hover, .top-row button:hover {
+        background: rgba(255, 255, 255, 0.1);
+        text-decoration:none;
+    }

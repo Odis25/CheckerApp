@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <!--<TargetFramework>netstandard2.1</TargetFramework>
-    <RazorLangVersion>3.0</RazorLangVersion>-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,17 +13,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
-    <PackageReference Include="MatBlazor" Version="2.8.0-develop-021" />
+    <PackageReference Include="MatBlazor" Version="2.8.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Shared\CheckerApp.Shared.csproj" />
   </ItemGroup>
-
-  <!--<ItemGroup>
-    <Content Update="Shared\NavMenu.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-  </ItemGroup>-->
 
 </Project>

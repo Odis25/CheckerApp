@@ -52,15 +52,25 @@ namespace CheckerApp.Infrastructure.Services
                                 {
                                     var accountName = result.Properties[SAMAccountNameAttribute][0].ToString();
                                     var displayName = result.Properties[DisplayNameAttribute][0].ToString();
+                                    var name = result.Properties[GivenNameAttribute][0].ToString();
+                                    var lastName = result.Properties[SnAttribute][0].ToString();
 
                                     user = new ApplicationUser
                                     {
                                         UserName = accountName,
-                                        FullName = displayName
+                                        FullName = $"{lastName} {name}"
                                     };
 
                                     await _userManager.CreateAsync(user);
-                                    var res = await _userManager.AddToRoleAsync(user, "User");
+
+                                    if (user.UserName.Equals("budanovav", System.StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        await _userManager.AddToRoleAsync(user, "Admin");
+                                    }
+                                    else
+                                    {
+                                        await _userManager.AddToRoleAsync(user, "User");
+                                    }
                                 }
                             }
                         }

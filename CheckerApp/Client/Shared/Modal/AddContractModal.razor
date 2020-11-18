@@ -45,6 +45,6 @@
     {
         var contractId = await HttpClient.PostJsonAsync<int>("api/contract", Contract);
 
-        await BlazoredModal.Close(ModalResult.Ok("Ok"));
+        await BlazoredModal.Close(ModalResult.Ok(contractId));
     }
 }

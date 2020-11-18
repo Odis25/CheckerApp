@@ -1,5 +1,5 @@
 using CheckerApp.Application.Common.Interfaces;
-using CheckerApp.Domain.Entities.Identity; // подумать как избавиться от привязки к доменному уровню
+using CheckerApp.Domain.Entities.Identity; // todo: подумать как избавиться от привязки к доменному уровню
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

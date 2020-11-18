@@ -16,27 +16,31 @@ else
 {
     <h1>Список договоров</h1>
     <hr />
-    <div class="py-2">
-        <button class="btn btn-primary" @onclick="AddContract"><span class="oi oi-plus" aria-hidden="true"></span> Новый договор</button>
-    </div>
-    <MatTable Items="@ContractsList.Contracts" Class="mat-elevation-z5" Striped="true" AllowSelection="true" 
-              ShowPaging="false" ShowFooter="false" OnRowDbClick="(item)=> NavigateTo(((ContractDto)item).Id)">
-        <MatTableHeader>
-            <th style="min-width:250px;">Номер договора</th>
-            <th style="min-width:250px;">Внутренний номер</th>
-            <th>Название</th>
-            <th></th>
-        </MatTableHeader>
-        <MatTableRow>
-            <td>@context.ContractNumber</td>
-            <td>@context.DomesticNumber</td>
-            <td>@context.Name</td>
-            <td>
-                <button class="btn btn-secondary" @onclick="@(async ()=> await EditContract(context.Id))"><span class="oi oi-pencil"></span> Редактировать</button>
-                <button class="btn btn-danger" @onclick="@(async ()=> await DeleteContract(context.Id))"><span class="oi oi-trash"></span> Удалить</button>
-            </td>
-        </MatTableRow>
-    </MatTable>
+
+    <table class="table table-hover mat-elevation-z5 app-table">
+        <thead class="thead-dark mat-elevation-z5">
+            <tr>
+                <th scope="row">Номер договора</th>
+                <th scope="row">Внутренний номер проекта</th>
+                <th scope="row">Название</th>
+                <th scope="row"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ContractsList.Contracts)
+            {
+                <tr @ondblclick="()=>NavigateTo(item.Id)" style="cursor:pointer">
+                    <td>@item.ContractNumber</td>
+                    <td>@item.DomesticNumber</td>
+                    <td>@item.Name</td>
+                    <td>
+                        <button class="btn btn-outline-secondary" @onclick="@(async ()=> await EditContract(item.Id))"><span class="oi oi-pencil"></span></button>
+                        <button class="btn btn-outline-danger" @onclick="@(async ()=> await DeleteContract(item.Id))"><span class="oi oi-trash"></span></button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 
 @code {

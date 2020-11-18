@@ -98,7 +98,7 @@ else
 
     protected CreateHardwareCommandVm Command = new CreateHardwareCommandVm();
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
     }
