@@ -23,14 +23,14 @@ namespace CheckerApp.Server.Controllers
             return Ok(await Mediator.Send(new GetContractDetailQuery { Id = id }));
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<int>> CreateContract([FromBody] CreateContractCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<ActionResult> UpdateContract([FromBody] UpdateContractCommand command)
         {
@@ -39,6 +39,7 @@ namespace CheckerApp.Server.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteContract(int id)
         {

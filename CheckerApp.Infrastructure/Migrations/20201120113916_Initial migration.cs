@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CheckerApp.Infrastructure.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initialmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -213,29 +213,6 @@ namespace CheckerApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CheckLists",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ContractId = table.Column<int>(type: "int", nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CheckLists", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CheckLists_Contracts_ContractId",
-                        column: x => x.ContractId,
-                        principalTable: "Contracts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Hardwares",
                 columns: table => new
                 {
@@ -267,10 +244,10 @@ namespace CheckerApp.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ContractId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Version = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SoftwareType = table.Column<int>(type: "int", nullable: false),
-                    ContractId = table.Column<int>(type: "int", nullable: true)
+                    SoftwareType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -280,7 +257,7 @@ namespace CheckerApp.Infrastructure.Migrations
                         column: x => x.ContractId,
                         principalTable: "Contracts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -381,18 +358,11 @@ namespace CheckerApp.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    HardwareId = table.Column<int>(type: "int", nullable: false),
-                    CheckListId = table.Column<int>(type: "int", nullable: true)
+                    HardwareId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_HardwareChecks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_HardwareChecks_CheckLists_CheckListId",
-                        column: x => x.CheckListId,
-                        principalTable: "CheckLists",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_HardwareChecks_Hardwares_HardwareId",
                         column: x => x.HardwareId,
@@ -513,18 +483,11 @@ namespace CheckerApp.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SoftwareId = table.Column<int>(type: "int", nullable: false),
-                    CheckListId = table.Column<int>(type: "int", nullable: true)
+                    SoftwareId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SoftwareChecks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SoftwareChecks_CheckLists_CheckListId",
-                        column: x => x.CheckListId,
-                        principalTable: "CheckLists",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SoftwareChecks_Softwares_SoftwareId",
                         column: x => x.SoftwareId,
@@ -654,12 +617,12 @@ namespace CheckerApp.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "54a1b572-db1b-45e9-a897-6bcbd3766b63", "968380a5-ead0-49fa-b762-1a64275e5389", "Admin", "ADMIN" });
+                values: new object[] { "d06d9ea3-9fa9-48f4-904f-6d6baaf3d414", "c0933787-d7f2-4d0a-aac4-d030bd1864ef", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "089b59e5-c7e7-4cae-9c1c-c309696948a1", "34ac5bcd-8e27-4ecb-93a7-d9ec5d25e48d", "User", "USER" });
+                values: new object[] { "b16d0d32-a9fc-4952-b0cf-c7a1ebbc227c", "4511ef38-5268-4b8b-aa86-8a58f36385c9", "User", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -701,11 +664,6 @@ namespace CheckerApp.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CheckLists_ContractId",
-                table: "CheckLists",
-                column: "ContractId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CheckParameters_HardwareCheckId",
                 table: "CheckParameters",
                 column: "HardwareCheckId");
@@ -725,11 +683,6 @@ namespace CheckerApp.Infrastructure.Migrations
                 name: "IX_DeviceCodes_Expiration",
                 table: "DeviceCodes",
                 column: "Expiration");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_HardwareChecks_CheckListId",
-                table: "HardwareChecks",
-                column: "CheckListId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HardwareChecks_HardwareId",
@@ -756,11 +709,6 @@ namespace CheckerApp.Infrastructure.Migrations
                 name: "IX_PersistedGrants_SubjectId_SessionId_Type",
                 table: "PersistedGrants",
                 columns: new[] { "SubjectId", "SessionId", "Type" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SoftwareChecks_CheckListId",
-                table: "SoftwareChecks",
-                column: "CheckListId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SoftwareChecks_SoftwareId",
@@ -850,9 +798,6 @@ namespace CheckerApp.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Valves");
-
-            migrationBuilder.DropTable(
-                name: "CheckLists");
 
             migrationBuilder.DropTable(
                 name: "Softwares");

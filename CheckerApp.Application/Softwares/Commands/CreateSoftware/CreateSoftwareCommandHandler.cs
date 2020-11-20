@@ -26,23 +26,18 @@ namespace CheckerApp.Application.Softwares.Commands.CreateSoftware
                 throw new NullReferenceException("Договор с таким Id не найден.");
             }
 
-            Software entity;
-
-            switch (request.SoftwareType)
+            Software entity = request.SoftwareType switch
             {
-                case SoftwareType.SCADA:
-                    entity = new SCADA();
-                    break;
-                case SoftwareType.Other:
-                default:
-                    entity = new Software();
-                    break;
-            }
+                SoftwareType.SCADA => new SCADA(),
+                SoftwareType.Other => new Software()
+            };
 
             entity.Name = request.Name;
             entity.Version = request.Version;
 
             contract.SoftwareList.Add(entity);
+            contract.HasProtocol = false;
+            _context.Update(contract);
 
             await _context.SaveChangesAsync(cancellationToken);
 

@@ -19,6 +19,7 @@ namespace CheckerApp.Application.Hardwares.Commands.DeleteHardware
         public async Task<Unit> Handle(DeleteHardwareCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.Hardwares.FindAsync(request.Id);
+            var contract = await _context.Contracts.FindAsync(entity.ContractId);
 
             if (entity == null)
             {
@@ -35,6 +36,10 @@ namespace CheckerApp.Application.Hardwares.Commands.DeleteHardware
             try
             {
                 _context.Hardwares.Remove(entity);
+
+                contract.HasProtocol = false;
+
+                _context.Update(contract);
 
                 await _context.SaveChangesAsync(cancellationToken);
             }

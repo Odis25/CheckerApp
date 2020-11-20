@@ -19,6 +19,7 @@ namespace CheckerApp.Application.Softwares.Commands.DeleteSoftware
         public async Task<Unit> Handle(DeleteSoftwareCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.Softwares.FindAsync(request.Id);
+            var contract = await _context.Contracts.FindAsync(entity.ContractId);
 
             if (entity == null)
             {
@@ -35,6 +36,10 @@ namespace CheckerApp.Application.Softwares.Commands.DeleteSoftware
             try
             {
                 _context.Softwares.Remove(entity);
+
+                contract.HasProtocol = false;
+
+                _context.Update(contract);
 
                 await _context.SaveChangesAsync(cancellationToken);
             }

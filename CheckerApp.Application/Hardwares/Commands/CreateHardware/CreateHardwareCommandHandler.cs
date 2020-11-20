@@ -180,6 +180,8 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
             entity.HardwareType = request.HardwareType;
 
             contract.HardwareList.Add(entity);
+            contract.HasProtocol = false;
+            _context.Update(contract);
 
             await _context.SaveChangesAsync(cancellationToken);
 

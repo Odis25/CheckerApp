@@ -1,5 +1,6 @@
 ﻿using CheckerApp.Shared.Models.Hardware;
 using CheckerApp.Shared.Models.Software;
+using System;
 using System.Collections.Generic;
 
 namespace CheckerApp.Shared.Models.Contract
@@ -14,5 +15,10 @@ namespace CheckerApp.Shared.Models.Contract
 
         public IEnumerable<HardwareVm> HardwareList { get; set; }
         public IEnumerable<SoftwareDto> SoftwareList { get; set; }
+
+        public string CreatedBy { get; set; }
+        public string LastModifiedBy { get; set; }
+        public DateTime Created { get; set; }
+        public DateTime? LastModified { get; set; }
     }
 }

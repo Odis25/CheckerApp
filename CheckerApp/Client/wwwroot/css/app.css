@@ -14,20 +14,47 @@ html, body {
     padding-top: 1.1rem;
 }
 
+/*---- Таблица ----*/
+.table-container {
+    overflow: auto;
+    border-radius: 5px;
+}
+
+    .table-container.contract-table {
+        height: 81vh;
+    }
+
+    .table-container.hardware-table {
+        height: 54vh;
+    }
+
 .app-table {
     border-radius: 5px;
 }
+.app-table tbody tr{
+    cursor:pointer;
+}
+
     .app-table th {
+        position: sticky;
+        top: 0;
+        z-index: 90;
         border-top: none;
     }
-    .app-table th:first-child{
-        border-radius: 5px 0 0 0;
-    }
-    .app-table th:last-child {
-        border-radius: 0 5px 0 0;
-    }
+        .app-table th:first-child, .app-table td:first-child {
+            padding-left: 1rem;
+        }
+
     .app-table .btn {
         border-radius: 50px;
+    }
+
+    .app-table th:first-child {
+        border-radius: 5px 0 0 0;
+    }
+
+    .app-table th:last-child {
+        border-radius: 0 5px 0 0;
     }
 
 /*---- Скроллер ----*/

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CheckerApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20201113191016_Initial Migration")]
-    partial class InitialMigration
+    [Migration("20201120113916_Initial migration")]
+    partial class Initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -65,15 +65,10 @@ namespace CheckerApp.Infrastructure.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("CheckListId")
-                        .HasColumnType("int");
-
                     b.Property<int>("HardwareId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CheckListId");
 
                     b.HasIndex("HardwareId")
                         .IsUnique();
@@ -88,15 +83,10 @@ namespace CheckerApp.Infrastructure.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("CheckListId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SoftwareId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CheckListId");
 
                     b.HasIndex("SoftwareId")
                         .IsUnique();
@@ -138,35 +128,6 @@ namespace CheckerApp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Contracts");
-                });
-
-            modelBuilder.Entity("CheckerApp.Domain.Entities.Documents.CheckList", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("ContractId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContractId");
-
-                    b.ToTable("CheckLists");
                 });
 
             modelBuilder.Entity("CheckerApp.Domain.Entities.HardwareEntities.Hardware", b =>
@@ -282,7 +243,7 @@ namespace CheckerApp.Infrastructure.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("ContractId")
+                    b.Property<int>("ContractId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -435,15 +396,15 @@ namespace CheckerApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "54a1b572-db1b-45e9-a897-6bcbd3766b63",
-                            ConcurrencyStamp = "968380a5-ead0-49fa-b762-1a64275e5389",
+                            Id = "d06d9ea3-9fa9-48f4-904f-6d6baaf3d414",
+                            ConcurrencyStamp = "c0933787-d7f2-4d0a-aac4-d030bd1864ef",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "089b59e5-c7e7-4cae-9c1c-c309696948a1",
-                            ConcurrencyStamp = "34ac5bcd-8e27-4ecb-93a7-d9ec5d25e48d",
+                            Id = "b16d0d32-a9fc-4952-b0cf-c7a1ebbc227c",
+                            ConcurrencyStamp = "4511ef38-5268-4b8b-aa86-8a58f36385c9",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -775,10 +736,6 @@ namespace CheckerApp.Infrastructure.Migrations
 
             modelBuilder.Entity("CheckerApp.Domain.Entities.CheckEntities.HardwareCheck", b =>
                 {
-                    b.HasOne("CheckerApp.Domain.Entities.Documents.CheckList", null)
-                        .WithMany("HardwareChecks")
-                        .HasForeignKey("CheckListId");
-
                     b.HasOne("CheckerApp.Domain.Entities.HardwareEntities.Hardware", "Hardware")
                         .WithOne("CheckResult")
                         .HasForeignKey("CheckerApp.Domain.Entities.CheckEntities.HardwareCheck", "HardwareId")
@@ -790,10 +747,6 @@ namespace CheckerApp.Infrastructure.Migrations
 
             modelBuilder.Entity("CheckerApp.Domain.Entities.CheckEntities.SoftwareCheck", b =>
                 {
-                    b.HasOne("CheckerApp.Domain.Entities.Documents.CheckList", null)
-                        .WithMany("SoftwareChecks")
-                        .HasForeignKey("CheckListId");
-
                     b.HasOne("CheckerApp.Domain.Entities.SoftwareEntities.Software", "Software")
                         .WithOne("CheckResult")
                         .HasForeignKey("CheckerApp.Domain.Entities.CheckEntities.SoftwareCheck", "SoftwareId")
@@ -801,17 +754,6 @@ namespace CheckerApp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Software");
-                });
-
-            modelBuilder.Entity("CheckerApp.Domain.Entities.Documents.CheckList", b =>
-                {
-                    b.HasOne("CheckerApp.Domain.Entities.ContractEntities.Contract", "Contract")
-                        .WithMany()
-                        .HasForeignKey("ContractId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Contract");
                 });
 
             modelBuilder.Entity("CheckerApp.Domain.Entities.HardwareEntities.Hardware", b =>
@@ -827,7 +769,9 @@ namespace CheckerApp.Infrastructure.Migrations
                 {
                     b.HasOne("CheckerApp.Domain.Entities.ContractEntities.Contract", null)
                         .WithMany("SoftwareList")
-                        .HasForeignKey("ContractId");
+                        .HasForeignKey("ContractId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1092,13 +1036,6 @@ namespace CheckerApp.Infrastructure.Migrations
                     b.Navigation("HardwareList");
 
                     b.Navigation("SoftwareList");
-                });
-
-            modelBuilder.Entity("CheckerApp.Domain.Entities.Documents.CheckList", b =>
-                {
-                    b.Navigation("HardwareChecks");
-
-                    b.Navigation("SoftwareChecks");
                 });
 
             modelBuilder.Entity("CheckerApp.Domain.Entities.HardwareEntities.Hardware", b =>

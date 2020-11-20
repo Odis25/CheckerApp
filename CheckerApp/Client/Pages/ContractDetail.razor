@@ -14,78 +14,112 @@
 }
 else
 {
-    <h1>Информация о договоре</h1>
-    <hr />
-    <table>
-        <tbody>
-            <tr>
-                <td class="pr-4 font-weight-bold">Номер</td>
-                <td>@Contract.ContractNumber</td>
-            </tr>
-            <tr>
-                <td class="pr-4 font-weight-bold">Внутренний номер</td>
-                <td>@Contract.DomesticNumber</td>
-            </tr>
-            <tr>
-                <td class="pr-4 font-weight-bold">Название</td>
-                <td>@Contract.Name</td>
-            </tr>
-            <tr>
-                <td class="pr-4 font-weight-bold">Протокол проверки</td>
-                <td>@(Contract.HasProtocol ? "Есть": "Нет")</td>
-            </tr>
-        </tbody>
-    </table>
-    <hr />
-    <div>
-        <button class="btn btn-primary" @onclick="AddHardware"><span class="oi oi-plus" aria-hidden="true"></span> Добавить оборудование</button>
-        <button class="btn btn-primary" @onclick="AddSoftware"><span class="oi oi-plus" aria-hidden="true"></span> Добавить ПО</button>
-        <button class="btn btn-secondary" @onclick="AddDocument"><span class="oi oi-document" aria-hidden="true"></span> Создать протокол проверки</button>
-        <button class="btn btn-success" @onclick="DownloadFile" disabled="@(Contract.HasProtocol == false)"><span class="oi oi-cloud-download" aria-hidden="true"></span> Скачать протокол проверки</button>
+    <div class="alert alert-primary mat-elevation-z5">
+        <h3>Информация о договоре</h3>
+        <hr />
+        <div class="row">
+            <div class="col-xl">
+                <div class="alert alert-secondary h-100 shadow-lg border">
+                    <table class="h-100">
+                        <tbody>
+                            <tr>
+                                <td class="pr-4 font-weight-bold">Номер</td>
+                                <td>@Contract.ContractNumber</td>
+                            </tr>
+                            <tr>
+                                <td class="pr-4 font-weight-bold">Внутренний номер</td>
+                                <td>@Contract.DomesticNumber</td>
+                            </tr>
+                            <tr>
+                                <td class="pr-4 font-weight-bold">Название</td>
+                                <td>@Contract.Name</td>
+                            </tr>
+                            <tr>
+                                <td class="pr-4 font-weight-bold">Протокол проверки</td>
+                                <td class="@ProtocolCss">@(Contract.HasProtocol ? "Есть": "Нет")</td>
+                            </tr>
+                            <tr>
+                                <td class="pr-4 font-weight-bold">Добавлен</td>
+                                <td>@Contract.CreatedBy (@Contract.Created.ToString("dd/MM/yyyy - HH:mm:ss"))</td>
+                            </tr>
+                            <tr>
+                                <td class="pr-4 font-weight-bold">Изменен</td>
+                                <td>@(Contract.LastModified != null ? $"{Contract.LastModifiedBy} ({Contract.LastModified?.ToString("dd/MM/yyyy - HH:mm:ss")})" : "----")</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-xl-3">
+                <div class="d-flex flex-column flex-lg-row flex-xl-column control-panel">
+                    <button class="btn btn-dark text-nowrap mr-lg-1" @onclick="AddHardware"><span class="oi oi-monitor mr-2" aria-hidden="true"></span> Новое оборудование</button>
+                    <button class="btn btn-dark text-nowrap mr-lg-1" @onclick="AddSoftware"><span class="oi oi-code mr-2" aria-hidden="true"></span> Новое ПО</button>
+                    <button class="btn btn-dark text-nowrap mr-lg-1" @onclick="AddDocument"><span class="oi oi-task mr-2" aria-hidden="true"></span> Создать протокол</button>
+                    <button class="btn btn-success text-nowrap mr-lg-1" @onclick="DownloadFile" disabled="@(Contract.HasProtocol == false)"><span class="oi oi-cloud-download mr-2" aria-hidden="true"></span> Скачать протокол</button>
+                </div>
+            </div>
+        </div>
     </div>
-    <hr />
     <div class="row">
-        <div class="col-sm">
-            <MatTable Items="@Contract.HardwareList" Class="mat-elevation-z5" Striped="true" AllowSelection="true"
-                      ShowPaging="false" ShowFooter="false" PageSize="10" OnRowDbClick="(item)=> NavigateTo(((HardwareVm)item).Id)">
-                <MatTableHeader>
-                    <th style="min-width:300px">Тип оборудования</th>
-                    <th style="min-width:300px">Позиция по прокту</th>
-                    <th style="min-width:300px">Серийный номер</th>
-                    <th></th>
-                </MatTableHeader>
-                <MatTableRow>
-                    <td>@context.HardwareType.GetDisplayName()</td>
-                    <td>@context.Position</td>
-                    <td>@context.SerialNumber</td>
-                    <td>
-                        <button class="btn btn-secondary" @onclick="@(async ()=> await EditHardware(context.Id))"><span class="oi oi-pencil"></span> </button>
-                        <button class="btn btn-danger" @onclick="@(async ()=> await DeleteHardware(context.Id))"><span class="oi oi-trash"></span> Удалить</button>
-                    </td>
-                </MatTableRow>
-            </MatTable>
+        <div class="col-xl">
+            <h5>Список оборудования:</h5>
+            <div class="table-container hardware-table mat-elevation-z5">
+                <table class="table table-hover app-table">
+                    <thead class="thead-dark mat-elevation-z5">
+                        <tr>
+                            <th scope="row">Тип</th>
+                            <th scope="row">Позиция</th>
+                            <th scope="row">Серийный номер</th>
+                            <th scope="row"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Contract.HardwareList)
+                        {
+                            <tr @ondblclick="()=>NavigateTo(item.Id)">
+                                <td>@item.HardwareType.GetDisplayName()</td>
+                                <td>@item.Position</td>
+                                <td>@item.SerialNumber</td>
+                                <td>
+                                    <button class="btn btn-outline-secondary" @onclick="@(async ()=> await EditHardware(item.Id))"><span class="oi oi-pencil"></span></button>
+                                    <button class="btn btn-outline-danger" @onclick="@(async ()=> await DeleteHardware(item.Id))"><span class="oi oi-trash"></span></button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="col-sm">
-            <MatTable Items="@Contract.SoftwareList" Class="mat-elevation-z5" Striped="true" AllowSelection="true"
-                      ShowPaging="false" ShowFooter="false" PageSize="10" OnRowDbClick="(item)=> NavigateTo(((HardwareVm)item).Id)">
-                <MatTableHeader>
-                    <th style="min-width:300px">Тип ПО</th>
-                    <th style="min-width:300px">Название ПО</th>
-                    <th style="min-width:300px">Версия ПО</th>
-                    <th></th>
-                </MatTableHeader>
-                <MatTableRow>
-                    <td>@context.SoftwareType.GetDisplayName()</td>
-                    <td>@context.Name</td>
-                    <td>@context.Version</td>
-                    <td>
-                        <button class="btn btn-secondary" @onclick="@(async ()=> await EditHardware(context.Id))"><span class="oi oi-pencil"></span> </button>
-                        <button class="btn btn-danger" @onclick="@(async ()=> await DeleteSoftware(context.Id))"><span class="oi oi-trash"></span> Удалить</button>
-                    </td>
-                </MatTableRow>
-            </MatTable>
+        <div class="col-xl">
+            <h5>Список программного обеспечения:</h5>
+            <div class="table-container hardware-table mat-elevation-z5">
+                <table class="table table-hover app-table">
+                    <thead class="thead-dark mat-elevation-z5">
+                        <tr>
+                            <th scope="row">Тип</th>
+                            <th scope="row">Название</th>
+                            <th scope="row">Версия</th>
+                            <th scope="row"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Contract.SoftwareList)
+                        {
+                            <tr>
+                                <td>@item.SoftwareType.GetDisplayName()</td>
+                                <td>@item.Name</td>
+                                <td>@item.Version</td>
+                                <td>
+                                    <button class="btn btn-outline-secondary" @onclick="@(async ()=> await EditSoftware(item.Id))"><span class="oi oi-pencil"></span></button>
+                                    <button class="btn btn-outline-danger" @onclick="@(async ()=> await DeleteSoftware(item.Id))"><span class="oi oi-trash"></span></button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>   
+    </div>
 }
 
 
@@ -95,6 +129,8 @@ else
     public string Id { get; set; }
 
     protected ContractDetailVm Contract { get; set; }
+
+    protected string ProtocolCss => Contract.HasProtocol ? "protocol" : "no-protocol";
 
     protected CreateHardwareCommandVm Command = new CreateHardwareCommandVm();
 
@@ -148,7 +184,7 @@ else
         NavigationManager.NavigateTo($"/contract/{Id}/check");
     }
 
-    private Task EditHardware(int hardwareId)
+    private Task EditHardware(int id)
     {
         //await HttpClient.PutAsJsonAsync("");
         return Task.CompletedTask;
@@ -159,6 +195,12 @@ else
         await HttpClient.DeleteAsync($"api/hardware/{id}");
 
         Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
+    }
+
+    private Task EditSoftware(int id)
+    {
+        //await HttpClient.PutAsJsonAsync("");
+        return Task.CompletedTask;
     }
 
     private async Task DeleteSoftware(int id)

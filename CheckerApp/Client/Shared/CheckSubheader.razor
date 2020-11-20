@@ -1,0 +1,267 @@
+﻿<div class="subheader">
+    <table>
+        <tbody>
+            @switch (Hardware.HardwareType)
+            {
+                case HardwareType.Cabinet:
+                    <tr>
+                        <td>Позиция по проекту:</td>
+                        <td>@Hardware.Position</td>
+                    </tr>
+                    <tr>
+                        <td>Заводской №:</td>
+                        <td>@Hardware.SerialNumber</td>
+                    </tr>
+                    <tr>
+                        <td>Дата завершения монтажа:</td>
+                        <td>@(((CabinetVm)Hardware).Constructed)</td>
+                    </tr>
+                    <tr>
+                        <td>Ответственный за монтаж:</td>
+                        <td>@(((CabinetVm)Hardware).ConstructedBy)</td>
+                    </tr>
+                    break;
+
+                case HardwareType.FlowComputer:
+                    <tr>
+                        <td>Позиция по проекту:</td>
+                        <td>@Hardware.Position</td>
+                    </tr>
+                    <tr>
+                        <td>Заводской №:</td>
+                        <td>@Hardware.SerialNumber</td>
+                    </tr>
+                    <tr>
+                        <td>Модель:</td>
+                        <td>@(((FlowComputerVm)Hardware).DeviceModel)</td>
+                    </tr>
+                    <tr>
+                        <td>IP-адрес:</td>
+                        <td>@(((FlowComputerVm)Hardware).IP)</td>
+                    </tr>
+                    <tr>
+                        <td>Версия сборки:</td>
+                        <td>@(((FlowComputerVm)Hardware).AssemblyVersion)</td>
+                    </tr>
+                    <tr>
+                        <td>Контрольная сумма:</td>
+                        <td>@(((FlowComputerVm)Hardware).CRC32)</td>
+                    </tr>
+                    <tr>
+                        <td>Дата конфигурации:</td>
+                        <td>@(((FlowComputerVm)Hardware).LastConfigDate)</td>
+                    </tr>
+                    break;
+
+                case HardwareType.Flowmeter:
+                    <tr>
+                        <td>Позиция по проекту:</td>
+                        <td>@Hardware.Position</td>
+                    </tr>
+                    <tr>
+                        <td>Тип устройства:</td>
+                        <td>@(((FlowmeterVm)Hardware).DeviceType)</td>
+                    </tr>
+                    <tr>
+                        <td>Модель устройства:</td>
+                        <td>@(((FlowmeterVm)Hardware).DeviceModel)</td>
+                    </tr>
+                    <tr>
+                        <td>Заводской №:</td>
+                        <td>@Hardware.SerialNumber</td>
+                    </tr>
+                    <tr>
+                        <td>Диапазон:</td>
+                        <td>@(((FlowmeterVm)Hardware).MinValue) - @(((FlowmeterVm)Hardware).MaxValue) @(((FlowmeterVm)Hardware).EU)</td>
+                    </tr>
+                    <tr>
+                        <td>К-фактор:</td>
+                        <td>@(((FlowmeterVm)Hardware).Kfactor)</td>
+                    </tr>
+                    <tr>
+                        <td>Тип подключения:</td>
+                        <td>@(((FlowmeterVm)Hardware).SignalType.GetDisplayName())</td>
+                    </tr>
+                    @if (((FlowmeterVm)Hardware).SignalType == SignalType.RS485)
+                    {
+                        <tr>
+                            <td>Address:</td>
+                            <td>@(((FlowmeterVm)Hardware).ModbusSettings.Address)</td>
+                        </tr>
+                        <tr>
+                            <td>Boud Rate:</td>
+                            <td>@(((FlowmeterVm)Hardware).ModbusSettings.BoudRate)</td>
+                        </tr>
+                        <tr>
+                            <td>Data Bits:</td>
+                            <td>@(((FlowmeterVm)Hardware).ModbusSettings.DataBits)</td>
+                        </tr>
+                        <tr>
+                            <td>Parity:</td>
+                            <td>@(((FlowmeterVm)Hardware).ModbusSettings.Parity)</td>
+                        </tr>
+                        <tr>
+                            <td>Stop Bit:</td>
+                            <td>@(((FlowmeterVm)Hardware).ModbusSettings.StopBit)</td>
+                        </tr>
+                    }
+                    break;
+
+                case HardwareType.Network:
+                    <tr>
+                        <td>Позиция по проекту:</td>
+                        <td>@Hardware.Position</td>
+                    </tr>
+                    <tr>
+                        <td>Заводской №:</td>
+                        <td>@Hardware.SerialNumber</td>
+                    </tr>
+                    <tr>
+                        <td>Тип устройства:</td>
+                        <td>@(((NetworkHardwareVm)Hardware).DeviceType)</td>
+                    </tr>
+                    <tr>
+                        <td>Модель устройства:</td>
+                        <td>@(((NetworkHardwareVm)Hardware).DeviceModel)</td>
+                    </tr>
+                    break;
+
+                case HardwareType.PLC:
+                    <tr>
+                        <td>Позиция по проекту:</td>
+                        <td>@Hardware.Position</td>
+                    </tr>
+                    <tr>
+                        <td>Модель устройства:</td>
+                        <td>@(((PlcVm)Hardware).DeviceModel)</td>
+                    </tr>
+                    <tr>
+                        <td>Заводской №:</td>
+                        <td>@Hardware.SerialNumber</td>
+                    </tr>
+                    <tr>
+                        <td>IP-адрес:</td>
+                        <td>@(((PlcVm)Hardware).DeviceModel)</td>
+                    </tr>
+                    <tr>
+                        <td>Версия сборки:</td>
+                        <td>@(((PlcVm)Hardware).DeviceModel)</td>
+                    </tr>
+                    break;
+
+                case HardwareType.Pressure:
+                case HardwareType.Temperature:
+                    <tr>
+                        <td>Позиция по проекту:</td>
+                        <td>@Hardware.Position</td>
+                    </tr>
+                    <tr>
+                        <td>Тип устройства:</td>
+                        <td>@(((MeasurementVm)Hardware).DeviceType)</td>
+                    </tr>
+                    <tr>
+                        <td>Модель устройства:</td>
+                        <td>@(((MeasurementVm)Hardware).DeviceModel)</td>
+                    </tr>
+                    <tr>
+                        <td>Заводской №:</td>
+                        <td>@Hardware.SerialNumber</td>
+                    </tr>
+                    <tr>
+                        <td>Диапазон:</td>
+                        <td>@(((MeasurementVm)Hardware).MinValue) - @(((MeasurementVm)Hardware).MaxValue) @(((MeasurementVm)Hardware).EU)</td>
+                    </tr>
+                    <tr>
+                        <td>Тип подключения:</td>
+                        <td>@(((MeasurementVm)Hardware).SignalType.GetDisplayName())</td>
+                    </tr>
+                    break;
+
+                case HardwareType.Valve:
+                    <tr>
+                        <td>Позиция по проекту:</td>
+                        <td>@Hardware.Position</td>
+                    </tr>
+                    <tr>
+                        <td>Тип устройства:</td>
+                        <td>@(((ValveVm)Hardware).DeviceType)</td>
+                    </tr>
+                    <tr>
+                        <td>Модель устройства:</td>
+                        <td>@(((ValveVm)Hardware).DeviceModel)</td>
+                    </tr>
+                    <tr>
+                        <td>Заводской №:</td>
+                        <td>@Hardware.SerialNumber</td>
+                    </tr>
+                    <tr>
+                        <td>Тип подключения:</td>
+                        <td>@(((ValveVm)Hardware).SignalType.GetDisplayName())</td>
+                    </tr>
+                    @if (((ValveVm)Hardware).SignalType == SignalType.RS485)
+                    {
+                        <tr>
+                            <td>Address:</td>
+                            <td>@(((ValveVm)Hardware).ModbusSettings.Address)</td>
+                        </tr>
+                        <tr>
+                            <td>Boud Rate:</td>
+                            <td>@(((ValveVm)Hardware).ModbusSettings.BoudRate)</td>
+                        </tr>
+                        <tr>
+                            <td>Data Bits:</td>
+                            <td>@(((ValveVm)Hardware).ModbusSettings.DataBits)</td>
+                        </tr>
+                        <tr>
+                            <td>Parity:</td>
+                            <td>@(((ValveVm)Hardware).ModbusSettings.Parity)</td>
+                        </tr>
+                        <tr>
+                            <td>Stop Bit:</td>
+                            <td>@(((ValveVm)Hardware).ModbusSettings.StopBit)</td>
+                        </tr>
+                    }
+                    break;
+
+                case HardwareType.ARM:
+                    <tr>
+                        <td>Позиция по проекту:</td>
+                        <td>@Hardware.Position</td>
+                    </tr>
+                    <tr>
+                        <td>Модель станции:</td>
+                        <td>@(((ArmVm)Hardware).Name)</td>
+                    </tr>
+                    <tr>
+                        <td>Монитор:</td>
+                        <td>@(((ArmVm)Hardware).Monitor)</td>
+                    </tr>
+                    <tr>
+                        <td>Клавиатура:</td>
+                        <td>@(((ArmVm)Hardware).Keyboard)</td>
+                    </tr>
+                    <tr>
+                        <td>Мышь:</td>
+                        <td>@(((ArmVm)Hardware).Mouse)</td>
+                    </tr>
+                    <tr>
+                        <td>RAID-массив:</td>
+                        <td>@(((ArmVm)Hardware).HasRAID)</td>
+                    </tr>
+                    <tr>
+                        <td>Операционная система:</td>
+                        <td>@(((ArmVm)Hardware).OS)</td>
+                    </tr>
+                    
+                    break;
+
+            }
+        </tbody>
+    </table>
+
+</div>
+@code {
+
+    [Parameter]
+    public HardwareVm Hardware { get; set; }
+}
