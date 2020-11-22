@@ -1,0 +1,80 @@
+﻿@using CheckerApp.Client.Shared.Hardwares.Edit
+@using CheckerApp.Shared.Models.Commands
+@using CheckerApp.Shared.Common.JsonConverters
+@using System.Text.Json
+
+@inject HttpClient HttpClient
+
+<EditForm Model="Command" style="min-width:800px;" OnValidSubmit="Submit">
+    <FluentValidationValidator />
+
+    <div class="row">
+        @switch (Hardware.HardwareType)
+        {
+            case HardwareType.Cabinet:
+                <EditCabinet Value="Command.Hardware"></EditCabinet>
+                break;
+
+            case HardwareType.FlowComputer:
+                <EditFlowComputer Value="Command.Hardware"></EditFlowComputer>
+                break;
+
+            case HardwareType.Flowmeter:
+                <EditFlowmeter Value="Command.Hardware"></EditFlowmeter>
+                break;
+
+            case HardwareType.Network:
+                <EditNetwork Value="Command.Hardware"></EditNetwork>
+                break;
+
+            case HardwareType.PLC:
+                <EditPLC Value="Command.Hardware"></EditPLC>
+                break;
+
+            case HardwareType.Pressure:
+            case HardwareType.Temperature:
+                <EditMeasurement Value="Command.Hardware"></EditMeasurement>
+                break;
+
+            case HardwareType.Valve:
+                <EditValve Value="Command.Hardware"></EditValve>
+                break;
+
+            case HardwareType.ARM:
+                <EditARM Value="Command.Hardware"></EditARM>
+                break;
+        }
+    </div>
+    <hr />
+
+    <MatButton type="submit" Raised="true" Style="width: 100%;" Icon="add"> Сохранить</MatButton>
+
+</EditForm>
+
+@code {
+
+    [CascadingParameter]
+    BlazoredModalInstance BlazoredModal { get; set; }
+
+    [Parameter]
+    public HardwareVm Hardware { get; set; }
+
+    UpdateHardwareCommandVm Command { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Command = new UpdateHardwareCommandVm
+        {
+            Hardware = Hardware
+        };
+    }
+
+    protected async Task Submit()
+    {
+        var options = new JsonSerializerOptions { Converters = { new HardwareConverter() } };
+
+        await HttpClient.PutAsJsonAsync("api/hardware", Command, options);
+
+        await BlazoredModal.Close(ModalResult.Ok(Hardware.Id));
+    }
+}

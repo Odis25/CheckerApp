@@ -34,7 +34,7 @@
         <ValidationMessage For="()=> Value.MaxValue"></ValidationMessage>
     </div>
     <div class="col">
-        <MatSelectItem @bind-Value="Value.EU" Label="Единицы измерения" Outlined="true" FullWidth="true" Items="euArray">
+        <MatSelectItem Label="Единицы измерения" @bind-Value="Value.EU" Outlined="true" FullWidth="true" Items="euArray">
             <ItemTemplate Context="eu">@eu</ItemTemplate>
         </MatSelectItem>
     </div>

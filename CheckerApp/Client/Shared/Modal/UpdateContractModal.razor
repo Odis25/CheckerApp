@@ -1,0 +1,58 @@
+﻿@inject HttpClient HttpClient
+@using CheckerApp.Shared.Models.Commands
+
+<EditForm Model="@Command" style="min-width:650px;" OnValidSubmit="Submit">
+    <FluentValidationValidator />
+
+    <div class="mb-2 row">
+        <div class="col">
+            <MatTextField @bind-Value="Command.Name" Label="Название договора" Outlined="true" Style="width: 100%;" />
+            <ValidationMessage For="(()=>Command.Name)"></ValidationMessage>
+        </div>
+    </div>
+    <div class="mb-2 row">
+        <div class="col">
+            <MatTextField @bind-Value="Command.ContractNumber" Label="Номер договора" Outlined="true" Style="width: 100%;" />
+            <ValidationMessage For="(()=>Command.ContractNumber)"></ValidationMessage>
+        </div>
+    </div>
+    <div class="mb-2 row">
+        <div class="col">
+            <MatTextField @bind-Value="Command.DomesticNumber" Label="Внутренний номер договора" Outlined="true" Style="width: 100%;" />
+            <ValidationMessage For="(()=>Command.DomesticNumber)"></ValidationMessage>
+        </div>
+    </div>
+    <hr />
+    <div class="">
+        <MatButton Raised="true" Style="width:100%;" type="submit"> Сохранить</MatButton>
+    </div>
+</EditForm>
+
+@code {
+
+    [CascadingParameter]
+    BlazoredModalInstance BlazoredModal { get; set; }
+
+    [Parameter]
+    public ContractDetailVm Contract { get; set; }
+
+    UpdateContractCommandVm Command { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Command = new UpdateContractCommandVm
+        {
+            Id = Contract.Id,
+            Name = Contract.Name,
+            ContractNumber = Contract.ContractNumber,
+            DomesticNumber = Contract.DomesticNumber
+        };
+    }
+
+    protected async Task Submit()
+    {
+        await HttpClient.PutJsonAsync("api/contract", Command);
+
+        await BlazoredModal.Close(ModalResult.Ok(Contract.Id));
+    }
+}

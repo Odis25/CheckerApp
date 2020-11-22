@@ -6,7 +6,7 @@ namespace CheckerApp.Shared.Enums
     {
         [Display(Name = "SCADA-система")]
         SCADA,
-        [Display(Name = "Другое ПО")]
+        [Display(Name = "Дополнительное ПО")]
         Other
     }
 }

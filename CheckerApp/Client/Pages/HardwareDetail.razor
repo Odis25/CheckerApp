@@ -4,7 +4,7 @@
 @using CheckerApp.Client.Shared.Hardwares.Details
 @using CheckerApp.Shared.Common.JsonConverters
 
-@inject HttpClient HttpClient
+@inject IHttpClientFactory httpClientFactory
 
 @if (Hardware == null)
 {
@@ -54,7 +54,10 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        var client = httpClientFactory.CreateClient("ServerAPI.NonAuthorized");
+
         var options = new JsonSerializerOptions { Converters = { new HardwareConverter() } };
-        Hardware = await HttpClient.GetFromJsonAsync<HardwareVm>($"api/hardware/{int.Parse(Id)}", options);
+
+        Hardware = await client.GetFromJsonAsync<HardwareVm>($"api/hardware/{int.Parse(Id)}", options);
     }
 }

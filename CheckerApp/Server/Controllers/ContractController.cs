@@ -31,6 +31,7 @@ namespace CheckerApp.Server.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        [ProducesResponseType(201)]
         [HttpPut]
         public async Task<ActionResult> UpdateContract([FromBody] UpdateContractCommand command)
         {

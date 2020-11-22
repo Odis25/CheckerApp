@@ -1,11 +1,13 @@
 ﻿@page "/contract/{id}/detail"
 
 @using CheckerApp.Client.Shared.Modal
-@using CheckerApp.Shared.Models.Commands
+@using System.Text.Json
+@using CheckerApp.Shared.Common.JsonConverters
 
-@inject HttpClient HttpClient
-@inject NavigationManager NavigationManager
-@inject IModalService Modal
+@inject IHttpClientFactory httpClientFactory
+@inject IModalService modal
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
 
 
 @if (Contract == null)
@@ -35,16 +37,16 @@ else
                                 <td>@Contract.Name</td>
                             </tr>
                             <tr>
-                                <td class="pr-4 font-weight-bold">Протокол проверки</td>
-                                <td class="@ProtocolCss">@(Contract.HasProtocol ? "Есть": "Нет")</td>
+                                <td class="pr-4 font-weight-bold">Заводские испытания</td>
+                                <td class="@ProtocolCss">@(Contract.HasProtocol ? "Завершены": "Не завершены")</td>
                             </tr>
                             <tr>
                                 <td class="pr-4 font-weight-bold">Добавлен</td>
-                                <td>@Contract.CreatedBy (@Contract.Created.ToString("dd/MM/yyyy - HH:mm:ss"))</td>
+                                <td>@Contract.Created.ToString("dd/MM/yyyy - HH:mm:ss") (@Contract.CreatedBy) </td>
                             </tr>
                             <tr>
                                 <td class="pr-4 font-weight-bold">Изменен</td>
-                                <td>@(Contract.LastModified != null ? $"{Contract.LastModifiedBy} ({Contract.LastModified?.ToString("dd/MM/yyyy - HH:mm:ss")})" : "----")</td>
+                                <td>@(Contract.LastModified != null ? $"{Contract.LastModified?.ToString("dd/MM/yyyy - HH:mm:ss")} ({Contract.LastModifiedBy})" : "----")</td>
                             </tr>
                         </tbody>
                     </table>
@@ -52,9 +54,13 @@ else
             </div>
             <div class="col-xl-3">
                 <div class="d-flex flex-column flex-lg-row flex-xl-column control-panel">
-                    <button class="btn btn-dark text-nowrap mr-lg-1" @onclick="AddHardware"><span class="oi oi-monitor mr-2" aria-hidden="true"></span> Новое оборудование</button>
-                    <button class="btn btn-dark text-nowrap mr-lg-1" @onclick="AddSoftware"><span class="oi oi-code mr-2" aria-hidden="true"></span> Новое ПО</button>
-                    <button class="btn btn-dark text-nowrap mr-lg-1" @onclick="AddDocument"><span class="oi oi-task mr-2" aria-hidden="true"></span> Создать протокол</button>
+                    <AuthorizeView Roles="Admin">
+                        <button class="btn btn-dark text-nowrap mr-lg-1" @onclick="AddHardware"><span class="oi oi-monitor mr-2" aria-hidden="true"></span> Новое оборудование</button>
+                        <button class="btn btn-dark text-nowrap mr-lg-1" @onclick="AddSoftware"><span class="oi oi-code mr-2" aria-hidden="true"></span> Новое ПО</button>
+                    </AuthorizeView>
+                    <AuthorizeView>
+                        <button class="btn btn-dark text-nowrap mr-lg-1" @onclick="AddDocument"><span class="oi oi-task mr-2" aria-hidden="true"></span> Создать протокол</button>
+                    </AuthorizeView>
                     <button class="btn btn-success text-nowrap mr-lg-1" @onclick="DownloadFile" disabled="@(Contract.HasProtocol == false)"><span class="oi oi-cloud-download mr-2" aria-hidden="true"></span> Скачать протокол</button>
                 </div>
             </div>
@@ -70,7 +76,9 @@ else
                             <th scope="row">Тип</th>
                             <th scope="row">Позиция</th>
                             <th scope="row">Серийный номер</th>
-                            <th scope="row"></th>
+                            <AuthorizeView Roles="Admin">
+                                <th scope="row"></th>
+                            </AuthorizeView>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,10 +88,12 @@ else
                                 <td>@item.HardwareType.GetDisplayName()</td>
                                 <td>@item.Position</td>
                                 <td>@item.SerialNumber</td>
-                                <td>
-                                    <button class="btn btn-outline-secondary" @onclick="@(async ()=> await EditHardware(item.Id))"><span class="oi oi-pencil"></span></button>
-                                    <button class="btn btn-outline-danger" @onclick="@(async ()=> await DeleteHardware(item.Id))"><span class="oi oi-trash"></span></button>
-                                </td>
+                                <AuthorizeView Roles="Admin">
+                                    <td>
+                                        <button class="btn btn-outline-secondary" @onclick="@(async ()=> await EditHardware(item.Id))"><span class="oi oi-pencil"></span></button>
+                                        <button class="btn btn-outline-danger" @onclick="@(async ()=> await DeleteHardware(item.Id))"><span class="oi oi-trash"></span></button>
+                                    </td>
+                                </AuthorizeView>
                             </tr>
                         }
                     </tbody>
@@ -99,7 +109,9 @@ else
                             <th scope="row">Тип</th>
                             <th scope="row">Название</th>
                             <th scope="row">Версия</th>
-                            <th scope="row"></th>
+                            <AuthorizeView Roles="Admin">
+                                <th scope="row"></th>
+                            </AuthorizeView>
                         </tr>
                     </thead>
                     <tbody>
@@ -109,10 +121,12 @@ else
                                 <td>@item.SoftwareType.GetDisplayName()</td>
                                 <td>@item.Name</td>
                                 <td>@item.Version</td>
-                                <td>
-                                    <button class="btn btn-outline-secondary" @onclick="@(async ()=> await EditSoftware(item.Id))"><span class="oi oi-pencil"></span></button>
-                                    <button class="btn btn-outline-danger" @onclick="@(async ()=> await DeleteSoftware(item.Id))"><span class="oi oi-trash"></span></button>
-                                </td>
+                                <AuthorizeView Roles="Admin">
+                                    <td>
+                                        @*<button class="btn btn-outline-secondary" @onclick="@(async ()=> await EditSoftware(item.Id))"><span class="oi oi-pencil"></span></button>*@
+                                        <button class="btn btn-outline-danger" @onclick="@(async ()=> await DeleteSoftware(item.Id))"><span class="oi oi-trash"></span></button>
+                                    </td>
+                                </AuthorizeView>
                             </tr>
                         }
                     </tbody>
@@ -132,16 +146,16 @@ else
 
     protected string ProtocolCss => Contract.HasProtocol ? "protocol" : "no-protocol";
 
-    protected CreateHardwareCommandVm Command = new CreateHardwareCommandVm();
-
     protected override async Task OnParametersSetAsync()
     {
-        Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
+        var client = httpClientFactory.CreateClient("ServerAPI.NonAuthorized");
+
+        Contract = await client.GetFromJsonAsync<ContractDetailVm>($"api/contract/{Id}");
     }
 
     private void NavigateTo(int id)
     {
-        NavigationManager.NavigateTo($"/hardware/{id}/detail");
+        navigationManager.NavigateTo($"/hardware/{id}/detail");
     }
 
     private async Task AddHardware()
@@ -150,12 +164,12 @@ else
 
         parameters.Add("ContractId", Id);
 
-        var modalForm = Modal.Show<AddHardwareModal>("Новое оборудование", parameters);
+        var modalForm = modal.Show<AddHardwareModal>("Новое оборудование", parameters);
         var result = await modalForm.Result;
 
         if (!result.Cancelled)
         {
-            Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
+            Contract = await httpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{Id}");
         }
     }
 
@@ -165,49 +179,62 @@ else
 
         parameters.Add("ContractId", Id);
 
-        var modalForm = Modal.Show<AddSoftwareModal>("Новое ПО", parameters);
+        var modalForm = modal.Show<AddSoftwareModal>("Новое ПО", parameters);
         var result = await modalForm.Result;
 
         if (!result.Cancelled)
         {
-            Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
+            Contract = await httpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{Id}");
         }
     }
 
     private void DownloadFile()
     {
-        NavigationManager.NavigateTo($"/api/check/download/{Id}", true);
+        navigationManager.NavigateTo($"/api/check/download/{Id}", true);
     }
 
     private void AddDocument()
     {
-        NavigationManager.NavigateTo($"/contract/{Id}/check");
+        navigationManager.NavigateTo($"/contract/{Id}/check");
     }
 
-    private Task EditHardware(int id)
+    private async Task EditHardware(int id)
     {
-        //await HttpClient.PutAsJsonAsync("");
-        return Task.CompletedTask;
+        var options = new JsonSerializerOptions { Converters = { new HardwareConverter() } };
+
+        var hardware = await httpClient.GetFromJsonAsync<HardwareVm>($"api/hardware/{id}", options);
+
+        var parameters = new ModalParameters();
+
+        parameters.Add("Hardware", hardware);
+
+        var modalWindow = modal.Show<UpdateHardwareModal>("Редактирование оборудования", parameters);
+
+        var result = await modalWindow.Result;
+
+        if (!result.Cancelled)
+        {
+            Contract = await httpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{Id}");
+        }
     }
 
     private async Task DeleteHardware(int id)
     {
-        await HttpClient.DeleteAsync($"api/hardware/{id}");
+        await httpClient.DeleteAsync($"api/hardware/{id}");
 
-        Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
+        Contract = await httpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
     }
 
-    private Task EditSoftware(int id)
+    private async Task EditSoftware(int id)
     {
-        //await HttpClient.PutAsJsonAsync("");
-        return Task.CompletedTask;
+
     }
 
     private async Task DeleteSoftware(int id)
     {
-        await HttpClient.DeleteAsync($"api/software/{id}");
+        await httpClient.DeleteAsync($"api/software/{id}");
 
-        Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
+        Contract = await httpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
     }
 
 }

@@ -1,11 +1,11 @@
 ﻿@page "/contracts"
-@attribute [Authorize]
 
 @using CheckerApp.Client.Shared.Modal
 
-@inject HttpClient HttpClient
-@inject NavigationManager NavigationManager
-@inject IModalService Modal
+@inject IHttpClientFactory httpClientFactory
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+@inject IModalService modal
 
 
 @if (ContractsList == null)
@@ -23,7 +23,9 @@ else
                     <th scope="row">Номер договора</th>
                     <th scope="row">Внутренний номер проекта</th>
                     <th scope="row">Название</th>
-                    <th scope="row"></th>
+                    <AuthorizeView Roles="Admin">
+                        <th scope="row"></th>
+                    </AuthorizeView>
                 </tr>
             </thead>
             <tbody>
@@ -33,10 +35,12 @@ else
                         <td>@item.ContractNumber</td>
                         <td>@item.DomesticNumber</td>
                         <td>@item.Name</td>
-                        <td>
-                            <button class="btn btn-outline-secondary" @onclick="@(async ()=> await EditContract(item.Id))"><span class="oi oi-pencil"></span></button>
-                            <button class="btn btn-outline-danger" @onclick="@(async ()=> await DeleteContract(item.Id))"><span class="oi oi-trash"></span></button>
-                        </td>
+                        <AuthorizeView Roles="Admin">
+                            <td>
+                                <button class="btn btn-outline-secondary" @onclick="@(async ()=> await EditContract(item.Id))"><span class="oi oi-pencil"></span></button>
+                                <button class="btn btn-outline-danger" @onclick="@(async ()=> await DeleteContract(item.Id))"><span class="oi oi-trash"></span></button>
+                            </td>
+                        </AuthorizeView>
                     </tr>
                 }
             </tbody>
@@ -50,35 +54,48 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        ContractsList = await HttpClient.GetFromJsonAsync<ContractsListVm>("api/contract");
+        var client = httpClientFactory.CreateClient("ServerAPI.NonAuthorized");
+        ContractsList = await client.GetFromJsonAsync<ContractsListVm>("api/contract");
     }
 
     private void NavigateTo(int id)
     {
-        NavigationManager.NavigateTo($"/contract/{id}/detail");
+        navigationManager.NavigateTo($"/contract/{id}/detail");
     }
 
     private async Task AddContract()
     {
-        var formModal = Modal.Show<AddContractModal>("Новый договор");
+        var formModal = modal.Show<AddContractModal>("Новый договор");
         var result = await formModal.Result;
 
         if (!result.Cancelled)
         {
-            ContractsList = await HttpClient.GetFromJsonAsync<ContractsListVm>("api/contract");
+            ContractsList = await httpClient.GetFromJsonAsync<ContractsListVm>("api/contract");
         }
     }
 
-    private Task EditContract(int id)
+    private async Task EditContract(int id)
     {
-        //await HttpClient.PutAsJsonAsync("");
-        return Task.CompletedTask;
+        var contract = await httpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{id}");
+
+        var parameters = new ModalParameters();
+
+        parameters.Add("Contract", contract);
+
+        var modalWindow = modal.Show<UpdateContractModal>("Редактирование договора", parameters);
+
+        var result = await modalWindow.Result;
+
+        if (!result.Cancelled)
+        {
+            ContractsList = await httpClient.GetFromJsonAsync<ContractsListVm>("api/contract");
+        }
     }
 
     private async Task DeleteContract(int id)
     {
-        await HttpClient.DeleteAsync($"api/contract/{id}");
+        await httpClient.DeleteAsync($"api/contract/{id}");
 
-        ContractsList = await HttpClient.GetFromJsonAsync<ContractsListVm>("api/contract");
+        ContractsList = await httpClient.GetFromJsonAsync<ContractsListVm>("api/contract");
     }
 }

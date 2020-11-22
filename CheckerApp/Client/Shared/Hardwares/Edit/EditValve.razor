@@ -1,0 +1,66 @@
+﻿@using CheckerApp.Client.Shared.Hardwares.Adding
+
+<div class="col">
+    <div class="border p-2">
+        <div class="row mb-2">
+            <div class="col">
+                <MatTextField Label="Позиция по проекту" @bind-Value="Value.Position" Outlined="true" Style="width:100%"></MatTextField>
+                <ValidationMessage For="()=> Value.Position"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <MatTextField Label="Серийный номер" @bind-Value="Value.SerialNumber" Outlined="true" Style="width:100%"></MatTextField>
+                <ValidationMessage For="()=> Value.SerialNumber"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <MatTextField Label="Тип крана" @bind-Value="((ValveVm)Value).DeviceType" Outlined="true" Style="width:100%"></MatTextField>
+                <ValidationMessage For="()=> ((ValveVm)Value).DeviceType"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <MatTextField Label="Модель крана" @bind-Value="((ValveVm)Value).DeviceModel" Outlined="true" Style="width:100%"></MatTextField>
+                <ValidationMessage For="()=> ((ValveVm)Value).DeviceModel"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <MatSelectItem @bind-Value="((ValveVm)Value).SignalType"
+                               Label="Способ подключения"
+                               Outlined="true"
+                               FullWidth="true"
+                               Items="signals">
+                    <ItemTemplate Context="signal">@signal.GetDisplayName()</ItemTemplate>
+                </MatSelectItem>
+            </div>
+        </div>
+    </div>
+</div>
+@if (((ValveVm)Value).SignalType == SignalType.RS485)
+{
+    <div class="col-sm-4">
+        <h5>Настройки Modbus</h5>
+        <ModbusSettings @bind-Value="((ValveVm)Value).ModbusSettings" />
+    </div>
+}
+
+
+@code {
+
+    [Parameter]
+    public HardwareVm Value { get; set; }
+
+    [Parameter]
+    public EventCallback<HardwareVm> ValueChanged { get; set; }
+
+    private SignalType[] signals = Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray();
+
+    private async Task SignalChanged(SignalType value)
+    {
+        ((ValveVm)Value).SignalType = value;
+        await ValueChanged.InvokeAsync(Value);
+    }
+}

@@ -1,0 +1,43 @@
+﻿<div class="col">
+    <div class="border p-2">
+        <div class="row mb-2">
+            <div class="col">
+                <MatTextField Label="Позиция по проекту" @bind-Value="Value.Position" Outlined="true" Style="width: 100%;"></MatTextField>
+                <ValidationMessage For="()=> Value.Position"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <MatTextField Label="Серийный номер" @bind-Value="Value.SerialNumber" Outlined="true" Style="width: 100%;"></MatTextField>
+                <ValidationMessage For="()=> Value.SerialNumber"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <MatTextField Label="Модель контроллера" @bind-Value="((PlcVm)Value).DeviceModel" Outlined="true" Style="width: 100%;"></MatTextField>
+                <ValidationMessage For="()=> ((PlcVm)Value).DeviceModel"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <MatTextField Label="IP адрес" @bind-Value="((PlcVm)Value).IP" Outlined="true" Style="width: 100%;"></MatTextField>
+                <ValidationMessage For="()=> ((PlcVm)Value).IP"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <MatTextField Label="Версия сборки" @bind-Value="((PlcVm)Value).AssemblyVersion" Outlined="true" Style="width: 100%;"></MatTextField>
+                <ValidationMessage For="()=> ((PlcVm)Value).AssemblyVersion"></ValidationMessage>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public HardwareVm Value { get; set; }
+
+    [Parameter]
+    public EventCallback<HardwareVm> ValueChanged { get; set; }
+}

@@ -1,9 +1,11 @@
 ﻿
 <div class="check-section bg-light border mat-elevation-z5">
     <h4 class="text-center text-white bg-dark py-1 m-0">@Value.Hardware.HardwareType.GetDisplayName()</h4>
+    
     <div class="p-1 pt-0">
         <CheckSubheader Hardware="Value.Hardware" />
     </div>
+
     <div class="p-3">
         @for (int i = 0; i < Value.CheckParameters.Count; i++)
         {

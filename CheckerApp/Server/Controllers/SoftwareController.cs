@@ -1,7 +1,7 @@
 ﻿using CheckerApp.Application.Softwares.Commands.CreateSoftware;
 using CheckerApp.Application.Softwares.Commands.DeleteSoftware;
 using CheckerApp.Application.Softwares.Queries.GetSoftwaresList;
-using CheckerApp.Shared.Models.Commands;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -15,12 +15,14 @@ namespace CheckerApp.Server.Controllers
             return Ok(await Mediator.Send(new GetSoftwaresListQuery()));
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<int>> CreateSoftware([FromBody] CreateSoftwareCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
 
+        [Authorize]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteSoftware(int id)
         {

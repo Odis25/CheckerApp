@@ -1,0 +1,96 @@
+﻿@using CheckerApp.Client.Shared.Hardwares.Adding
+
+<div class="col">
+    <div class="border p-2">
+        <div class="mb-2 row">
+            <div class="col">
+                <MatTextField Label="Позиция по проекту" @bind-Value="Value.Position" Outlined="true" Style="width:100%"></MatTextField>
+                <ValidationMessage For="()=> Value.Position"></ValidationMessage>
+            </div>
+        </div>
+        <div class="mb-2 row">
+            <div class="col">
+                <MatTextField Label="Серийный номер" @bind-Value="Value.SerialNumber" Outlined="true" Style="width:100%"></MatTextField>
+                <ValidationMessage For="()=> Value.SerialNumber"></ValidationMessage>
+            </div>
+        </div>
+        <div class="mb-2 row">
+            <div class="col">
+                <MatTextField Label="Тип прибора" @bind-Value="((FlowmeterVm)Value).DeviceType" Outlined="true" Style="width:100%"></MatTextField>
+                <ValidationMessage For="()=> ((FlowmeterVm)Value).DeviceType"></ValidationMessage>
+            </div>
+        </div>
+        <div class="mb-2 row">
+            <div class="col">
+                <MatTextField Label="Модель прибора" @bind-Value="((FlowmeterVm)Value).DeviceModel" Outlined="true" Style="width:100%"></MatTextField>
+                <ValidationMessage For="()=> ((FlowmeterVm)Value).DeviceModel"></ValidationMessage>
+            </div>
+        </div>
+        <div class="mb-2 row">
+            <div class="col">
+                <MatNumericUpDownField Label="Нижний предел измерений" @bind-Value="((FlowmeterVm)Value).MinValue"
+                                       DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
+                <ValidationMessage For="()=> ((FlowmeterVm)Value).MinValue"></ValidationMessage>
+            </div>
+            <div class="col">
+                <MatNumericUpDownField Label="Верхний предел измерений" @bind-Value="((FlowmeterVm)Value).MaxValue"
+                                       DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
+                <ValidationMessage For="()=> ((FlowmeterVm)Value).MaxValue"></ValidationMessage>
+            </div>
+            <div class="col">
+                <MatSelectItem Label="Единицы измерения" @bind-Value="((FlowmeterVm)Value).EU" Outlined="true" FullWidth="true" Items="euArray">
+                    <ItemTemplate Context="eu">@eu</ItemTemplate>
+                </MatSelectItem>
+            </div>
+        </div>
+        <div class="mb-2 row">
+            <div class="col">
+                <MatNumericUpDownField @bind-Value="((FlowmeterVm)Value).Kfactor"
+                                       Label="К-фактор"
+                                       DecimalPlaces="1"
+                                       Outlined="true"
+                                       Style="width:100%"></MatNumericUpDownField>
+                <ValidationMessage For="()=> ((FlowmeterVm)Value).Kfactor"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <MatSelectItem ValueExpression="()=>((FlowmeterVm)Value).SignalType"
+                               Value="((FlowmeterVm)Value).SignalType"
+                               ValueChanged="((SignalType value) => SignalChanged(value))"
+                               Label="Способ подключения"
+                               Outlined="true"
+                               FullWidth="true"
+                               Items="signals">
+                    <ItemTemplate Context="signal">@signal.GetDisplayName()</ItemTemplate>
+                </MatSelectItem>
+            </div>
+        </div>
+    </div>
+</div>
+@if (((FlowmeterVm)Value).SignalType == SignalType.RS485)
+{
+    <div class="col-sm-4">
+        <h5>Настройки Modbus</h5>
+        <ModbusSettings @bind-Value="((FlowmeterVm)Value).ModbusSettings" />
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public HardwareVm Value { get; set; }
+
+    [Parameter]
+    public EventCallback<HardwareVm> ValueChanged { get; set; }
+
+    private SignalType[] signals = Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray();
+
+    private string[] euArray = { "м3", "тыс.м3", "т", "кг" };
+
+    private async Task SignalChanged(SignalType value)
+    {
+        ((FlowmeterVm)Value).SignalType = value;
+        await ValueChanged.InvokeAsync(Value);
+    }
+}

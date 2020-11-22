@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using CheckerApp.Application.Checks.Queries.GetCheckList;
 using CheckerApp.Application.Checks.Commands.SaveCheckResult;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CheckerApp.Server.Controllers
 {
     public class CheckController: ApiController
     {
+        [Authorize]
         [HttpGet("{contractId:int}")]
         public async Task<IActionResult> GetCheckList(int contractId)
         {
@@ -15,6 +17,7 @@ namespace CheckerApp.Server.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<int>> SaveCheckResult([FromBody] SaveCheckResultCommand command)
         {

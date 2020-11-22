@@ -1,0 +1,93 @@
+﻿@using CheckerApp.Client.Shared.Modal
+
+<div class="col">
+    <div class="border p-2">
+        <div class="row mb-2">
+            <div class="col">
+                <MatTextField Label="Позиция по проекту" @bind-Value="Value.Position" Outlined="true" Style="width: 100%;"></MatTextField>
+                <ValidationMessage For="()=> Value.Position"></ValidationMessage>
+            </div>
+        </div>
+        <div class="mb-2 row">
+            <div class="col">
+                <MatTextField Label="Тип прибора" @bind-Value="((NetworkHardwareVm)Value).DeviceType" Outlined="true" Style="width:100%"></MatTextField>
+                <ValidationMessage For="()=> ((NetworkHardwareVm)Value).DeviceType"></ValidationMessage>
+            </div>
+        </div>
+        <div class="mb-2 row">
+            <div class="col">
+                <MatTextField Label="Модель прибора" @bind-Value="((NetworkHardwareVm)Value).DeviceModel" Outlined="true" Style="width:100%"></MatTextField>
+                <ValidationMessage For="()=> ((NetworkHardwareVm)Value).DeviceModel"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <MatTextField Label="Серийный номер" @bind-Value="((NetworkHardwareVm)Value).SerialNumber" Outlined="true" Style="width: 100%;"></MatTextField>
+                <ValidationMessage For="()=> ((NetworkHardwareVm)Value).SerialNumber"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <MatTextField Label="Маска подсети" @bind-Value="((NetworkHardwareVm)Value).Mask" Outlined="true" Style="width: 100%;"></MatTextField>
+                <ValidationMessage For="()=> ((NetworkHardwareVm)Value).Mask"></ValidationMessage>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col">
+    <h5>Подключенное оборудование:</h5>
+    <div class="border p-2">
+        <div class="row">
+            <div class="col py-2">
+                <MatButton Type="button" @onclick="AddNetworkDevice" Raised="true" Style="width:100%;">Добавить</MatButton>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table table-sm table-striped table-hover" style="min-width:500px;">
+                    <thead>
+                        <tr>
+                            <th class="w-50">Название</th>
+                            <th class="w-25">IP</th>
+                            <th class="w-25">MAC-адрес</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ((NetworkHardwareVm)Value).NetworkDevices)
+                        {
+                            <tr>
+                                <td class="w-50">@item.Name</td>
+                                <td class="w-25">@item.IP</td>
+                                <td class="w-25">@item.MacAddress</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public HardwareVm Value { get; set; }
+
+    [Parameter]
+    public EventCallback<HardwareVm> ValueChanged { get; set; }
+
+    [CascadingParameter]
+    protected IModalService Modal { get; set; }
+
+    private async Task AddNetworkDevice()
+    {
+        var modalForm = Modal.Show<AddNetworkDeviceModal>("Подключенное устройство");
+        var result = await modalForm.Result;
+
+        if (!result.Cancelled)
+        {
+            var device = (NetworkDeviceDto)result.Data;
+            ((NetworkHardwareVm)Value).NetworkDevices.Add(device);
+        }
+    }
+}
