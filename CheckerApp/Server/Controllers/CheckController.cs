@@ -9,7 +9,7 @@ namespace CheckerApp.Server.Controllers
 {
     public class CheckController: ApiController
     {
-        [Authorize]
+        [Authorize(Roles = "Admin, SuperUser")]
         [HttpGet("{contractId:int}")]
         public async Task<IActionResult> GetCheckList(int contractId)
         {
@@ -17,7 +17,7 @@ namespace CheckerApp.Server.Controllers
             return Ok(result);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin, SuperUser")]
         [HttpPost]
         public async Task<ActionResult<int>> SaveCheckResult([FromBody] SaveCheckResultCommand command)
         {
@@ -25,6 +25,7 @@ namespace CheckerApp.Server.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpGet("download/{contractId:int}")]
         public async Task<FileResult> Download(int contractId)
         {

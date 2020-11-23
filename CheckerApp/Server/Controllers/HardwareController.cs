@@ -32,7 +32,7 @@ namespace CheckerApp.Server.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, SuperUser")]
         [ProducesResponseType(201)]
         [HttpPut]
         public async Task<IActionResult> UpdateHardware([FromBody] UpdateHardwareCommand command)

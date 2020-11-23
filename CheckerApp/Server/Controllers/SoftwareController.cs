@@ -15,14 +15,14 @@ namespace CheckerApp.Server.Controllers
             return Ok(await Mediator.Send(new GetSoftwaresListQuery()));
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<int>> CreateSoftware([FromBody] CreateSoftwareCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteSoftware(int id)
         {

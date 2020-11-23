@@ -31,6 +31,7 @@ namespace CheckerApp.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Admin", NormalizedName = "Admin".ToUpper() });
+            builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "SuperUser", NormalizedName = "SuperUser".ToUpper() });
             builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "User", NormalizedName = "User".ToUpper() });
 
             builder.Entity<Flowmeter>().OwnsOne(e => e.Settings, ms => ms.ToTable("FlowmeterSettings"));

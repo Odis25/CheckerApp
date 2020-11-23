@@ -3,9 +3,9 @@
 @using CheckerApp.Client.Shared.Modal
 
 @inject IHttpClientFactory httpClientFactory
+@inject IModalService modal
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
-@inject IModalService modal
 
 
 @if (ContractsList == null)
@@ -18,7 +18,7 @@ else
     <hr />
     <div class="table-container contract-table mat-elevation-z5">
         <table class="table table-hover app-table">
-            <thead class="thead-dark mat-elevation-z5">
+            <thead class="mat-elevation-z5">
                 <tr>
                     <th scope="row">Номер договора</th>
                     <th scope="row">Внутренний номер проекта</th>
@@ -35,10 +35,13 @@ else
                         <td>@item.ContractNumber</td>
                         <td>@item.DomesticNumber</td>
                         <td>@item.Name</td>
-                        <AuthorizeView Roles="Admin">
+                        <AuthorizeView Roles="Admin, SuperUser">
                             <td>
                                 <button class="btn btn-outline-secondary" @onclick="@(async ()=> await EditContract(item.Id))"><span class="oi oi-pencil"></span></button>
-                                <button class="btn btn-outline-danger" @onclick="@(async ()=> await DeleteContract(item.Id))"><span class="oi oi-trash"></span></button>
+                                @if (!context.User.IsInRole("SuperUser"))
+                                {
+                                    <button class="btn btn-outline-danger" @onclick="@(async ()=> await DeleteContract(item.Id))"><span class="oi oi-trash"></span></button>
+                                }
                             </td>
                         </AuthorizeView>
                     </tr>

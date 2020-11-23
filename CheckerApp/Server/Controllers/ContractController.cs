@@ -30,7 +30,7 @@ namespace CheckerApp.Server.Controllers
             return Ok(await Mediator.Send(command));
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, SuperUser")]
         [ProducesResponseType(201)]
         [HttpPut]
         public async Task<ActionResult> UpdateContract([FromBody] UpdateContractCommand command)

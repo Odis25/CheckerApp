@@ -1,0 +1,74 @@
+﻿@page "/users"
+
+@using CheckerApp.Shared.Enums
+@using CheckerApp.Shared.Models.Users
+@using CheckerApp.Shared.Models.Commands
+
+@inject HttpClient httpClient
+
+
+@if (UsersList == null)
+{
+    <div class="spinner-border"></div>
+}
+else
+{
+    <EditForm Model="UsersList" OnSubmit="SaveChanges">
+        <div class="alert alert-primary mat-elevation-z5">
+            <div class="row">
+                <div class="col">
+                    <h2>Список пользователей</h2>
+                </div>
+                <div class="col-2 control-panel d-flex">
+                    <button type="submit" class="btn btn-success my-auto"><span class="oi oi-check"></span> Сохранить</button>
+                </div>
+            </div>
+        </div>
+        <div class="table-container contract-table mat-elevation-z5">
+            <table class="table table-hover app-table">
+                <thead class="mat-elevation-z5">
+                    <tr>
+                        <th scope="row">Id</th>
+                        <th scope="row">Имя аккаунта</th>
+                        <th scope="row">Ф.И.О.</th>
+                        <th scope="row">Роль</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in UsersList.Users)
+                    {
+                        <tr>
+                            <td>@user.Id</td>
+                            <td>@user.AccountName</td>
+                            <td>@user.FullName</td>
+                            <td>
+                                <InputSelect class="form-control" @bind-Value="user.Role">
+                                    <option value="@Role.User.ToString()">@Role.User.GetDisplayName()</option>
+                                    <option value="@Role.SuperUser.ToString()">@Role.SuperUser.GetDisplayName()</option>
+                                    <option value="@Role.Admin.ToString()">@Role.Admin.GetDisplayName()</option>
+                                </InputSelect>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </EditForm>
+}
+
+@code {
+
+    UsersListVm UsersList { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        UsersList = await httpClient.GetFromJsonAsync<UsersListVm>("api/users");
+    }
+
+    private async Task SaveChanges()
+    {
+        var command = new UpdateUsersCommandVm { Users = UsersList };
+
+        await httpClient.PutJsonAsync<UpdateUsersCommandVm>("api/users", command);
+    }
+}

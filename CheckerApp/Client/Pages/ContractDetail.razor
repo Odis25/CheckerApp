@@ -58,10 +58,12 @@ else
                         <button class="btn btn-dark text-nowrap mr-lg-1" @onclick="AddHardware"><span class="oi oi-monitor mr-2" aria-hidden="true"></span> Новое оборудование</button>
                         <button class="btn btn-dark text-nowrap mr-lg-1" @onclick="AddSoftware"><span class="oi oi-code mr-2" aria-hidden="true"></span> Новое ПО</button>
                     </AuthorizeView>
-                    <AuthorizeView>
+                    <AuthorizeView Roles="Admin, SuperUser">
                         <button class="btn btn-dark text-nowrap mr-lg-1" @onclick="AddDocument"><span class="oi oi-task mr-2" aria-hidden="true"></span> Создать протокол</button>
                     </AuthorizeView>
-                    <button class="btn btn-success text-nowrap mr-lg-1" @onclick="DownloadFile" disabled="@(Contract.HasProtocol == false)"><span class="oi oi-cloud-download mr-2" aria-hidden="true"></span> Скачать протокол</button>
+                    <AuthorizeView>
+                        <button class="btn btn-success text-nowrap mr-lg-1" @onclick="DownloadFile" disabled="@(Contract.HasProtocol == false)"><span class="oi oi-cloud-download mr-2" aria-hidden="true"></span> Скачать протокол</button>
+                    </AuthorizeView>
                 </div>
             </div>
         </div>
@@ -71,12 +73,12 @@ else
             <h5>Список оборудования:</h5>
             <div class="table-container hardware-table mat-elevation-z5">
                 <table class="table table-hover app-table">
-                    <thead class="thead-dark mat-elevation-z5">
+                    <thead class="mat-elevation-z5">
                         <tr>
                             <th scope="row">Тип</th>
                             <th scope="row">Позиция</th>
                             <th scope="row">Серийный номер</th>
-                            <AuthorizeView Roles="Admin">
+                            <AuthorizeView Roles="Admin, SuperUser">
                                 <th scope="row"></th>
                             </AuthorizeView>
                         </tr>
@@ -88,10 +90,13 @@ else
                                 <td>@item.HardwareType.GetDisplayName()</td>
                                 <td>@item.Position</td>
                                 <td>@item.SerialNumber</td>
-                                <AuthorizeView Roles="Admin">
+                                <AuthorizeView Roles="Admin, SuperUser">
                                     <td>
                                         <button class="btn btn-outline-secondary" @onclick="@(async ()=> await EditHardware(item.Id))"><span class="oi oi-pencil"></span></button>
-                                        <button class="btn btn-outline-danger" @onclick="@(async ()=> await DeleteHardware(item.Id))"><span class="oi oi-trash"></span></button>
+                                        @if (!context.User.IsInRole("SuperUser"))
+                                        {
+                                            <button class="btn btn-outline-danger" @onclick="@(async ()=> await DeleteHardware(item.Id))"><span class="oi oi-trash"></span></button>
+                                        }
                                     </td>
                                 </AuthorizeView>
                             </tr>
@@ -104,12 +109,12 @@ else
             <h5>Список программного обеспечения:</h5>
             <div class="table-container hardware-table mat-elevation-z5">
                 <table class="table table-hover app-table">
-                    <thead class="thead-dark mat-elevation-z5">
+                    <thead class="mat-elevation-z5">
                         <tr>
                             <th scope="row">Тип</th>
                             <th scope="row">Название</th>
                             <th scope="row">Версия</th>
-                            <AuthorizeView Roles="Admin">
+                            <AuthorizeView Roles="Admin, SuperUser">
                                 <th scope="row"></th>
                             </AuthorizeView>
                         </tr>
@@ -121,10 +126,13 @@ else
                                 <td>@item.SoftwareType.GetDisplayName()</td>
                                 <td>@item.Name</td>
                                 <td>@item.Version</td>
-                                <AuthorizeView Roles="Admin">
+                                <AuthorizeView Roles="Admin, SuperUser">
                                     <td>
-                                        @*<button class="btn btn-outline-secondary" @onclick="@(async ()=> await EditSoftware(item.Id))"><span class="oi oi-pencil"></span></button>*@
-                                        <button class="btn btn-outline-danger" @onclick="@(async ()=> await DeleteSoftware(item.Id))"><span class="oi oi-trash"></span></button>
+                                        <button class="btn btn-outline-secondary" @onclick="@(async ()=> await EditSoftware(item.Id))"><span class="oi oi-pencil"></span></button>
+                                        @if (!context.User.IsInRole("SuperUser"))
+                                        {
+                                            <button class="btn btn-outline-danger" @onclick="@(async ()=> await DeleteSoftware(item.Id))"><span class="oi oi-trash"></span></button>
+                                        }
                                     </td>
                                 </AuthorizeView>
                             </tr>
