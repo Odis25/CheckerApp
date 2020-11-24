@@ -53,17 +53,20 @@ namespace CheckerApp.Server
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
                 app.UseWebAssemblyDebugging();
+                app.UseDeveloperExceptionPage();
             }
             else
             {
+                app.UseDeveloperExceptionPage();
+                app.UseWebAssemblyDebugging();
+
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 
-            app.UseCustomExceptionHandler();
+            //app.UseCustomExceptionHandler();
 
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
