@@ -5,6 +5,7 @@ using CheckerApp.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,7 +28,7 @@ namespace CheckerApp.Application.Contracts.Queries.GetContractDetail
             var res = await _context.Contracts
                 .ProjectTo<ContractDetailDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(c => c.Id == request.Id);
-
+            res.HardwareList = res.HardwareList.OrderBy(h => h.HardwareType);
             res.CreatedBy = (await _userManager.FindByIdAsync(res.CreatedBy)).FullName;
             res.LastModifiedBy = (await _userManager.FindByIdAsync(res.LastModifiedBy))?.FullName;
 

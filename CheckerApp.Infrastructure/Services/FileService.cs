@@ -37,8 +37,10 @@ namespace CheckerApp.Infrastructure.Services
                 worksheet.Cells["A1:F1"].Merge = true;
                 worksheet.Cells["A2:F4"].Merge = true;
 
+                var domectic = string.IsNullOrWhiteSpace(contract.DomesticNumber) ? $"({contract.DomesticNumber})" : string.Empty;
+
                 worksheet.Cells["A1"].Value = "Протокол";
-                worksheet.Cells["A2"].Value = $"испытаний оборудования СОИ \"{contract.Name}\", дог.{contract.ContractNumber}, вн.проект {contract.DomesticNumber}";
+                worksheet.Cells["A2"].Value = $"испытаний оборудования СОИ \"{contract.Name}\", дог.{contract.ContractNumber}{domectic}, вн.проект {contract.ProjectNumber}";
 
                 worksheet.Cells["A2"].Style.WrapText = true;
                 worksheet.Cells["A1:F4"].Style.Font.Bold = true;
@@ -103,7 +105,7 @@ namespace CheckerApp.Infrastructure.Services
                 }
 
                 // Список проверяемого оборудования
-                var hardwares = checkResult.HardwareChecks.Where(e => e != null).ToArray();
+                var hardwares = checkResult.HardwareChecks.Where(e => e != null).OrderBy(h=>h.Hardware.HardwareType).ToArray();
                 var row = 10;
 
                 // Список ПО

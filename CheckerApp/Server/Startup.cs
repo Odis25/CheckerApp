@@ -59,14 +59,11 @@ namespace CheckerApp.Server
             }
             else
             {
-                app.UseDeveloperExceptionPage();
-                app.UseWebAssemblyDebugging();
-
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 
-            //app.UseCustomExceptionHandler();
+            app.UseCustomExceptionHandler();
 
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();

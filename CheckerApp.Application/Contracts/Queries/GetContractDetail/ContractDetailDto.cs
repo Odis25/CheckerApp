@@ -12,6 +12,7 @@ namespace CheckerApp.Application.Contracts.Queries.GetContractDetail
         public string Name { get; set; }
         public string ContractNumber { get; set; }
         public string DomesticNumber { get; set; }
+        public string ProjectNumber { get; set; }
         public bool HasProtocol { get; set; }
         public IEnumerable<HardwareDto> HardwareList { get; set; }
         public IEnumerable<SoftwareDto> SoftwareList { get; set; }

@@ -30,7 +30,11 @@ namespace CheckerApp.Application.Contracts.Commands.DeleteContract
             {
                 var parameters = hardware.CheckResult?.CheckParameters;
 
-                _context.CheckParameters.RemoveRange(parameters);
+                if (parameters != null)
+                {
+                    _context.CheckParameters.RemoveRange(parameters);
+                }
+
                 _context.Hardwares.Remove(hardware);
             }
 
@@ -39,7 +43,11 @@ namespace CheckerApp.Application.Contracts.Commands.DeleteContract
             {
                 var parameters = software.CheckResult?.CheckParameters;
 
-                _context.CheckParameters.RemoveRange(parameters);
+                if (parameters != null)
+                {
+                    _context.CheckParameters.RemoveRange(parameters);
+                }
+
                 _context.Softwares.Remove(software);
             }
 

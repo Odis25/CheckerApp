@@ -17,6 +17,7 @@ namespace CheckerApp.Domain.Entities.ContractEntities
         public string Name { get; set; }
         public string ContractNumber { get; set; }
         public string DomesticNumber { get; set; }
+        public string ProjectNumber { get; set; }
         public bool HasProtocol { get; set; }
 
         public virtual ICollection<Hardware> HardwareList { get; private set; }

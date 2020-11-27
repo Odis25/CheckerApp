@@ -25,7 +25,6 @@ namespace CheckerApp.Server.Controllers
             return Ok(result);
         }
 
-        [Authorize]
         [HttpGet("download/{contractId:int}")]
         public async Task<FileResult> Download(int contractId)
         {

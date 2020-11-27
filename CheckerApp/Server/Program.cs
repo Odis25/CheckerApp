@@ -20,7 +20,6 @@ namespace CheckerApp.Server
                 try
                 {
                     var context = services.GetRequiredService<AppDbContext>();
-                    //context.Database.EnsureCreated();
                     context.Database.Migrate();
                 }
                 catch (Exception ex)

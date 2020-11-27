@@ -1,4 +1,6 @@
-﻿namespace CheckerApp.Shared.Models.Contract
+﻿using System;
+
+namespace CheckerApp.Shared.Models.Contract
 {
     public class ContractDto
     {
@@ -6,6 +8,8 @@
         public string Name { get; set; }
         public string ContractNumber { get; set; }
         public string DomesticNumber { get; set; }
+        public string ProjectNumber { get; set; }
+        public DateTime LastChanges { get; set; }
         public bool HasProtocol { get; set; }
     }
 }

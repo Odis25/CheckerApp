@@ -20,7 +20,8 @@ namespace CheckerApp.Application.Contracts.Commands.CreateContract
             {
                 ContractNumber = request.ContractNumber,
                 Name = request.Name,
-                DomesticNumber = request.DomesticNumber
+                DomesticNumber = request.DomesticNumber,
+                ProjectNumber = request.ProjectNumber
             };
 
             _context.Contracts.Add(contract);

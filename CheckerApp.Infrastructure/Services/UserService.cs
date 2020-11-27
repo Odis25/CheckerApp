@@ -52,8 +52,11 @@ namespace CheckerApp.Infrastructure.Services
                                 {
                                     var accountName = result.Properties[SAMAccountNameAttribute][0].ToString();
                                     var displayName = result.Properties[DisplayNameAttribute][0].ToString();
-                                    var name = result.Properties[GivenNameAttribute][0].ToString();
-                                    var lastName = result.Properties[SnAttribute][0].ToString();
+
+                                    var nameArray = displayName.Split(' ');
+
+                                    var name = nameArray[1];
+                                    var lastName = nameArray[0];
 
                                     user = new ApplicationUser
                                     {

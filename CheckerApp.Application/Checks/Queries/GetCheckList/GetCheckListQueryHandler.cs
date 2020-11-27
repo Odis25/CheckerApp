@@ -66,6 +66,8 @@ namespace CheckerApp.Application.Checks.Queries.GetCheckList
                 vm.SoftwareChecks.Add(softwareCheckDto);
             }
 
+            vm.HardwareChecks = vm.HardwareChecks.OrderBy(h => h.Hardware.HardwareType).ToList();
+
             return vm;
         }
     }

@@ -21,6 +21,7 @@ namespace CheckerApp.Application.Contracts.Commands.UpdateContract
             contract.Name = request.Name;
             contract.ContractNumber = request.ContractNumber;
             contract.DomesticNumber = request.DomesticNumber;
+            contract.ProjectNumber = request.ProjectNumber;
 
             try
             {

@@ -20,8 +20,10 @@ else
         <table class="table table-hover app-table">
             <thead class="mat-elevation-z5">
                 <tr>
+                    <th scope="row">Дата последних изменений</th>
                     <th scope="row">Номер договора</th>
-                    <th scope="row">Внутренний номер проекта</th>
+                    <th scope="row">Внутренний номер договора</th>
+                    <th scope="row">Номер проекта</th>
                     <th scope="row">Название</th>
                     <AuthorizeView Roles="Admin">
                         <th scope="row"></th>
@@ -32,8 +34,10 @@ else
                 @foreach (var item in ContractsList.Contracts)
                 {
                     <tr @ondblclick="()=>NavigateTo(item.Id)">
+                        <td>@item.LastChanges.ToShortDateString()</td>
                         <td>@item.ContractNumber</td>
                         <td>@item.DomesticNumber</td>
+                        <td>@item.ProjectNumber</td>
                         <td>@item.Name</td>
                         <AuthorizeView Roles="Admin, SuperUser">
                             <td>

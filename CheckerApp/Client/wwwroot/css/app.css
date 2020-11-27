@@ -48,34 +48,33 @@ html, body {
         background-color: #247;
         border-color: #454d55;
         color: white;
-    }
-
-    .app-table tbody tr {
-        cursor: pointer;
-    }
-
-    .app-table th {
+        white-space: nowrap;
         position: sticky;
         top: 0;
         z-index: 90;
         border-top: none;
     }
 
-        .app-table th:first-child, .app-table td:first-child {
+    .app-table tbody tr {
+        cursor: pointer;
+    }
+
+        .app-table tbody tr th:first-child, .app-table tbody tr td:first-child {
             padding-left: 1rem;
+        }
+
+        .app-table tbody tr th:first-child {
+            border-radius: 5px 0 0 0;
+        }
+
+        .app-table tbody tr th:last-child {
+            border-radius: 0 5px 0 0;
         }
 
     .app-table .btn {
         border-radius: 50px;
     }
 
-    .app-table th:first-child {
-        border-radius: 5px 0 0 0;
-    }
-
-    .app-table th:last-child {
-        border-radius: 0 5px 0 0;
-    }
 
 /*---- Скроллер ----*/
 ::-webkit-scrollbar {

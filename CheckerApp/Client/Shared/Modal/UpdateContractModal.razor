@@ -22,6 +22,12 @@
             <ValidationMessage For="(()=>Command.DomesticNumber)"></ValidationMessage>
         </div>
     </div>
+    <div class="mb-2 row">
+        <div class="col">
+            <MatTextField @bind-Value="Command.ProjectNumber" Label="Внутренний номер проекта" Outlined="true" Style="width: 100%;" />
+            <ValidationMessage For="(()=>Command.ProjectNumber)"></ValidationMessage>
+        </div>
+    </div>
     <hr />
     <div class="">
         <MatButton Raised="true" Style="width:100%;" type="submit"> Сохранить</MatButton>
@@ -45,6 +51,7 @@
             Id = Contract.Id,
             Name = Contract.Name,
             ContractNumber = Contract.ContractNumber,
+            ProjectNumber = Contract.ProjectNumber,
             DomesticNumber = Contract.DomesticNumber
         };
     }
