@@ -1,7 +1,4 @@
-﻿@inject HttpClient HttpClient
-@using CheckerApp.Shared.Models.Commands
-
-<EditForm Model="@Contract" style="min-width:650px;" OnValidSubmit="Submit">
+﻿<EditForm Model="@Contract" style="min-width:650px;" OnValidSubmit="Submit">
     <FluentValidationValidator />
 
     <div class="mb-2 row">
@@ -30,27 +27,6 @@
     </div>
     <hr />
     <div class="">
-        <MatButton Raised="true" Style="width:100%;" type="submit"> Сохранить</MatButton>
+        <button class="btn btn-primary w-100 shadow" type="submit"><span class="oi oi-check"></span> Сохранить</button>
     </div>
 </EditForm>
-
-@code {
-
-    [CascadingParameter]
-    BlazoredModalInstance BlazoredModal { get; set; }
-
-    CreateContractCommandVm Contract;
-
-    protected override Task OnInitializedAsync()
-    {
-        Contract = new CreateContractCommandVm();
-        return base.OnInitializedAsync();
-    }
-
-    protected async Task Submit()
-    {
-        var contractId = await HttpClient.PostJsonAsync<int>("api/contract", Contract);
-
-        await BlazoredModal.Close(ModalResult.Ok(contractId));
-    }
-}

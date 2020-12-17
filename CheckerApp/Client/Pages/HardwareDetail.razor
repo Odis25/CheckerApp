@@ -1,10 +1,6 @@
 ﻿@page "/hardware/{id}/detail"
 
-@using System.Text.Json
 @using CheckerApp.Client.Shared.Hardwares.Details
-@using CheckerApp.Shared.Common.JsonConverters
-
-@inject IHttpClientFactory httpClientFactory
 
 @if (Hardware == null)
 {
@@ -43,21 +39,4 @@ else
                 break;
         }
     </div>
-}
-
-@code {
-
-    [Parameter]
-    public string Id { get; set; }
-
-    HardwareVm Hardware { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        var client = httpClientFactory.CreateClient("ServerAPI.NonAuthorized");
-
-        var options = new JsonSerializerOptions { Converters = { new HardwareConverter() } };
-
-        Hardware = await client.GetFromJsonAsync<HardwareVm>($"api/hardware/{int.Parse(Id)}", options);
-    }
 }

@@ -1,14 +1,11 @@
-﻿@inject HttpClient HttpClient
-
-@using CheckerApp.Shared.Models.Commands
-@using CheckerApp.Client.Shared.Hardwares.Adding
+﻿@using CheckerApp.Client.Shared.Hardwares.Add
 
 <EditForm Model="Command" style="min-width:800px;" OnValidSubmit="Submit">
     <FluentValidationValidator />
 
     <h5>Шаг 1. Выберите тип оборудования:</h5>
 
-    <MatSelectItem @bind-Value="Command.HardwareType" Items="hardwareTypes" Outlined="true" FullWidth="true">
+    <MatSelectItem @bind-Value="Command.HardwareType" Items="_hardwareTypes" Outlined="true" FullWidth="true">
         <ItemTemplate Context="type">@type.GetDisplayName()</ItemTemplate>
     </MatSelectItem>
     <hr />
@@ -104,50 +101,6 @@
         }
     </div>
     <hr />
-
-    <MatButton type="submit" Raised="true" Style="width: 100%;" Icon="add"> Добавить</MatButton>
+    <button class="btn btn-primary w-100 shadow" type="submit"><span class="oi oi-check"></span> Сохранить</button>
 
 </EditForm>
-
-@code {
-
-    [CascadingParameter]
-    protected BlazoredModalInstance BlazoredModal { get; set; }
-
-    [CascadingParameter]
-    protected IModalService Modal { get; set; }
-
-    [Parameter]
-    public string ContractId { get; set; }
-
-    private HardwareType[] hardwareTypes = Enum.GetValues(typeof(HardwareType)).Cast<HardwareType>().ToArray();
-
-    protected CreateHardwareCommandVm Command { get; set; }
-
-    protected override void OnInitialized()
-    {
-        Command = new CreateHardwareCommandVm
-        {
-            ContractId = int.Parse(ContractId)
-        };
-    }
-
-    private async Task Submit()
-    {
-        var hardwareId = await HttpClient.PostJsonAsync<int>("api/hardware", Command);
-
-        await BlazoredModal.Close(ModalResult.Ok(hardwareId));
-    }
-
-    private async Task AddNetworkDevice()
-    {
-        var modalForm = Modal.Show<AddNetworkDeviceModal>("");
-        var result = await modalForm.Result;
-
-        if (!result.Cancelled)
-        {
-            var device = (NetworkDeviceDto)result.Data;
-            Command.NetworkDevices.Add(device);
-        }
-    }
-}

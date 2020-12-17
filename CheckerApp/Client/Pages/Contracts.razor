@@ -1,13 +1,5 @@
 ﻿@page "/contracts"
 
-@using CheckerApp.Client.Shared.Modal
-
-@inject IHttpClientFactory httpClientFactory
-@inject IModalService modal
-@inject HttpClient httpClient
-@inject NavigationManager navigationManager
-
-
 @if (ContractsList == null)
 {
     <div class="spinner"></div>
@@ -41,10 +33,10 @@ else
                         <td>@item.Name</td>
                         <AuthorizeView Roles="Admin, SuperUser">
                             <td>
-                                <button class="btn btn-outline-secondary" @onclick="@(async ()=> await EditContract(item.Id))"><span class="oi oi-pencil"></span></button>
+                                <button class="btn btn-sm m-1 btn-outline-secondary" @onclick="@(async ()=> await EditContract(item.Id))"><span class="oi oi-pencil"></span></button>
                                 @if (!context.User.IsInRole("SuperUser"))
                                 {
-                                    <button class="btn btn-outline-danger" @onclick="@(async ()=> await DeleteContract(item.Id))"><span class="oi oi-trash"></span></button>
+                                    <button class="btn btn-sm m-1 btn-outline-danger" @onclick="@(async ()=> await DeleteContract(item.Id))"><span class="oi oi-trash"></span></button>
                                 }
                             </td>
                         </AuthorizeView>
@@ -53,56 +45,4 @@ else
             </tbody>
         </table>
     </div>
-}
-
-@code {
-
-    ContractsListVm ContractsList { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        var client = httpClientFactory.CreateClient("ServerAPI.NonAuthorized");
-        ContractsList = await client.GetFromJsonAsync<ContractsListVm>("api/contract");
-    }
-
-    private void NavigateTo(int id)
-    {
-        navigationManager.NavigateTo($"/contract/{id}/detail");
-    }
-
-    private async Task AddContract()
-    {
-        var formModal = modal.Show<AddContractModal>("Новый договор");
-        var result = await formModal.Result;
-
-        if (!result.Cancelled)
-        {
-            ContractsList = await httpClient.GetFromJsonAsync<ContractsListVm>("api/contract");
-        }
-    }
-
-    private async Task EditContract(int id)
-    {
-        var contract = await httpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{id}");
-
-        var parameters = new ModalParameters();
-
-        parameters.Add("Contract", contract);
-
-        var modalWindow = modal.Show<UpdateContractModal>("Редактирование договора", parameters);
-
-        var result = await modalWindow.Result;
-
-        if (!result.Cancelled)
-        {
-            ContractsList = await httpClient.GetFromJsonAsync<ContractsListVm>("api/contract");
-        }
-    }
-
-    private async Task DeleteContract(int id)
-    {
-        await httpClient.DeleteAsync($"api/contract/{id}");
-
-        ContractsList = await httpClient.GetFromJsonAsync<ContractsListVm>("api/contract");
-    }
 }

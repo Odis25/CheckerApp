@@ -29,7 +29,7 @@ namespace CheckerApp.Infrastructure
                     .AddClaimsPrincipalFactory<ApplicationUserClaimsFactory>();
 
             services.AddIdentityServer(config =>
-            {
+            {  
                 config.UserInteraction = new UserInteractionOptions
                 {
                     LoginUrl = "/login"
@@ -38,8 +38,8 @@ namespace CheckerApp.Infrastructure
                .AddApiAuthorization<ApplicationUser, AppDbContext>(options =>
                {
                    options.IdentityResources["openid"].UserClaims.Add("role");
-                   options.ApiResources.Single().UserClaims.Add("role");
                    options.IdentityResources["openid"].UserClaims.Add("full_name");
+                   options.ApiResources.Single().UserClaims.Add("role");
                    options.ApiResources.Single().UserClaims.Add("full_name");
                });
 

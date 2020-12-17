@@ -2,4 +2,13 @@
     border-radius: 5px;
     margin-bottom: 1.5rem;
     overflow: hidden;
+    background: #fafbfd;
+}
+
+    .check-section h4 {
+        background-color: #00356a;
+    }
+
+::deep .cb:focus {
+    box-shadow: none;
 }

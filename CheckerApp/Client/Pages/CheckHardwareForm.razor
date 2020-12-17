@@ -1,22 +1,14 @@
 ﻿@page "/contract/{id}/check"
 
-@using System.Text.Json
-@using CheckerApp.Shared.Common.JsonConverters
-@using CheckerApp.Shared.Models.Commands
-
-@inject HttpClient HttpClient
-@inject NavigationManager Navigation
-
-
 <EditForm Model="CheckList" OnValidSubmit="Submit">
 
-    <div class="alert alert-primary mat-elevation-z5">
+    <div class="alert section-header mat-elevation-z5">
         <div class="row">
             <div class="col">
                 <h3>Заводские испытания по договору @CheckList.Contract?.ContractNumber (вн.№ @CheckList.Contract?.DomesticNumber)</h3>
             </div>
             <div class="col-2 control-panel d-flex">
-                <button type="submit" class="btn btn-success my-auto"><span class="oi oi-check"></span> Сохранить</button>
+                <button type="submit" class="btn btn-primary my-auto shadow"><span class="oi oi-check"></span> Сохранить</button>
             </div>
         </div>
     </div>
@@ -45,39 +37,3 @@
 
 </EditForm>
 
-@code {
-
-    [Parameter]
-    public string Id { get; set; }
-
-    CheckListVm CheckList { get; set; } = new CheckListVm();
-
-    SoftwareCheckDto[] ScadaList { get; set; }
-
-    JsonSerializerOptions JsonOptions { get; set; }
-
-    protected async override Task OnInitializedAsync()
-    {
-        JsonOptions = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true,
-            Converters = { new HardwareConverter(), new SoftwareConverter() }
-        };
-
-        CheckList = await HttpClient.GetFromJsonAsync<CheckListVm>($"api/check/{int.Parse(Id)}", JsonOptions);
-
-        ScadaList = CheckList.SoftwareChecks.Where(e => e.Software is CheckerApp.Shared.Models.Software.ScadaDto).ToArray();
-    }
-
-    protected async Task Submit()
-    {
-        var command = new UpsertCheckResultCommandVm { CheckResult = CheckList };
-
-        var result = await HttpClient.PostAsJsonAsync($"api/check", command, JsonOptions);
-
-        if (result.IsSuccessStatusCode)
-        {
-            Navigation.NavigateTo($"/contract/{Id}/detail");
-        }
-    }
-}

@@ -1,9 +1,4 @@
-﻿@using CheckerApp.Client.Shared.Modal
-
-@inject HttpClient HttpClient
-@inject NavigationManager NavigationManager
-@inject IModalService Modal
-
+﻿
 <div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href=""><span class="logo logo-left">Checker</span><span class="logo logo-right">App</span></a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -40,27 +35,3 @@
         </AuthorizeView>
     </ul>
 </div>
-
-@code {
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-
-    private async Task AddContract()
-    {
-        var formModal = Modal.Show<AddContractModal>("Новый договор");
-        var result = await formModal.Result;
-
-        if (!result.Cancelled)
-        {
-            var contractId = result.Data.ToString();
-
-            NavigationManager.NavigateTo($"/contract/{contractId}/detail");
-        }
-    }
-}

@@ -26,3 +26,11 @@
     font-weight: bold;
     color: red;
 }
+
+.btn-header {
+    background: #00356a;
+    color: #fff;
+}
+    .btn-header:hover {
+        background: #178fd6;
+    }

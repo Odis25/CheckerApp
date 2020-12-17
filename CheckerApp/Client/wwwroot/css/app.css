@@ -2,6 +2,11 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #dce9ef;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Roboto !important;
 }
 
 .btn-primary {
@@ -9,7 +14,6 @@ html, body {
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
-
 
 .loading {
     color: Highlight;
@@ -26,10 +30,16 @@ html, body {
     padding-top: 1.1rem;
 }
 
+.section-header {
+    background-color: #fafbfd;
+    color: #000;
+}
+
 /*---- Таблица ----*/
 .table-container {
     overflow: auto;
     border-radius: 5px;
+    background: #fafbfd;
 }
 
     .table-container.contract-table {
@@ -45,7 +55,7 @@ html, body {
 }
 
     .app-table thead th {
-        background-color: #247;
+        background-color: #00356a;
         border-color: #454d55;
         color: white;
         white-space: nowrap;
@@ -75,7 +85,6 @@ html, body {
         border-radius: 50px;
     }
 
-
 /*---- Скроллер ----*/
 ::-webkit-scrollbar {
     width: 10px;
@@ -92,6 +101,34 @@ html, body {
     border-radius: 8px;
 }
 
+/*---- Модальные окна ----*/
+.blazored-modal {
+    border: 1px solid #3286aa;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+    .blazored-modal .blazored-modal-header {
+        padding: 0.7rem 1.5rem;
+        background-color: #00356a;
+        border-radius: 5px;
+        color: white;
+    }
+
+        .blazored-modal .blazored-modal-header .blazored-modal-title {
+            font-family: Roboto;
+        }
+
+        .blazored-modal .blazored-modal-header .blazored-modal-close {
+            color: white;
+        }
+
+    .blazored-modal .blazored-modal-content {
+        padding: 1.5rem;
+    }
+
+/*---- Прочее ----*/
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;

@@ -39,11 +39,13 @@ namespace CheckerApp.Server
                 options.JsonSerializerOptions.Converters.Add(new HardwareConverter());
                 options.JsonSerializerOptions.Converters.Add(new SoftwareConverter());
             });
+
             services.AddRazorPages();
 
-            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
             services.AddHttpClient();
+
             services.AddScoped<HttpClient>();
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
@@ -71,9 +73,9 @@ namespace CheckerApp.Server
 
             app.UseRouting();
 
-            app.UseIdentityServer();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseIdentityServer();
 
             app.UseEndpoints(endpoints =>
             {

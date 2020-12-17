@@ -1,9 +1,4 @@
 ﻿@using CheckerApp.Client.Shared.Hardwares.Edit
-@using CheckerApp.Shared.Models.Commands
-@using CheckerApp.Shared.Common.JsonConverters
-@using System.Text.Json
-
-@inject HttpClient HttpClient
 
 <EditForm Model="Command" style="min-width:800px;" OnValidSubmit="Submit">
     <FluentValidationValidator />
@@ -47,34 +42,6 @@
     </div>
     <hr />
 
-    <MatButton type="submit" Raised="true" Style="width: 100%;" Icon="add"> Сохранить</MatButton>
+    <button class="btn btn-primary w-100 shadow" type="submit"><span class="oi oi-check"></span> Сохранить</button>
 
 </EditForm>
-
-@code {
-
-    [CascadingParameter]
-    BlazoredModalInstance BlazoredModal { get; set; }
-
-    [Parameter]
-    public HardwareVm Hardware { get; set; }
-
-    UpdateHardwareCommandVm Command { get; set; }
-
-    protected override void OnParametersSet()
-    {
-        Command = new UpdateHardwareCommandVm
-        {
-            Hardware = Hardware
-        };
-    }
-
-    protected async Task Submit()
-    {
-        var options = new JsonSerializerOptions { Converters = { new HardwareConverter() } };
-
-        await HttpClient.PutAsJsonAsync("api/hardware", Command, options);
-
-        await BlazoredModal.Close(ModalResult.Ok(Hardware.Id));
-    }
-}

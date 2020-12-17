@@ -6,15 +6,14 @@ namespace CheckerApp.Server.Services
 {
     public class CurrentUserService : ICurrentUserService
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public CurrentUserService(IHttpContextAccessor httpContextAccessor)
         {
-            UserId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-            UserName = httpContextAccessor.HttpContext?.User?.FindFirstValue("full_name");
-            IsAuthenticated = UserId != null;
+            _httpContextAccessor = httpContextAccessor;
         }
-        public string UserId { get; }
-        public string UserName { get; }
-        public bool IsAuthenticated { get; }
+        public string UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        public string UserName => _httpContextAccessor.HttpContext?.User?.FindFirstValue("full_name");
+        public bool IsAuthenticated => UserId != null;
     }
 }

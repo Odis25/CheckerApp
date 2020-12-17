@@ -1,10 +1,10 @@
 ﻿@page "/"
 
 <AuthorizeView>
-    <Authorized>
+    <Authorized>       
         <h2>
-            Привет @context.User.FindFirst(c=>c.Type == "full_name").Value,
-            вот список твоих клаймов:
+            Привет, @context.User.FindFirst(c=>c.Type == "full_name").Value!
+            Вот список твоих клаймов:
         </h2>
         <ul>
             @foreach (var claim in context.User.Claims)
@@ -14,5 +14,3 @@
         </ul>
     </Authorized>
 </AuthorizeView>
-
-<SurveyPrompt Title="How is Blazor working for you?" />

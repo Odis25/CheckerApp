@@ -1,6 +1,7 @@
 ﻿
-<div class="check-section bg-light border mat-elevation-z5">
-    <h4 class="text-center text-white bg-dark py-1 m-0">@Title</h4>
+<div class="check-section border mat-elevation-z5">
+    <h4 class="text-center text-white py-2 m-0">@Title</h4>
+    
     <div class="p-3">
         @for (int i = 0; i < Value.CheckParameters.Count; i++)
         {
@@ -17,7 +18,7 @@
                     </InputSelect>
                 </div>
                 <div class="col-1">
-                    <InputCheckbox class="form-control" @bind-Value="Value.CheckParameters[index].Result"></InputCheckbox>
+                    <InputCheckbox class="form-control cb" @bind-Value="Value.CheckParameters[index].Result"></InputCheckbox>
                 </div>
                 <div class="col-2">
                     <InputDate class="form-control" @bind-Value="Value.CheckParameters[index].Date"></InputDate>
@@ -29,18 +30,3 @@
         }
     </div>
 </div>
-
-@code {
-    [Parameter]
-    public SoftwareCheckDto Value { get; set; }
-
-    [Parameter]
-    public EventCallback<SoftwareCheckDto> ValueChanged { get; set; }
-
-    string Title { get; set; }
-
-    protected override void OnInitialized()
-    {
-        Title = $"{Value.Software.SoftwareType.GetDisplayName()}: {Value.Software.Name} ver. {Value.Software.Version}";
-    }
-}
