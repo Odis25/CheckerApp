@@ -2,7 +2,7 @@
 
 <AuthorizeView>
     <Authorized>
-        <a class="mr-2" href="#"><span class="oi oi-person mr-2"></span> @context.User.FindFirst("full_name").Value</a>
+        <a class="mr-2" href="/account"><span class="oi oi-person mr-2"></span> @context.User.FindFirst("full_name").Value</a>
         <button class="nav-link btn btn-link btn-outline-light" @onclick="BeginSignOut"><span class="oi oi-account-logout"></span> Выход</button>
     </Authorized>
     <NotAuthorized>

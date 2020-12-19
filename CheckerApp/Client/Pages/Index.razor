@@ -1,16 +1,16 @@
 ﻿@page "/"
 
-<AuthorizeView>
-    <Authorized>       
-        <h2>
-            Привет, @context.User.FindFirst(c=>c.Type == "full_name").Value!
-            Вот список твоих клаймов:
-        </h2>
-        <ul>
-            @foreach (var claim in context.User.Claims)
-            {
-                <li><b>@claim.Type</b>: @claim.Value</li>
-            }
-        </ul>
-    </Authorized>
-</AuthorizeView>
+<div class="alert section-header p-4 mat-elevation-z5 ">
+
+    <h2 class="h2 border-bottom pb-2">Спасибо, что пользуетесь CheckerApp!</h2>
+    <p class="font-weight-bold font-italic pb-4">Мы работаем, чтобы вы могли работать меньше.</p>
+    <h5 class="pl-4 font-weight-bold pt-2 pb-4">Изменения в версии 1.0.0:</h5>
+    <ol>
+        <li><p>Редактирование параметров программногого обеспечения</p></li>
+        <li><p>Добавлена страница с информацией об аккаунте</p></li>
+        <li><p>Добавлена страница с информацией об оборудовании</p></li>
+        <li><p>Изменения в дизайне</p></li>
+        <li><p>Исправлены мелкие ошибки</p></li>
+    </ol>
+</div>
+

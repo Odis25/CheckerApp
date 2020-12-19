@@ -42,16 +42,9 @@ h1, h2, h3, h4, h5, h6 {
     background: #fafbfd;
 }
 
-    .table-container.contract-table {
-        height: 81vh;
-    }
-
-    .table-container.hardware-table {
-        height: 54vh;
-    }
-
 .app-table {
     border-radius: 5px;
+
 }
 
     .app-table thead th {

@@ -4,7 +4,7 @@
 
 @if (UsersList == null)
 {
-    <div class="spinner-border"></div>
+    <div class="spinner"></div>
 }
 else
 {
@@ -12,14 +12,14 @@ else
         <div class="alert section-header mat-elevation-z5">
             <div class="row">
                 <div class="col">
-                    <h2>Список пользователей</h2>
+                    <h3>Список пользователей</h3>
                 </div>
                 <div class="col-2 control-panel d-flex justify-content-end">
-                    <button type="submit" class="btn btn-success my-auto"><span class="oi oi-check"></span> Сохранить</button>
+                    <button type="submit" class="btn btn-primary my-auto shadow"><span class="oi oi-check"></span> Сохранить</button>
                 </div>
             </div>
         </div>
-        <div class="table-container contract-table mat-elevation-z5">
+        <div class="table-container user-table mat-elevation-z5">
             <table class="table table-hover app-table">
                 <thead class="mat-elevation-z5">
                     <tr>
