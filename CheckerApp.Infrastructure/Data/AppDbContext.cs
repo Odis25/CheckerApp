@@ -50,6 +50,7 @@ namespace CheckerApp.Infrastructure.Data
             builder.Entity<NetworkHardware>().ToTable("NetworkHardwares");
             builder.Entity<Valve>().ToTable("Valves");
             builder.Entity<ARM>().ToTable("ARMs");
+            builder.Entity<DiffPressure>().ToTable("DiffPressures");
 
             builder.Entity<Software>()
                 .HasDiscriminator(e => e.SoftwareType)
@@ -67,6 +68,7 @@ namespace CheckerApp.Infrastructure.Data
         public DbSet<PLC> PLCs { get; set; }
         public DbSet<Temperature> Temperatures { get; set; }
         public DbSet<Pressure> Pressures { get; set; }
+        public DbSet<DiffPressure> DiffPressures { get; set; }
         public DbSet<Flowmeter> Flowmeters { get; set; }
         public DbSet<Valve> Valves { get; set; }
         public DbSet<ARM> ARMs { get; set; }

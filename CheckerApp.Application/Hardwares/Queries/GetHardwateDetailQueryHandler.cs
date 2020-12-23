@@ -24,13 +24,20 @@ namespace CheckerApp.Application.Hardwares.Queries
 
         public async Task<HardwareDto> Handle(GetHardwareDetailQuery request, CancellationToken cancellationToken)
         {
-            var result =  await _context.Hardwares
-                .FirstOrDefaultAsync(h => h.Id == request.Id);
+            try
+            {
+                var result = await _context.Hardwares
+                    .FirstOrDefaultAsync(h => h.Id == request.Id);
 
-            result.CreatedBy = (await _userManager.FindByIdAsync(result.CreatedBy)).FullName;
-            result.LastModifiedBy = (await _userManager.FindByIdAsync(result.LastModifiedBy))?.FullName;
+                result.CreatedBy = (await _userManager.FindByIdAsync(result.CreatedBy)).FullName;
+                result.LastModifiedBy = (await _userManager.FindByIdAsync(result.LastModifiedBy))?.FullName;
 
-            return _mapper.Map<HardwareDto>(result);
+                return _mapper.Map<HardwareDto>(result);
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

@@ -2,10 +2,13 @@
 using Blazored.Modal.Services;
 using CheckerApp.Client.Shared.Modal;
 using CheckerApp.Shared.Common.JsonConverters;
+using CheckerApp.Shared.Models;
 using CheckerApp.Shared.Models.Contract;
 using CheckerApp.Shared.Models.Hardware;
 using CheckerApp.Shared.Models.Software;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using System;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -52,6 +55,30 @@ namespace CheckerApp.Client.Pages
             {
                 Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{Id}");
             }
+        }
+
+        private async Task ImportHardwareAsync(InputFileChangeEventArgs e)
+        {
+            if (!e.File.ContentType.Equals("text/xml", StringComparison.OrdinalIgnoreCase)) return;
+
+            var buffer = new byte[e.File.Size];
+
+            using (var stream = e.File.OpenReadStream())
+            {
+                await stream.ReadAsync(buffer);
+            }
+
+            var file = new FileModel
+            {
+                FileName = e.File.Name,
+                ContentType = e.File.ContentType,
+                Content = buffer,
+                Size = e.File.Size
+            };
+
+            await HttpClient.PostJsonAsync($"/api/hardware/import/{Id}", file);
+
+            Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{Id}");
         }
 
         private async Task AddSoftware()

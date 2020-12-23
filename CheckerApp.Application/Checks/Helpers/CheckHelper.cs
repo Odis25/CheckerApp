@@ -144,6 +144,7 @@ namespace CheckerApp.Application.Hardwares.Helpers
                     break;
 
                 case HardwareType.Pressure:
+                case HardwareType.DiffPressure:
                 case HardwareType.Temperature:
 
                     check.CheckParameters.Add(new CheckParameterDto

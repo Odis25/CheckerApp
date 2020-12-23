@@ -34,7 +34,7 @@
                 <ValidationMessage For="()=> ((MeasurementVm)Value).MaxValue"></ValidationMessage>
             </div>
             <div class="col">
-                @if (Value.HardwareType == HardwareType.Pressure)
+                @if (Value.HardwareType == HardwareType.Pressure || Value.HardwareType == HardwareType.DiffPressure)
                 {
                     <MatSelectItem Label="Единицы измерения" @bind-Value="((MeasurementVm)Value).EU" Outlined="true" FullWidth="true" Items="euArray">
                         <ItemTemplate Context="eu">@eu</ItemTemplate>

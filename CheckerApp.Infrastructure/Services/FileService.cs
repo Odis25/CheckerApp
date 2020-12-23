@@ -325,12 +325,10 @@ namespace CheckerApp.Infrastructure.Services
                 return sb.ToString();
             }
         }
-
         private string GetSoftwareHeader(SoftwareCheckDto check)
         {
             return $"SCADA-система: {check.Software.Name} ver.{check.Software.Version}";
         }
-
         private string GetHardwareHeader(HardwareCheckDto check)
         {
             var device = check.Hardware;
@@ -393,6 +391,7 @@ namespace CheckerApp.Infrastructure.Services
                     break;
 
                 case HardwareType.Pressure:
+                case HardwareType.DiffPressure:
                 case HardwareType.Temperature:
                     var measurement = (MeasurementDto)device;
                     header = $"{measurement.HardwareType.GetDisplayName()} {measurement.Position}" +
@@ -439,7 +438,6 @@ namespace CheckerApp.Infrastructure.Services
 
             return header;
         }
-
         private double MeasureTextHeight(string text, ExcelFont font, double width)
         {
             if (string.IsNullOrEmpty(text)) return 0.0;

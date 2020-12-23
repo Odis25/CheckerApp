@@ -51,6 +51,8 @@ else
                 <div class="d-flex flex-column flex-lg-row flex-xl-column control-panel">
                     <AuthorizeView Roles="Admin">
                         <button class="btn btn-header text-nowrap mr-lg-1" @onclick="AddHardware"><span class="oi oi-monitor mr-2" aria-hidden="true"></span> Новое оборудование</button>
+                        <label for="import-file" class="btn btn-header text-nowrap mr-lg-1"><span class="oi oi-cloud-upload mr-2" aria-hidden="true"></span> Импортировать из файла</label>
+                        <InputFile accept="text/xml" id="import-file" class="d-none" OnChange="ImportHardwareAsync"></InputFile>
                         <button class="btn btn-header text-nowrap mr-lg-1" @onclick="AddSoftware"><span class="oi oi-code mr-2" aria-hidden="true"></span> Новое ПО</button>
                     </AuthorizeView>
                     <AuthorizeView Roles="Admin, SuperUser">

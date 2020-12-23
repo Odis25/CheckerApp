@@ -18,23 +18,23 @@ namespace CheckerApp.Application.Hardwares.Commands.DeleteHardware
 
         public async Task<Unit> Handle(DeleteHardwareCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.Hardwares.FindAsync(request.Id);
-            var contract = await _context.Contracts.FindAsync(entity.ContractId);
-
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(Hardware), request.Id);
-            }
-
-            var parameters = entity.CheckResult?.CheckParameters;
-
-            if (parameters != null)
-            {
-                _context.CheckParameters.RemoveRange(parameters);
-            }
-
             try
             {
+                var entity = await _context.Hardwares.FindAsync(request.Id);
+                var contract = await _context.Contracts.FindAsync(entity.ContractId);
+
+                if (entity == null)
+                {
+                    throw new NotFoundException(nameof(Hardware), request.Id);
+                }
+
+                var parameters = entity.CheckResult?.CheckParameters;
+
+                if (parameters != null)
+                {
+                    _context.CheckParameters.RemoveRange(parameters);
+                }
+
                 _context.Hardwares.Remove(entity);
 
                 contract.HasProtocol = false;

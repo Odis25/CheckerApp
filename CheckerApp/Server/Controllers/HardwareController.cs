@@ -1,5 +1,6 @@
 ﻿using CheckerApp.Application.Hardwares.Commands.CreateHardware;
 using CheckerApp.Application.Hardwares.Commands.DeleteHardware;
+using CheckerApp.Application.Hardwares.Commands.ImportFromFile;
 using CheckerApp.Application.Hardwares.Commands.UpdateHardware;
 using CheckerApp.Application.Hardwares.Queries;
 using Microsoft.AspNetCore.Authorization;
@@ -41,5 +42,13 @@ namespace CheckerApp.Server.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("import/{id}")]
+        public async Task<IActionResult> ImportFromFile(string id, [FromBody] FileModel fileModel)
+        {
+            await Mediator.Send(new ImportFromFileCommand { ContractId = int.Parse(id), FileContent = fileModel.Content });
+
+            return Ok();
+        } 
     }
 }
