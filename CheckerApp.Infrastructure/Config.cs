@@ -27,7 +27,7 @@ namespace CheckerApp.Infrastructure
                 // CORS
                 AllowedCorsOrigins = { "https://localhost:5001" },
 
-                ClientSecrets = {new Secret("secret".ToSha256()) },
+                ClientSecrets = {new Secret("longsupersecretkeyword".ToSha256()) },
 
                 AllowedScopes =
                 {

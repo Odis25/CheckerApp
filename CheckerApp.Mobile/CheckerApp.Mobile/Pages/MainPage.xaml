@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CheckerApp.Mobile.Pages.MainPage"
+                  Title="CheckerApp">
+    
+    <MasterDetailPage.Master>
+        <ContentPage Title="MasterPage" BackgroundColor="Wheat">
+            <StackLayout>
+                
+                <StackLayout Orientation="Horizontal">
+                    <Frame CornerRadius="50" HeightRequest="50" WidthRequest="50" BackgroundColor="White"></Frame>
+                    <Label Text="CheckerApp" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Label>
+                </StackLayout>
+
+                <StackLayout>
+                    <Button Margin="10" Text="Главная" HorizontalOptions="FillAndExpand"></Button>
+                    <Button Margin="10" Text="Договоры" HorizontalOptions="FillAndExpand"></Button>
+                </StackLayout>
+            </StackLayout>
+        </ContentPage>
+    </MasterDetailPage.Master>
+    
+    <MasterDetailPage.Detail>
+        <ContentPage>
+            <Label HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Text="Главная страница" FontSize="Large"></Label>
+        </ContentPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>
