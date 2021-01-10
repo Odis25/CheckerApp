@@ -4,10 +4,7 @@
              x:Class="CheckerApp.Mobile.Pages.ContractsPage">
 
     <StackLayout>
-        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
-            <Label Text="Welcome to Xamarin.Forms!" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
-        </Frame>
-
+        <Label HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Text="Список договоров"></Label>
         <Label HorizontalOptions="CenterAndExpand" Text="label" x:Name="TestLabel"></Label>
 
         <Button Text = "Нажми!" FontSize="Large" BorderWidth="1" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Clicked="Button_Clicked"></Button>

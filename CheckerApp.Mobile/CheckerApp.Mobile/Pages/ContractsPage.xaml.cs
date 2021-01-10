@@ -16,7 +16,7 @@ namespace CheckerApp.Mobile.Pages
             InitializeComponent();
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
+        private async void Button_Clicked(object sender, EventArgs e)
         {
             var handler = new HttpClientHandler();
 
@@ -29,9 +29,9 @@ namespace CheckerApp.Mobile.Pages
             var client = new HttpClient(handler);
             client.BaseAddress = new Uri("https://192.168.0.103:5001");
 
-            var response = client.GetAsync("api/contract").GetAwaiter().GetResult();
+            var response = await client.GetAsync("api/contract");
 
-            TestLabel.Text = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            TestLabel.Text = await response.Content.ReadAsStringAsync();
         }
     }
 }

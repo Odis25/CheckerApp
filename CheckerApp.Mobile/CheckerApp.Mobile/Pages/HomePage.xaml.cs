@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace CheckerApp.Mobile.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainPage : Shell
+    public partial class HomePage : ContentPage
     {
-        public MainPage()
+        public HomePage()
         {
             InitializeComponent();
         }
