@@ -9,6 +9,6 @@ namespace CheckerApp.Shared.Models.Hardware
             HardwareType = HardwareType.FlowComputer;
         }
         public string CRC32 { get; set; }
-        public long LastConfigDate { get; set; }
+        public long? LastConfigDate { get; set; }
     }
 }

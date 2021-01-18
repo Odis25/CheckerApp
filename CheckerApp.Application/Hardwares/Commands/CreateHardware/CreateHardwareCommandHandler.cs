@@ -129,6 +129,19 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                         SignalType = request.SignalType
                     };
                     break;
+                case HardwareType.DiffPressure:
+                    entity = new DiffPressure
+                    {
+                        Position = request.Position,
+                        SerialNumber = request.SerialNumber,
+                        DeviceModel = request.DeviceModel,
+                        DeviceType = request.DeviceType,
+                        MinValue = request.MinValue,
+                        MaxValue = request.MaxValue,
+                        EU = request.EU,
+                        SignalType = request.SignalType
+                    };
+                    break;
                 case HardwareType.Valve:
                     entity = new Valve
                     {

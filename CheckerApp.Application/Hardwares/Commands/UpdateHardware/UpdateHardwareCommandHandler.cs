@@ -98,6 +98,17 @@ namespace CheckerApp.Application.Hardwares.Commands.UpdateHardware
                     ((Pressure)entity).SignalType = ((PressureDto)hardware).SignalType;
                     break;
 
+                case HardwareType.DiffPressure:
+                    ((DiffPressure)entity).Position = ((DiffPressureDto)hardware).Position;
+                    ((DiffPressure)entity).SerialNumber = ((DiffPressureDto)hardware).SerialNumber;
+                    ((DiffPressure)entity).DeviceType = ((DiffPressureDto)hardware).DeviceType;
+                    ((DiffPressure)entity).DeviceModel = ((DiffPressureDto)hardware).DeviceModel;
+                    ((DiffPressure)entity).MinValue = ((DiffPressureDto)hardware).MinValue;
+                    ((DiffPressure)entity).MaxValue = ((DiffPressureDto)hardware).MaxValue;
+                    ((DiffPressure)entity).EU = ((DiffPressureDto)hardware).EU;
+                    ((DiffPressure)entity).SignalType = ((DiffPressureDto)hardware).SignalType;
+                    break;
+
                 case HardwareType.Temperature:
                     ((Temperature)entity).Position = ((TemperatureDto)hardware).Position;
                     ((Temperature)entity).SerialNumber = ((TemperatureDto)hardware).SerialNumber;

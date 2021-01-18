@@ -13,7 +13,9 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                 RuleFor(m => m.Position).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
                 RuleFor(m => m.ConstructedBy).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
             });
-            When(m => m.HardwareType == HardwareType.Pressure || m.HardwareType == HardwareType.Temperature, () =>
+            When(m => m.HardwareType == HardwareType.Pressure || 
+            m.HardwareType == HardwareType.DiffPressure || 
+            m.HardwareType == HardwareType.Temperature, () =>
             {
                 RuleFor(m => m.SerialNumber).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
                 RuleFor(m => m.Position).NotEmpty().WithMessage("Это поле обязательно для заполнения.");

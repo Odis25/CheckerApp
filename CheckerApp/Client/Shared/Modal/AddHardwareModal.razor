@@ -44,6 +44,10 @@
                         <AddTemperature @bind-Value="Command" />
                         break;
 
+                    case HardwareType.DiffPressure:
+                        <AddPressure @bind-Value="Command" />
+                        break;
+
                     case HardwareType.Valve:
                         <AddValve @bind-Value="Command" />
                         break;
