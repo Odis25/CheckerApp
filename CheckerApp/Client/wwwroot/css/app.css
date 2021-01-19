@@ -98,7 +98,7 @@ h1, h2, h3, h4, h5, h6 {
 .blazored-modal {
     border: 1px solid #3286aa;
     padding: 0;
-    overflow: hidden;
+    /*overflow: hidden;*/
     border-radius: 5px;
 }
 

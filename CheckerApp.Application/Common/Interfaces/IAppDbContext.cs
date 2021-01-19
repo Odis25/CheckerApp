@@ -19,6 +19,7 @@ namespace CheckerApp.Application.Common.Interfaces
         DbSet<PLC> PLCs { get; set; }
         DbSet<Pressure> Pressures { get; set; }
         DbSet<Temperature> Temperatures { get; set; }
+        DbSet<DiffPressure> DiffPressures { get; set; }
         DbSet<Flowmeter> Flowmeters { get; set; }
         DbSet<Valve> Valves { get; set; }
         DbSet<ARM> ARMs { get; set; }
