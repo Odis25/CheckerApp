@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:CheckerApp.Mobile.Views.Pages"
+             xmlns:views="clr-namespace:CheckerApp.Mobile.Views.Shared"
+             x:Class="CheckerApp.Mobile.Views.AppShell"
+             ForegroundColor="White"
+             UnselectedColor="Gray" 
+             BackgroundColor="#00356a">
+
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <StackLayout Orientation="Horizontal">
+                <Image Source="{Binding FlyoutIcon}"
+                       WidthRequest="45"
+                       Margin="10"
+                       HeightRequest="45" />
+                <Label Grid.Column="1"
+                       Text="{Binding Title}"
+                       FontAttributes="Bold"
+                       FontSize="Medium"
+                       TextColor="White"
+                       VerticalTextAlignment="Center" />
+            </StackLayout>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+    
+    <Shell.FlyoutBackground>
+        <LinearGradientBrush StartPoint="0,0"
+                             EndPoint="0,1">
+
+            <GradientStop Color="#00356a"
+                          Offset="0.1" />
+            
+            <GradientStop Color="#2B67A3"    
+                          Offset="1.0" />
+        </LinearGradientBrush>
+    </Shell.FlyoutBackground>
+    
+    <Shell.FlyoutHeader>
+        <views:MenuHeader/>
+    </Shell.FlyoutHeader>
+
+    <FlyoutItem Title="Главная"             
+                Icon="">
+        <ShellContent Route="Home" ContentTemplate="{DataTemplate pages:Home}"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Договоры" 
+                Icon="">
+        <ShellContent Route="Contracts" ContentTemplate="{DataTemplate pages:Contracts}"/>
+    </FlyoutItem>
+    
+</Shell>

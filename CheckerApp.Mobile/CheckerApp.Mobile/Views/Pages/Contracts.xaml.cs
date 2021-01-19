@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace CheckerApp.Mobile.Pages
+namespace CheckerApp.Mobile.Views.Pages
 {
-    public partial class ContractsPage : ContentPage
+    public partial class Contracts : ContentPage
     {
-        public ContractsPage()
+        public Contracts()
         {
             InitializeComponent();
         }

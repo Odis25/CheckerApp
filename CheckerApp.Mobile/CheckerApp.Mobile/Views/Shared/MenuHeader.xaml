@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:effects="clr-namespace:CheckerApp.Mobile.Common.Effects"
+             x:Class="CheckerApp.Mobile.Views.Shared.MenuHeader">
+    <ContentView.Content>
+        <Grid HorizontalOptions="FillAndExpand" 
+              VerticalOptions="FillAndExpand"
+              BackgroundColor="#00356a">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <StackLayout Orientation="Horizontal" 
+                         Grid.Row="1" 
+                         HorizontalOptions="CenterAndExpand" 
+                         VerticalOptions="CenterAndExpand">
+                
+                <Label VerticalOptions="Center" Text="Checker" 
+                       FontAttributes="Bold" 
+                       FontFamily="Roboto" 
+                       TextColor="#dec" 
+                       FontSize="Title">
+                    <Label.Effects>
+                        <effects:ShadowEffect DistanceX="5" DistanceY="5" Radius="5">
+                            <effects:ShadowEffect.Color>
+                                <OnPlatform x:TypeArguments="Color">
+                                    <On Platform="Android" Value="Black"/>
+                                </OnPlatform>
+                            </effects:ShadowEffect.Color>
+                        </effects:ShadowEffect>
+                    </Label.Effects>
+                </Label>
+                
+                <Frame VerticalOptions="Center" Padding="5" BackgroundColor="#dec" CornerRadius="5">
+                    <Label Text="App" FontAttributes="Bold" FontFamily="Roboto" FontSize="Large" TextColor="#000">
+                        <Label.Effects>
+                            <effects:ShadowEffect DistanceX="5" DistanceY="5" Radius="5">
+                                <effects:ShadowEffect.Color>
+                                    <OnPlatform x:TypeArguments="Color">
+                                        <On Platform="Android" Value="LightGray"/>
+                                    </OnPlatform>
+                                </effects:ShadowEffect.Color>
+                            </effects:ShadowEffect>
+                        </Label.Effects>
+                    </Label>
+                </Frame>
+                
+            </StackLayout>
+
+        </Grid>
+    </ContentView.Content>
+</ContentView>
