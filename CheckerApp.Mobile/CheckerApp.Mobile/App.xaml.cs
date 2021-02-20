@@ -5,11 +5,12 @@ namespace CheckerApp.Mobile
 {
     public partial class App : Application
     {
-
         public App()
         {
             InitializeComponent();
-            
+
+            Startup.Init();
+
             MainPage = new AppShell();
         }
 

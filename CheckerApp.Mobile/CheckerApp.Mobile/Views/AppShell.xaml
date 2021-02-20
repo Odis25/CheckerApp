@@ -15,8 +15,7 @@
                        WidthRequest="45"
                        Margin="10"
                        HeightRequest="45" />
-                <Label Grid.Column="1"
-                       Text="{Binding Title}"
+                <Label Text="{Binding Title}"
                        FontAttributes="Bold"
                        FontSize="Medium"
                        TextColor="White"
@@ -41,13 +40,11 @@
         <views:MenuHeader/>
     </Shell.FlyoutHeader>
 
-    <FlyoutItem Title="Главная"             
-                Icon="">
+    <FlyoutItem Title="Главная" Icon="">
         <ShellContent Route="Home" ContentTemplate="{DataTemplate pages:Home}"/>
     </FlyoutItem>
 
-    <FlyoutItem Title="Договоры" 
-                Icon="">
+    <FlyoutItem Title="Договоры" Icon="">
         <ShellContent Route="Contracts" ContentTemplate="{DataTemplate pages:Contracts}"/>
     </FlyoutItem>
     

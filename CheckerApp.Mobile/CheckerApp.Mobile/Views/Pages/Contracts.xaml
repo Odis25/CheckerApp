@@ -1,13 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:m ="clr-namespace:CheckerApp.Mobile.Models"
+             xmlns:vm ="clr-namespace:CheckerApp.Mobile.ViewModels"
              x:Class="CheckerApp.Mobile.Views.Pages.Contracts">
+    <Shell.TitleView>
+        <StackLayout>
+            <Label TextColor="White" Text="Договоры" FontSize="Large" FontAttributes="Bold" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Center" />
+        </StackLayout>
+    </Shell.TitleView>
 
+    <ContentPage.Resources>
+        <DataTemplate x:Key="contractDto" x:DataType="m:ContractDto">
+            <StackLayout Orientation="Horizontal">
+                <Label Text="{Binding HasProtocol}"/>
+                <Frame WidthRequest="2" BackgroundColor="Red" VerticalOptions="FillAndExpand"/>
+                <Label Text="{Binding ContractNumber}"/>
+            </StackLayout>
+        </DataTemplate>
+    </ContentPage.Resources>
     <StackLayout>
-        <Label HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Text="Список договоров"></Label>
-        <Label HorizontalOptions="CenterAndExpand" Text="label" x:Name="TestLabel"></Label>
 
-        <Button Text = "Нажми!" FontSize="Large" BorderWidth="1" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Clicked="Button_Clicked"></Button>
+        <CollectionView ItemsSource="{Binding Contracts}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Orientation="Horizontal" BackgroundColor="CornflowerBlue" Margin="5">
+                        <Label Text="{Binding HasProtocol}" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <BoxView WidthRequest="2" BackgroundColor="Red" VerticalOptions="FillAndExpand"/>
+                        <Label Text="{Binding ContractNumber}" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
     </StackLayout>
 

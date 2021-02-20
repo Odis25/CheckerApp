@@ -1,32 +1,27 @@
-﻿using System;
-using System.Net.Http;
+﻿using CheckerApp.Mobile.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using Xamarin.Forms;
 
 namespace CheckerApp.Mobile.Views.Pages
 {
     public partial class Contracts : ContentPage
     {
+        private readonly ContractsVm _viewModel;
+
         public Contracts()
         {
             InitializeComponent();
+
+            _viewModel = Startup.ServiceProvider.GetRequiredService<ContractsVm>();
+
+            BindingContext = _viewModel;
         }
 
-        private async void Button_Clicked(object sender, EventArgs e)
+        protected override async void OnAppearing()
         {
-            var handler = new HttpClientHandler();
+            await _viewModel.GetContractsAsync();
 
-            handler.ServerCertificateCustomValidationCallback +=
-                            (send, certificate, chain, errors) =>
-                            {
-                                return true;
-                            };
-
-            var client = new HttpClient(handler);
-            client.BaseAddress = new Uri("https://192.168.0.103:5001");
-
-            var response = await client.GetAsync("api/contract");
-
-            TestLabel.Text = await response.Content.ReadAsStringAsync();
+            base.OnAppearing();
         }
     }
 }
