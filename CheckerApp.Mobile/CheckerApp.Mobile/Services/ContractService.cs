@@ -15,7 +15,6 @@ namespace CheckerApp.Mobile.Services
         public ContractService()
         {
             _httpClient = HttpClientHelper.GetHttpClient();
-            //_httpClient.BaseAddress = new Uri("https://192.168.0.103:5001");
         }
         public async Task<ContractsListVm> GetContractsAsync()
         {

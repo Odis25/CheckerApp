@@ -1,12 +1,12 @@
 ﻿using CheckerApp.Mobile.Interfaces;
 using CheckerApp.Mobile.Models;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace CheckerApp.Mobile.ViewModels
 {
-    public class ContractsVm : INotifyPropertyChanged
+    public class ContractsVm : BindableObject
     {
         private ObservableCollection<ContractDto> _contracts;
         private readonly IContractService _contractService;
@@ -17,11 +17,9 @@ namespace CheckerApp.Mobile.ViewModels
             set 
             {
                 _contracts = value;
-                OnPropertyChanged(nameof(Contracts));
+                OnPropertyChanged();
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public async Task GetContractsAsync()
         {
@@ -30,15 +28,10 @@ namespace CheckerApp.Mobile.ViewModels
             Contracts = new ObservableCollection<ContractDto>(contracts.Contracts);
         }
 
-        public ContractsVm(IContractService contractService)
+        public ContractsVm()
         {
-            _contractService = contractService;
+            _contractService = DependencyService.Resolve<IContractService>();
             //Device.BeginInvokeOnMainThread(GetContractsAsync);
-        }
-
-        public void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

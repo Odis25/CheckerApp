@@ -1,5 +1,4 @@
 ﻿using CheckerApp.Mobile.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
 using Xamarin.Forms;
 
 namespace CheckerApp.Mobile.Views.Pages
@@ -12,8 +11,7 @@ namespace CheckerApp.Mobile.Views.Pages
         {
             InitializeComponent();
 
-            _viewModel = Startup.ServiceProvider.GetRequiredService<ContractsVm>();
-
+            _viewModel = DependencyService.Resolve<ContractsVm>();
             BindingContext = _viewModel;
         }
 

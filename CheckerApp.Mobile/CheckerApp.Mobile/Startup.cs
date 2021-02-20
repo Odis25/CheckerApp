@@ -3,6 +3,7 @@ using CheckerApp.Mobile.Services;
 using CheckerApp.Mobile.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using Xamarin.Forms;
 
 namespace CheckerApp.Mobile
 {
@@ -13,11 +14,14 @@ namespace CheckerApp.Mobile
 
         public static void Init()
         {
-            var serviceProvider = new ServiceCollection()
-                .ConfigureServices()
-                .BuildServiceProvider();
+            DependencyService.Register<IContractService, ContractService>();
+            DependencyService.Register<ContractsVm>();
 
-            ServiceProvider = serviceProvider;
+            //var serviceProvider = new ServiceCollection()
+            //    .ConfigureServices()
+            //    .BuildServiceProvider();
+
+            //ServiceProvider = serviceProvider;
         }
 
         public static IServiceCollection ConfigureServices(this IServiceCollection services)
