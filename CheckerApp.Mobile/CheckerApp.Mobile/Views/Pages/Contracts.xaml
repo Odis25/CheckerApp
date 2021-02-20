@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:m ="clr-namespace:CheckerApp.Mobile.Models"
-             xmlns:vm ="clr-namespace:CheckerApp.Mobile.ViewModels"
+             xmlns:c="clr-namespace:CheckerApp.Mobile.Converters" 
+             xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
+             xmlns:ctk="http://xamarin.com/schemas/2020/toolkit"
              x:Class="CheckerApp.Mobile.Views.Pages.Contracts">
     <Shell.TitleView>
         <StackLayout>
@@ -11,26 +13,52 @@
     </Shell.TitleView>
 
     <ContentPage.Resources>
-        <DataTemplate x:Key="contractDto" x:DataType="m:ContractDto">
-            <StackLayout Orientation="Horizontal">
-                <Label Text="{Binding HasProtocol}"/>
-                <Frame WidthRequest="2" BackgroundColor="Red" VerticalOptions="FillAndExpand"/>
-                <Label Text="{Binding ContractNumber}"/>
-            </StackLayout>
-        </DataTemplate>
+        <c:BoolToTextConverter x:Key="boolToText"/>
+        <c:BoolToColorConverter x:Key="boolToColor"/>
     </ContentPage.Resources>
-    <StackLayout>
 
-        <CollectionView ItemsSource="{Binding Contracts}">
+    <StackLayout Padding="10">
+
+        <CollectionView ItemsSource="{Binding Contracts}" 
+                        HorizontalOptions="FillAndExpand" 
+                        VerticalOptions="FillAndExpand" 
+                        SelectionMode="None">
+
+            <CollectionView.Header>
+                <Label Text="Договоры" FontSize="18" TextColor="Black"/>
+            </CollectionView.Header>
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="20" Orientation="Vertical"/>
+            </CollectionView.ItemsLayout>
+
             <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Orientation="Horizontal" BackgroundColor="CornflowerBlue" Margin="5">
-                        <Label Text="{Binding HasProtocol}" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center"/>
-                        <BoxView WidthRequest="2" BackgroundColor="Red" VerticalOptions="FillAndExpand"/>
-                        <Label Text="{Binding ContractNumber}" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
-                    </StackLayout>
+                <DataTemplate x:DataType="m:ContractDto">
+                    
+                    <pv:PancakeView BackgroundColor="White" 
+                                    VerticalOptions="StartAndExpand" 
+                                    HorizontalOptions="FillAndExpand">
+
+                        <Grid VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Orientation="Horizontal" BackgroundColor="{Binding HasProtocol, Converter={StaticResource boolToColor}}">
+                                <Label Text="{Binding HasProtocol, Converter={StaticResource boolToText}}" TextColor="White" FontSize="Large"/>
+                            </StackLayout>
+                            <ctk:Expander Grid.Column="1">
+                                <ctk:Expander.Header>
+                                    <Label Text="{Binding ContractNumber}"/>
+                                </ctk:Expander.Header>
+                            </ctk:Expander>
+                        </Grid>
+                        
+                    </pv:PancakeView>
+                    
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+
         </CollectionView>
 
     </StackLayout>

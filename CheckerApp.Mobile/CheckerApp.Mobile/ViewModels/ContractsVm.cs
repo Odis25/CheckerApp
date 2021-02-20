@@ -31,7 +31,6 @@ namespace CheckerApp.Mobile.ViewModels
         public ContractsVm()
         {
             _contractService = DependencyService.Resolve<IContractService>();
-            //Device.BeginInvokeOnMainThread(GetContractsAsync);
         }
     }
 }
