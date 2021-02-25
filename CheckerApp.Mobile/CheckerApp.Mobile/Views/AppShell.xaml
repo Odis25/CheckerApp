@@ -6,7 +6,7 @@
              x:Class="CheckerApp.Mobile.Views.AppShell"
              ForegroundColor="White"
              UnselectedColor="Gray" 
-             BackgroundColor="#00356a">
+             BackgroundColor="#00356a" FlyoutWidth="250">
 
     <Shell.ItemTemplate>
         <DataTemplate>

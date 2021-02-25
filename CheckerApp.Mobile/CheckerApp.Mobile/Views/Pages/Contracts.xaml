@@ -5,7 +5,7 @@
              xmlns:c="clr-namespace:CheckerApp.Mobile.Converters" 
              xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
              xmlns:ctk="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="CheckerApp.Mobile.Views.Pages.Contracts">
+             x:Class="CheckerApp.Mobile.Views.Pages.Contracts" BackgroundColor="Azure">
     <Shell.TitleView>
         <StackLayout>
             <Label TextColor="White" Text="Договоры" FontSize="Large" FontAttributes="Bold" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Center" />
@@ -17,46 +17,58 @@
         <c:BoolToColorConverter x:Key="boolToColor"/>
     </ContentPage.Resources>
 
-    <StackLayout Padding="10">
-
+    <StackLayout>
         <CollectionView ItemsSource="{Binding Contracts}" 
                         HorizontalOptions="FillAndExpand" 
                         VerticalOptions="FillAndExpand" 
                         SelectionMode="None">
 
             <CollectionView.Header>
-                <Label Text="Договоры" FontSize="18" TextColor="Black"/>
+                <StackLayout Padding="10">
+                    
+                <pv:PancakeView BackgroundColor="White" HorizontalOptions="FillAndExpand" 
+                                    Shadow="{pv:ShadowMarkup Color=Black, Offset='10, 10'}">
+                <Label Margin="20" Text="Договоры" HorizontalOptions="Center" VerticalOptions="Center" FontSize="18" TextColor="Black"/>
+               
+                </pv:PancakeView>
+                </StackLayout>
             </CollectionView.Header>
 
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout ItemSpacing="20" Orientation="Vertical"/>
+                <LinearItemsLayout Orientation="Vertical"/>
             </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="m:ContractDto">
-                    
-                    <pv:PancakeView BackgroundColor="White" 
-                                    VerticalOptions="StartAndExpand" 
-                                    HorizontalOptions="FillAndExpand">
-
-                        <Grid VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+                    <StackLayout Padding="10,0,10,10">
+                    <pv:PancakeView BackgroundColor="White" CornerRadius="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
+                                    Shadow="{pv:ShadowMarkup Color=Black}">
+                        
+                        <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
+                            
                             <StackLayout Orientation="Horizontal" BackgroundColor="{Binding HasProtocol, Converter={StaticResource boolToColor}}">
-                                <Label Text="{Binding HasProtocol, Converter={StaticResource boolToText}}" TextColor="White" FontSize="Large"/>
+                                <Label Padding="10,5" HorizontalOptions="Center" VerticalOptions="Center" Text="{Binding HasProtocol, Converter={StaticResource boolToText}}" TextColor="White" FontSize="20"/>
                             </StackLayout>
-                            <ctk:Expander Grid.Column="1">
-                                <ctk:Expander.Header>
-                                    <Label Text="{Binding ContractNumber}"/>
-                                </ctk:Expander.Header>
-                            </ctk:Expander>
+
+                                <StackLayout Grid.Column="1" Padding="5">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Padding="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="black" FontSize="18" Text="{Binding ContractNumber}"/>
+                                        <Label Padding="0" HorizontalOptions="Start" VerticalOptions="Center"  TextColor="DarkGray" FontSize="18" FormattedText="{Binding DomesticNumber, StringFormat='({0})'}"/>
+                                    </StackLayout>
+                                    <Label Padding="0" HorizontalOptions="Start" VerticalOptions="Center"  TextColor="DarkGray" FontSize="14" Text="{Binding Name}"/>
+                                </StackLayout>
+
                         </Grid>
-                        
                     </pv:PancakeView>
-                    
+                        
+                    </StackLayout>
                 </DataTemplate>
+                        
+                    
             </CollectionView.ItemTemplate>
 
         </CollectionView>

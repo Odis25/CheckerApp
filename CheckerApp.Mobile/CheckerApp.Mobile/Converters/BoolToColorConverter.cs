@@ -8,7 +8,7 @@ namespace CheckerApp.Mobile.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((bool)value) ? Device.GetNamedColor("Green") : Device.GetNamedColor("Red");
+            return ((bool)value) ? Color.LightGreen : Color.Red;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
