@@ -5,6 +5,6 @@ namespace CheckerApp.Mobile.Interfaces
 {
     public interface IContractService
     {
-        Task<ContractsListVm> GetContractsAsync();
+        Task<ContractsListDto> GetContractsAsync();
     }
 }

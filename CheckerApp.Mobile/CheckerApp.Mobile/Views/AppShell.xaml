@@ -10,11 +10,11 @@
 
     <Shell.ItemTemplate>
         <DataTemplate>
-            <StackLayout Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
                 <Image Source="{Binding FlyoutIcon}"
-                       WidthRequest="45"
-                       Margin="10"
-                       HeightRequest="45" />
+                       WidthRequest="25"
+                       Margin="40,20,20,20"
+                       HeightRequest="25" />
                 <Label Text="{Binding Title}"
                        FontAttributes="Bold"
                        FontSize="Medium"
@@ -40,11 +40,11 @@
         <views:MenuHeader/>
     </Shell.FlyoutHeader>
 
-    <FlyoutItem Title="Главная" Icon="">
+    <FlyoutItem Title="Главная" Icon="home.png">
         <ShellContent Route="Home" ContentTemplate="{DataTemplate pages:Home}"/>
     </FlyoutItem>
 
-    <FlyoutItem Title="Договоры" Icon="">
+    <FlyoutItem Title="Договоры" Icon="list.png">
         <ShellContent Route="Contracts" ContentTemplate="{DataTemplate pages:Contracts}"/>
     </FlyoutItem>
     

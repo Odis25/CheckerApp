@@ -8,7 +8,7 @@ namespace CheckerApp.Mobile.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((bool)value) ? Color.LightGreen : Color.Red;
+            return ((bool)value) ? Color.Green : Color.Red;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

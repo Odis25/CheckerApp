@@ -2,8 +2,12 @@
 
 namespace CheckerApp.Mobile.Models
 {
-    public class ContractsListVm
+    public class ContractsListDto
     {
+        public ContractsListDto()
+        {
+            Contracts = new List<ContractDto>();
+        }
         public IList<ContractDto> Contracts { get; set; }
     }
 }

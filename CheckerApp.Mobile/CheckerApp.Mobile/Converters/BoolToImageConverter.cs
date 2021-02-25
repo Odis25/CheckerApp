@@ -4,16 +4,19 @@ using Xamarin.Forms;
 
 namespace CheckerApp.Mobile.Converters
 {
-    public class BoolToTextConverter : IValueConverter
+    public class BoolToImageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((bool)value) ? "V" : "X";
+            string yes = "checkmark.png";
+            string no = "cross.png";
+
+            return (bool)value ? yes : no;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((string)value).Equals("есть", StringComparison.OrdinalIgnoreCase) ? true : false;
+            throw new NotImplementedException();
         }
     }
 }

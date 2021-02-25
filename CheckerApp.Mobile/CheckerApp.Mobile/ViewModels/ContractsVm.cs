@@ -1,6 +1,6 @@
 ﻿using CheckerApp.Mobile.Interfaces;
-using CheckerApp.Mobile.Models;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -8,10 +8,10 @@ namespace CheckerApp.Mobile.ViewModels
 {
     public class ContractsVm : BindableObject
     {
-        private ObservableCollection<ContractDto> _contracts;
+        private ObservableCollection<ContractVm> _contracts;
         private readonly IContractService _contractService;
 
-        public ObservableCollection<ContractDto> Contracts 
+        public ObservableCollection<ContractVm> Contracts 
         {
             get => _contracts;
             set 
@@ -25,7 +25,9 @@ namespace CheckerApp.Mobile.ViewModels
         {
             var contracts = await _contractService.GetContractsAsync();
 
-            Contracts = new ObservableCollection<ContractDto>(contracts.Contracts);
+            var contractsVm = contracts.Contracts.Select(c => new ContractVm { Contract = c });
+
+            Contracts = new ObservableCollection<ContractVm>(contractsVm);
         }
 
         public ContractsVm()

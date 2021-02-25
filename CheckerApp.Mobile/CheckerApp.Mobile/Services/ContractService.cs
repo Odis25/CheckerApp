@@ -16,11 +16,11 @@ namespace CheckerApp.Mobile.Services
         {
             _httpClient = HttpClientHelper.GetHttpClient();
         }
-        public async Task<ContractsListVm> GetContractsAsync()
+        public async Task<ContractsListDto> GetContractsAsync()
         {
             try
             {
-                var contracts = await _httpClient.GetFromJsonAsync<ContractsListVm>("api/contract");
+                var contracts = await _httpClient.GetFromJsonAsync<ContractsListDto>("api/contract");
 
                 return contracts;
             }

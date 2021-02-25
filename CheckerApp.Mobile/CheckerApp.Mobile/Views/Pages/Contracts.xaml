@@ -1,20 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:m ="clr-namespace:CheckerApp.Mobile.Models"
              xmlns:c="clr-namespace:CheckerApp.Mobile.Converters" 
              xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
-             xmlns:ctk="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="CheckerApp.Mobile.Views.Pages.Contracts" BackgroundColor="Azure">
+             xmlns:effects="clr-namespace:CheckerApp.Mobile.Common.Effects" xmlns:vm="clr-namespace:CheckerApp.Mobile.ViewModels"
+             x:Class="CheckerApp.Mobile.Views.Pages.Contracts" BackgroundColor="LightSkyBlue">
+
     <Shell.TitleView>
-        <StackLayout>
-            <Label TextColor="White" Text="Договоры" FontSize="Large" FontAttributes="Bold" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Center" />
+        <StackLayout Orientation="Horizontal"  
+                         HorizontalOptions="CenterAndExpand" 
+                         VerticalOptions="CenterAndExpand">
+
+            <Label VerticalOptions="Center" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Start" Text="Checker" 
+                       FontAttributes="Bold" 
+                       FontFamily="Roboto" 
+                       TextColor="#dec" 
+                       FontSize="Title">
+                <Label.Effects>
+                    <effects:ShadowEffect DistanceX="5" DistanceY="5" Radius="5">
+                        <effects:ShadowEffect.Color>
+                            <OnPlatform x:TypeArguments="Color">
+                                <On Platform="Android" Value="Black"/>
+                            </OnPlatform>
+                        </effects:ShadowEffect.Color>
+                    </effects:ShadowEffect>
+                </Label.Effects>
+            </Label>
+
+            <Frame HorizontalOptions="StartAndExpand" VerticalOptions="Center" Padding="5" BackgroundColor="#dec" CornerRadius="5">
+                <Label Text="App" FontAttributes="Bold" FontFamily="Roboto" FontSize="Large" TextColor="#000">
+                    <Label.Effects>
+                        <effects:ShadowEffect DistanceX="5" DistanceY="5" Radius="5">
+                            <effects:ShadowEffect.Color>
+                                <OnPlatform x:TypeArguments="Color">
+                                    <On Platform="Android" Value="LightGray"/>
+                                </OnPlatform>
+                            </effects:ShadowEffect.Color>
+                        </effects:ShadowEffect>
+                    </Label.Effects>
+                </Label>
+            </Frame>
+
         </StackLayout>
     </Shell.TitleView>
 
     <ContentPage.Resources>
         <c:BoolToTextConverter x:Key="boolToText"/>
         <c:BoolToColorConverter x:Key="boolToColor"/>
+        <c:BoolToImageConverter x:Key="boolToImage"/>
     </ContentPage.Resources>
 
     <StackLayout>
@@ -25,12 +58,15 @@
 
             <CollectionView.Header>
                 <StackLayout Padding="10">
-                    
-                <pv:PancakeView BackgroundColor="White" HorizontalOptions="FillAndExpand" 
+
+                    <pv:PancakeView BackgroundColor="White" 
+                                    CornerRadius="4" 
+                                    HorizontalOptions="FillAndExpand" 
                                     Shadow="{pv:ShadowMarkup Color=Black, Offset='10, 10'}">
-                <Label Margin="20" Text="Договоры" HorizontalOptions="Center" VerticalOptions="Center" FontSize="18" TextColor="Black"/>
-               
-                </pv:PancakeView>
+                        
+                        <Label Margin="20" Text="Договоры" HorizontalOptions="Center" VerticalOptions="Center" FontSize="18" FontAttributes="Bold" TextColor="Black"/>
+
+                    </pv:PancakeView>
                 </StackLayout>
             </CollectionView.Header>
 
@@ -39,36 +75,41 @@
             </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="m:ContractDto">
+                <DataTemplate x:DataType="vm:ContractVm">
                     <StackLayout Padding="10,0,10,10">
-                    <pv:PancakeView BackgroundColor="White" CornerRadius="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
-                                    Shadow="{pv:ShadowMarkup Color=Black}">
+
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GetDetailsCommand}"/>
+                        </StackLayout.GestureRecognizers>
                         
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <StackLayout Orientation="Horizontal" BackgroundColor="{Binding HasProtocol, Converter={StaticResource boolToColor}}">
-                                <Label Padding="10,5" HorizontalOptions="Center" VerticalOptions="Center" Text="{Binding HasProtocol, Converter={StaticResource boolToText}}" TextColor="White" FontSize="20"/>
-                            </StackLayout>
+                        <pv:PancakeView BackgroundColor="White" CornerRadius="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
+                                    Shadow="{pv:ShadowMarkup Color=Black}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackLayout Orientation="Horizontal" BackgroundColor="{Binding Contract.HasProtocol, Converter={StaticResource boolToColor}}" WidthRequest="80">
+
+                                    <Image Source="{Binding Contract.HasProtocol, Converter={StaticResource boolToImage}}" 
+                                           Aspect="AspectFill"
+                                           VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+
+                                </StackLayout>
 
                                 <StackLayout Grid.Column="1" Padding="5">
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Padding="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="black" FontSize="18" Text="{Binding ContractNumber}"/>
-                                        <Label Padding="0" HorizontalOptions="Start" VerticalOptions="Center"  TextColor="DarkGray" FontSize="18" FormattedText="{Binding DomesticNumber, StringFormat='({0})'}"/>
+                                        <Label Padding="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="black" FontSize="18" FontAttributes="Bold" Text="{Binding Contract.ContractNumber}"/>
+                                        <Label Padding="0" HorizontalOptions="Start" VerticalOptions="Center"  TextColor="#555" FontSize="18" FormattedText="{Binding Contract.DomesticNumber, StringFormat='({0})'}"/>
                                     </StackLayout>
-                                    <Label Padding="0" HorizontalOptions="Start" VerticalOptions="Center"  TextColor="DarkGray" FontSize="14" Text="{Binding Name}"/>
+                                    <Label Padding="0" HorizontalOptions="Start" VerticalOptions="Center"  TextColor="#555" FontSize="14" Text="{Binding Contract.Name}"/>
                                 </StackLayout>
 
-                        </Grid>
-                    </pv:PancakeView>
-                        
+                            </Grid>
+                        </pv:PancakeView>
                     </StackLayout>
                 </DataTemplate>
-                        
-                    
             </CollectionView.ItemTemplate>
 
         </CollectionView>
