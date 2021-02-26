@@ -145,6 +145,7 @@ namespace CheckerApp.Application.Hardwares.Helpers
 
                 case HardwareType.Pressure:
                 case HardwareType.DiffPressure:
+                case HardwareType.GasAnalyzer:
                 case HardwareType.Temperature:
 
                     check.CheckParameters.Add(new CheckParameterDto

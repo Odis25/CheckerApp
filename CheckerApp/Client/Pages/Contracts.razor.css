@@ -3,3 +3,15 @@
     height: 81vh;
     
 }
+.contract-table th{
+    cursor: pointer;
+}
+
+    .contract-table .red-color {
+        color: red;
+        font: bold;
+    }
+    .contract-table .green-color {
+        color: green;
+        font: bold;
+    }

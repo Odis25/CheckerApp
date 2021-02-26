@@ -21,8 +21,10 @@
 
 
 .hardware-table {
-    height: 51vh;
-    
+    height: 51vh;   
+}
+.hardware-table th{
+    cursor: pointer;
 }
 
 .protocol {

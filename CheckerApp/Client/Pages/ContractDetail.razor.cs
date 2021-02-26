@@ -9,6 +9,7 @@ using CheckerApp.Shared.Models.Software;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -18,6 +19,9 @@ namespace CheckerApp.Client.Pages
 {
     public partial class ContractDetail
     {
+        private bool isSortedAscending;
+        private string activeSortColumn;
+
         [Inject] IHttpClientFactory HttpClientFactory { get; set; }
         [Inject] IModalService Modal { get; set; }
         [Inject] HttpClient HttpClient { get; set; }
@@ -156,6 +160,69 @@ namespace CheckerApp.Client.Pages
             await HttpClient.DeleteAsync($"api/software/{id}");
 
             Contract = await HttpClient.GetFromJsonAsync<ContractDetailVm>($"api/contract/{int.Parse(Id)}");
+        }
+
+        private void SortTable(string columnName, string tableName)
+        {
+            if (tableName == "Hardware")
+            {
+                if (columnName != activeSortColumn)
+                {
+                    Contract.HardwareList = Contract.HardwareList.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null));
+                    isSortedAscending = true;
+                    activeSortColumn = columnName;
+                }
+                else
+                {
+                    if (isSortedAscending)
+                    {
+                        Contract.HardwareList = Contract.HardwareList.OrderByDescending(x => x.GetType().GetProperty(columnName).GetValue(x, null));
+                    }
+                    else
+                    {
+                        Contract.HardwareList = Contract.HardwareList.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null));
+                    }
+                    isSortedAscending = !isSortedAscending;
+                }
+            }
+            else
+            {
+                if (columnName != activeSortColumn)
+                {
+                    Contract.SoftwareList = Contract.SoftwareList.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null));
+
+                    isSortedAscending = true;
+                    activeSortColumn = columnName;
+                }
+                else
+                {
+                    if (isSortedAscending)
+                    {
+                        Contract.SoftwareList = Contract.SoftwareList.OrderByDescending(x => x.GetType().GetProperty(columnName).GetValue(x, null));
+                    }
+                    else
+                    {
+                        Contract.SoftwareList = Contract.SoftwareList.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null));
+                    }
+                    isSortedAscending = !isSortedAscending;
+                }
+            }
+        }
+
+        private string SetSortIcon(string columnName)
+        {
+            if (activeSortColumn != columnName)
+            {
+                return string.Empty;
+            }
+            if (isSortedAscending)
+            {
+                return "oi-sort-ascending";
+            }
+            else
+            {
+                return "oi-sort-descending";
+            }
         }
     }
 }

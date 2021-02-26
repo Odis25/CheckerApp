@@ -1,0 +1,66 @@
+﻿@using CheckerApp.Shared.Models.Commands
+
+<div class="row mb-2">
+    <div class="col">
+        <MatTextField Label="Позиция по проекту" @bind-Value="Value.Position" Outlined="true" Style="width:100%"></MatTextField>
+        <ValidationMessage For="()=> Value.Position"></ValidationMessage>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col">
+        <MatTextField Label="Серийный номер" @bind-Value="Value.SerialNumber" Outlined="true" Style="width:100%"></MatTextField>
+        <ValidationMessage For="()=> Value.SerialNumber"></ValidationMessage>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col">
+        <MatTextField Label="Тип прибора" @bind-Value="Value.DeviceType" Outlined="true" Style="width:100%"></MatTextField>
+        <ValidationMessage For="()=> Value.DeviceType"></ValidationMessage>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col">
+        <MatTextField Label="Модель прибора" @bind-Value="Value.DeviceModel" Outlined="true" Style="width:100%"></MatTextField>
+        <ValidationMessage For="()=> Value.DeviceModel"></ValidationMessage>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col">
+        <MatNumericUpDownField Label="Нижний предел измерений" @bind-Value="Value.MinValue" DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
+        <ValidationMessage For="()=> Value.MinValue"></ValidationMessage>
+    </div>
+    <div class="col">
+        <MatNumericUpDownField Label="Верхний предел измерений" @bind-Value="Value.MaxValue" DecimalPlaces="1" Outlined="true" Style="width:100%"></MatNumericUpDownField>
+        <ValidationMessage For="()=> Value.MaxValue"></ValidationMessage>
+    </div>
+    <div class="col">
+        <MatSelect Label="Единицы измерения" @bind-Value="Value.EU" Outlined="true" FullWidth="true">
+            <MatOptionString Value="%">%</MatOptionString>
+        </MatSelect>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <MatSelectItem @bind-Value="Value.SignalType" Label="Способ подключения" Outlined="true" FullWidth="true" Items="signals">
+            <ItemTemplate Context="signal">@signal.GetDisplayName()</ItemTemplate>
+        </MatSelectItem>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public CreateHardwareCommandVm Value { get; set; }
+
+    [Parameter]
+    public EventCallback<CreateHardwareCommandVm> ValueChanged { get; set; }
+
+    private SignalType[] signals = Enum.GetValues(typeof(SignalType)).Cast<SignalType>().ToArray();
+
+    protected override void OnInitialized()
+    {
+        Value.EU = "%";
+
+        base.OnInitialized();
+    }
+}

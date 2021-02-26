@@ -392,6 +392,7 @@ namespace CheckerApp.Infrastructure.Services
 
                 case HardwareType.Pressure:
                 case HardwareType.DiffPressure:
+                case HardwareType.GasAnalyzer:
                 case HardwareType.Temperature:
                     var measurement = (MeasurementDto)device;
                     header = $"{measurement.HardwareType.GetDisplayName()} {measurement.Position}" +

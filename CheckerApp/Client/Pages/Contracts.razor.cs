@@ -3,6 +3,7 @@ using Blazored.Modal.Services;
 using CheckerApp.Client.Shared.Modal;
 using CheckerApp.Shared.Models.Contract;
 using Microsoft.AspNetCore.Components;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -11,6 +12,9 @@ namespace CheckerApp.Client.Pages
 {
     public partial class Contracts
     {
+        private bool isSortedAscending;
+        private string activeSortColumn;
+
         [Inject] IHttpClientFactory HttpClientFactory { get; set; }
         [Inject] IModalService Modal { get; set; }
         [Inject] HttpClient HttpClient { get; set; }
@@ -63,6 +67,44 @@ namespace CheckerApp.Client.Pages
             await HttpClient.DeleteAsync($"api/contract/{id}");
 
             ContractsList = await HttpClient.GetFromJsonAsync<ContractsListVm>("api/contract");
+        }
+
+        private void SortTable(string columnName)
+        {
+            if (columnName != activeSortColumn)
+            {
+                ContractsList.Contracts = ContractsList.Contracts.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToList();
+                isSortedAscending = true;
+                activeSortColumn = columnName;
+            }
+            else
+            {
+                if (isSortedAscending)
+                {
+                    ContractsList.Contracts = ContractsList.Contracts.OrderByDescending(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToList();
+                }
+                else
+                {
+                    ContractsList.Contracts = ContractsList.Contracts.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToList();
+                }
+                isSortedAscending = !isSortedAscending;
+            }
+        }
+
+        private string SetSortIcon(string columnName)
+        {
+            if (activeSortColumn != columnName)
+            {
+                return string.Empty;
+            }
+            if (isSortedAscending)
+            {
+                return "oi-sort-ascending";
+            }
+            else
+            {
+                return "oi-sort-descending";
+            }
         }
     }
 }

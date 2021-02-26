@@ -48,6 +48,10 @@
                         <AddPressure @bind-Value="Command" />
                         break;
 
+                    case HardwareType.GasAnalyzer:
+                        <AddGasAnalyzer @bind-Value="Command" />
+                        break;
+
                     case HardwareType.Valve:
                         <AddValve @bind-Value="Command" />
                         break;

@@ -11,20 +11,18 @@ else
             <div class="col">
                 <h3>Список договоров</h3>
             </div>
-            @*<div class="col-2 control-panel d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary my-auto shadow"><span class="oi oi-document"></span> Новый договор</button>
-            </div>*@
         </div>
     </div>
     <div class="table-container contract-table mat-elevation-z5">
         <table class="table table-hover app-table">
             <thead class="mat-elevation-z5">
                 <tr>
-                    <th scope="row">Дата последних изменений</th>
-                    <th scope="row">Номер договора</th>
-                    <th scope="row">Внутренний номер договора</th>
-                    <th scope="row">Номер проекта</th>
-                    <th scope="row">Название</th>
+                    <th scope="row" @onclick="@(()=>SortTable("HasProtocol"))">Заводские испытания <span class="oi @(SetSortIcon("HasProtocol"))"/></th>
+                    <th scope="row" @onclick="@(()=>SortTable("LastChanges"))">Дата последних изменений <span class="oi @(SetSortIcon("LastChanges"))"/></th>
+                    <th scope="row" @onclick="@(()=>SortTable("ContractNumber"))">Номер договора <span class="oi @(SetSortIcon("ContractNumber"))"/></th>
+                    <th scope="row" @onclick="@(()=>SortTable("DomesticNumber"))">Внутренний номер договора <span class="oi @(SetSortIcon("DomesticNumber"))"/></th>
+                    <th scope="row" @onclick="@(()=>SortTable("ProjectNumber"))">Номер проекта <span class="oi @(SetSortIcon("ProjectNumber"))"/></th>
+                    <th scope="row" @onclick="@(()=>SortTable("Name"))">Название <span class="oi @(SetSortIcon("Name"))"/></th>
                     <AuthorizeView Roles="Admin">
                         <th scope="row"></th>
                     </AuthorizeView>
@@ -34,6 +32,7 @@ else
                 @foreach (var item in ContractsList.Contracts)
                 {
                     <tr @ondblclick="()=>NavigateTo(item.Id)">
+                        <td class="@(item.HasProtocol ? "green-color" : "red-color")">@(item.HasProtocol ? "Завершены" : "Не завершены")</td>
                         <td>@item.LastChanges.ToShortDateString()</td>
                         <td>@item.ContractNumber</td>
                         <td>@item.DomesticNumber</td>

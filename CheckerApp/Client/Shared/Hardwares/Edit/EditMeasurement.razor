@@ -40,11 +40,17 @@
                         <ItemTemplate Context="eu">@eu</ItemTemplate>
                     </MatSelectItem>
                 }
-                else
+                else if(Value.HardwareType == HardwareType.GasAnalyzer)
                 {
                     <MatSelect Label="Единицы измерения" @bind-Value="((MeasurementVm)Value).EU" Outlined="true" FullWidth="true">
-                        <MatOptionString Value="Град С.">Град С.</MatOptionString>
+                        <MatOptionString Value="%">%</MatOptionString>
                     </MatSelect>
+                }
+                else
+                {
+                <MatSelect Label="Единицы измерения" @bind-Value="((MeasurementVm)Value).EU" Outlined="true" FullWidth="true">
+                    <MatOptionString Value="Град С.">Град С.</MatOptionString>
+                </MatSelect>
                 }
             </div>
         </div>

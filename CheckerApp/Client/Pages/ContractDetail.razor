@@ -72,9 +72,9 @@ else
                 <table class="table table-hover app-table">
                     <thead class="mat-elevation-z5">
                         <tr>
-                            <th scope="row">Тип</th>
-                            <th scope="row">Позиция</th>
-                            <th scope="row">Серийный номер</th>
+                            <th @onclick="@(()=>SortTable("HardwareType", "Hardware"))" scope="row">Тип <span class="oi @(SetSortIcon("HardwareType"))"/></th>
+                            <th @onclick="@(()=>SortTable("Position", "Hardware"))" scope="row">Позиция <span class="oi @(SetSortIcon("Position"))"/></th>
+                            <th @onclick="@(()=>SortTable("SerialNumber", "Hardware"))" scope="row">Серийный номер <span class="oi @(SetSortIcon("SerialNumber"))"/></th>
                             <AuthorizeView Roles="Admin, SuperUser">
                                 <th scope="row"></th>
                             </AuthorizeView>
@@ -108,9 +108,9 @@ else
                 <table class="table table-hover app-table">
                     <thead class="mat-elevation-z5">
                         <tr>
-                            <th scope="row">Тип</th>
-                            <th scope="row">Название</th>
-                            <th scope="row">Версия</th>
+                            <th @onclick="@(()=>SortTable("SoftwareType", "Software"))" scope="row">Тип <span class="oi @(SetSortIcon("SoftwareType"))" /></th>
+                            <th @onclick="@(()=>SortTable("Name", "Software"))" scope="row">Название <span class="oi @(SetSortIcon("Name"))" /></th>
+                            <th @onclick="@(()=>SortTable("Version", "Software"))" scope="row">Версия <span class="oi @(SetSortIcon("Version"))" /></th>
                             <AuthorizeView Roles="Admin, SuperUser">
                                 <th scope="row"></th>
                             </AuthorizeView>

@@ -142,6 +142,19 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                         SignalType = request.SignalType
                     };
                     break;
+                case HardwareType.GasAnalyzer:
+                    entity = new GasAnalyzer
+                    {
+                        Position = request.Position,
+                        SerialNumber = request.SerialNumber,
+                        DeviceModel = request.DeviceModel,
+                        DeviceType = request.DeviceType,
+                        MinValue = request.MinValue,
+                        MaxValue = request.MaxValue,
+                        EU = request.EU,
+                        SignalType = request.SignalType
+                    };
+                    break;
                 case HardwareType.Valve:
                     entity = new Valve
                     {

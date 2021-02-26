@@ -120,6 +120,17 @@ namespace CheckerApp.Application.Hardwares.Commands.UpdateHardware
                     ((Temperature)entity).SignalType = ((TemperatureDto)hardware).SignalType;
                     break;
 
+                case HardwareType.GasAnalyzer:
+                    ((GasAnalyzer)entity).Position = ((GasAnalyzerDto)hardware).Position;
+                    ((GasAnalyzer)entity).SerialNumber = ((GasAnalyzerDto)hardware).SerialNumber;
+                    ((GasAnalyzer)entity).DeviceType = ((GasAnalyzerDto)hardware).DeviceType;
+                    ((GasAnalyzer)entity).DeviceModel = ((GasAnalyzerDto)hardware).DeviceModel;
+                    ((GasAnalyzer)entity).MinValue = ((GasAnalyzerDto)hardware).MinValue;
+                    ((GasAnalyzer)entity).MaxValue = ((GasAnalyzerDto)hardware).MaxValue;
+                    ((GasAnalyzer)entity).EU = ((GasAnalyzerDto)hardware).EU;
+                    ((GasAnalyzer)entity).SignalType = ((GasAnalyzerDto)hardware).SignalType;
+                    break;
+
                 case HardwareType.Valve:
                     ((Valve)entity).Position = ((ValveDto)hardware).Position;
                     ((Valve)entity).SerialNumber = ((ValveDto)hardware).SerialNumber;

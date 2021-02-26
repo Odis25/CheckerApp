@@ -47,10 +47,11 @@ namespace CheckerApp.Infrastructure.Data
             builder.Entity<Pressure>().ToTable("Pressures");
             builder.Entity<Temperature>().ToTable("Temperatures");
             builder.Entity<Flowmeter>().ToTable("Flowmeters");
+            builder.Entity<DiffPressure>().ToTable("DiffPressures");
+            builder.Entity<GasAnalyzer>().ToTable("GasAnalyzers");
             builder.Entity<NetworkHardware>().ToTable("NetworkHardwares");
             builder.Entity<Valve>().ToTable("Valves");
             builder.Entity<ARM>().ToTable("ARMs");
-            builder.Entity<DiffPressure>().ToTable("DiffPressures");
 
             builder.Entity<Software>()
                 .HasDiscriminator(e => e.SoftwareType)

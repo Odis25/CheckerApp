@@ -23,6 +23,8 @@ namespace CheckerApp.Domain.Enums
         [Display(Name = "АРМ оператора")]
         ARM,
         [Display(Name = "Датчик перепада давления")]
-        DiffPressure
+        DiffPressure,
+        [Display(Name = "Анализатор загазованности")]
+        GasAnalyzer
     }
 }

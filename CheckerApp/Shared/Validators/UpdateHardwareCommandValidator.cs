@@ -17,6 +17,7 @@ namespace CheckerApp.Shared.Validators
             });
             When(m => m.Hardware.HardwareType == HardwareType.Pressure || 
             m.Hardware.HardwareType == HardwareType.DiffPressure || 
+            m.Hardware.HardwareType == HardwareType.GasAnalyzer || 
             m.Hardware.HardwareType == HardwareType.Temperature, () =>
             {
                 RuleFor(m => m.Hardware.SerialNumber).NotEmpty().WithMessage("Это поле обязательно для заполнения.");
