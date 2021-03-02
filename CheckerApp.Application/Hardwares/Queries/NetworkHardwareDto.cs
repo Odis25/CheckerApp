@@ -6,6 +6,10 @@ namespace CheckerApp.Application.Hardwares.Queries
 {
     public class NetworkHardwareDto : HardwareDto
     {
+        public NetworkHardwareDto()
+        {
+            HardwareType = Domain.Enums.HardwareType.Network;
+        }
         public string DeviceType { get; set; }
         public string DeviceModel { get; set; }
         public string Mask { get; set; }

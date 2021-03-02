@@ -6,6 +6,10 @@ namespace CheckerApp.Application.Hardwares.Queries
 {
     public class ValveDto : HardwareDto
     {
+        public ValveDto()
+        {
+            HardwareType = HardwareType.Valve;
+        }
         public string DeviceType { get; set; }
         public string DeviceModel { get; set; }
         public SignalType SignalType { get; set; }

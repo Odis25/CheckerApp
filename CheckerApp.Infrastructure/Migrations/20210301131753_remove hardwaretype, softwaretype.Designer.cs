@@ -4,14 +4,16 @@ using CheckerApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CheckerApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210301131753_remove hardwaretype, softwaretype")]
+    partial class removehardwaretypesoftwaretype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -247,9 +249,6 @@ namespace CheckerApp.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SoftwareType")
-                        .HasColumnType("int");
-
                     b.Property<string>("Version")
                         .HasColumnType("nvarchar(max)");
 
@@ -392,22 +391,22 @@ namespace CheckerApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2f46c1a7-698e-4f51-821f-28308d751c5c",
-                            ConcurrencyStamp = "872b7a12-3a82-4fb4-a4d4-328cd25e9882",
+                            Id = "64df788e-a8a8-4fda-9fc5-c5c1103186ef",
+                            ConcurrencyStamp = "e91fd175-b17f-4375-a85d-c36c8098edcb",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "dcc7d3e3-cf2a-4216-bbc1-d695c3261a85",
-                            ConcurrencyStamp = "95b1d148-008d-4cfe-a94f-70b3b45660b9",
+                            Id = "f78ef613-6166-4332-aaf6-d61568bb544b",
+                            ConcurrencyStamp = "dec8d2c1-b960-495b-aa64-f11c1abed776",
                             Name = "SuperUser",
                             NormalizedName = "SUPERUSER"
                         },
                         new
                         {
-                            Id = "b4ceba25-6673-4b10-aab5-66b4f7d87ab4",
-                            ConcurrencyStamp = "9adf76be-d0ee-4e0b-aeba-e68af28d05c3",
+                            Id = "da3a40cf-2654-46e7-9e1d-e52603514c10",
+                            ConcurrencyStamp = "b6d2ba11-fb13-4d8d-b27b-5678acfad4b9",
                             Name = "User",
                             NormalizedName = "USER"
                         });

@@ -14,7 +14,8 @@ namespace CheckerApp.Application.Contracts.Queries.GetContractDetail
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Hardware, HardwareDto>();
+            profile.CreateMap<Hardware, HardwareDto>()
+                .ForMember(dest => dest.HardwareType, opt => opt.MapFrom<HardwareTypeResolver>());
         }
     }
 }

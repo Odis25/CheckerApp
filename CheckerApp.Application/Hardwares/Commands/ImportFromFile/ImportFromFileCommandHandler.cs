@@ -112,21 +112,21 @@ namespace CheckerApp.Application.Hardwares.Commands.ImportFromFile
             if (projectCode.Contains("FT", StringComparison.OrdinalIgnoreCase)
                 || projectCode.Contains("FIT", StringComparison.OrdinalIgnoreCase))
             {
-                return new Flowmeter { HardwareType = HardwareType.Flowmeter };
+                return new Flowmeter();
             }
             else if (projectCode.Contains("PT", StringComparison.OrdinalIgnoreCase)
                 || projectCode.Contains("PIT", StringComparison.OrdinalIgnoreCase))
             {
-                return new Pressure { HardwareType = HardwareType.Pressure };
+                return new Pressure();
             }
             else if (projectCode.Contains("TT", StringComparison.OrdinalIgnoreCase)
                 || projectCode.Contains("TIT", StringComparison.OrdinalIgnoreCase))
             {
-                return new Temperature { HardwareType = HardwareType.Temperature };
+                return new Temperature();
             }
             else if (projectCode.Contains("PDT", StringComparison.OrdinalIgnoreCase))
             {
-                return new DiffPressure { HardwareType = HardwareType.DiffPressure };
+                return new DiffPressure();
             }
             else
             {

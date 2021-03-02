@@ -7,6 +7,10 @@ namespace CheckerApp.Application.Softwares.Queries.GetSoftwaresList
 {
     public class SoftwareDto : IMapFrom<Software>
     {
+        public SoftwareDto()
+        {
+            SoftwareType = SoftwareType.Other;
+        }
         public int Id { get; set; }
         public string Name { get; set; }
         public string Version { get; set; }

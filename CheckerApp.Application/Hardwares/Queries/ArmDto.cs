@@ -6,6 +6,10 @@ namespace CheckerApp.Application.Hardwares.Queries
 {
     public class ArmDto : HardwareDto
     {
+        public ArmDto()
+        {
+            HardwareType = Domain.Enums.HardwareType.ARM;
+        }
         public string Name { get; set; }
         public string Monitor { get; set; }
         public string MonitorSN { get; set; }

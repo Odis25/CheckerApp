@@ -25,15 +25,22 @@ namespace CheckerApp.Application.Contracts.Queries.GetContractDetail
         }
         public async Task<ContractDetailDto> Handle(GetContractDetailQuery request, CancellationToken cancellationToken)
         {
-            var result = await _context.Contracts
-                .ProjectTo<ContractDetailDto>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync(c => c.Id == request.Id);
+            try
+            {
+                var contract = await _context.Contracts.FirstOrDefaultAsync(c => c.Id == request.Id);
 
-            result.HardwareList = result.HardwareList.OrderBy(h => h.HardwareType);
-            result.CreatedBy = (await _userManager.FindByIdAsync(result.CreatedBy)).FullName;
-            result.LastModifiedBy = (await _userManager.FindByIdAsync(result.LastModifiedBy))?.FullName;
+                var result = _mapper.Map<ContractDetailDto>(contract);
 
-            return result;
+                result.HardwareList = result.HardwareList.OrderBy(h => h.HardwareType);
+                result.CreatedBy = (await _userManager.FindByIdAsync(result.CreatedBy)).FullName;
+                result.LastModifiedBy = (await _userManager.FindByIdAsync(result.LastModifiedBy))?.FullName;
+
+                return result;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 

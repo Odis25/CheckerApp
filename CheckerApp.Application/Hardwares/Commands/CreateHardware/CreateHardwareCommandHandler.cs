@@ -203,13 +203,21 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                     break;
             }
 
-            entity.HardwareType = request.HardwareType;
-
             contract.HardwareList.Add(entity);
             contract.HasProtocol = false;
             _context.Update(contract);
 
+            try
+            {
             await _context.SaveChangesAsync(cancellationToken);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex ;
+            }
+
 
             return entity.Id;
         }

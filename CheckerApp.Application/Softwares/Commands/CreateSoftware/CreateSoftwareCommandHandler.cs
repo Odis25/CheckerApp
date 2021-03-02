@@ -28,8 +28,8 @@ namespace CheckerApp.Application.Softwares.Commands.CreateSoftware
 
             Software entity = request.SoftwareType switch
             {
-                SoftwareType.SCADA => new SCADA(),
-                SoftwareType.Other => new Software()
+                SoftwareType.SCADA => new SCADA { SoftwareType = SoftwareType.SCADA },
+                SoftwareType.Other => new Software { SoftwareType = SoftwareType.Other }
             };
 
             entity.Name = request.Name;

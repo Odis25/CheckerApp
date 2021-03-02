@@ -6,6 +6,10 @@ namespace CheckerApp.Application.Hardwares.Queries
 {
     public class CabinetDto: HardwareDto
     {
+        public CabinetDto()
+        {
+            HardwareType = Domain.Enums.HardwareType.Cabinet;
+        }
         public DateTime Constructed { get; set; }
         public string ConstructedBy { get; set; }
 

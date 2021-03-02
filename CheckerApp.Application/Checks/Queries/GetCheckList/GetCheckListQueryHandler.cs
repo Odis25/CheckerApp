@@ -38,8 +38,9 @@ namespace CheckerApp.Application.Checks.Queries.GetCheckList
 
                 if (hardware.CheckResult == null)
                 {
-                    hardwareCheckDto = CheckHelper.GetHardwareCheckDto(hardware.HardwareType);
-                    hardwareCheckDto.Hardware = _mapper.Map<HardwareDto>(hardware);
+                    var dto = _mapper.Map<HardwareDto>(hardware);
+                    hardwareCheckDto = CheckHelper.GetHardwareCheckDto(dto.HardwareType);
+                    hardwareCheckDto.Hardware = _mapper.Map<HardwareDto>(dto);
                 }
                 else
                 {
@@ -55,8 +56,9 @@ namespace CheckerApp.Application.Checks.Queries.GetCheckList
 
                 if (software.CheckResult == null)
                 {
-                    softwareCheckDto = CheckHelper.GetSoftwareCheckDto(software.SoftwareType);
-                    softwareCheckDto.Software = _mapper.Map<SoftwareDto>(software);
+                    var dto = _mapper.Map<SoftwareDto>(software);
+                    softwareCheckDto = CheckHelper.GetSoftwareCheckDto(dto.SoftwareType);
+                    softwareCheckDto.Software = dto;
                 }
                 else
                 {

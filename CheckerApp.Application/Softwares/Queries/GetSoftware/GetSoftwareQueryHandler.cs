@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using CheckerApp.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -20,11 +19,11 @@ namespace CheckerApp.Application.Softwares.Queries.GetSoftware
         }
         public async Task<SoftwareDto> Handle(GetSoftwareQuery request, CancellationToken cancellationToken)
         {
-            var software = await _context.Softwares
-                .ProjectTo<SoftwareDto>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync(s=> s.Id == request.Id);
+            var software = await _context.Softwares.FirstOrDefaultAsync(s=> s.Id == request.Id);
 
-            return software;
+            var result = _mapper.Map<SoftwareDto>(software);
+
+            return result;
         }
     }
 }

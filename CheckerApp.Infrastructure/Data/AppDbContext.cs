@@ -53,10 +53,10 @@ namespace CheckerApp.Infrastructure.Data
             builder.Entity<Valve>().ToTable("Valves");
             builder.Entity<ARM>().ToTable("ARMs");
 
-            builder.Entity<Software>()
-                .HasDiscriminator(e => e.SoftwareType)
-                .HasValue<SCADA>(SoftwareType.SCADA)
-                .HasValue<Software>(SoftwareType.Other);
+            //builder.Entity<Software>()
+            //    .HasDiscriminator(e => e.SoftwareType)
+            //    .HasValue<SCADA>(SoftwareType.SCADA)
+            //    .HasValue<Software>(SoftwareType.Other);
 
             base.OnModelCreating(builder);
         }

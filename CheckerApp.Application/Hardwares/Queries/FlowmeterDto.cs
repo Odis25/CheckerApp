@@ -5,6 +5,10 @@ namespace CheckerApp.Application.Hardwares.Queries
 {
     public class FlowmeterDto : MeasurementDto
     {
+        public FlowmeterDto()
+        {
+            HardwareType = Domain.Enums.HardwareType.Flowmeter;
+        }
         public double? Kfactor { get; set; }
         public ModbusSettingsDto ModbusSettings { get; set; }
 
