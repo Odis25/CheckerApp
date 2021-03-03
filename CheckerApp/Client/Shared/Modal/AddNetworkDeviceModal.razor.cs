@@ -13,7 +13,7 @@ namespace CheckerApp.Client.Shared.Modal
 
         private void Save()
         {
-            BlazoredModal.Close(ModalResult.Ok(Device));
+            BlazoredModal.CloseAsync(ModalResult.Ok(Device));
         }
     }
 }

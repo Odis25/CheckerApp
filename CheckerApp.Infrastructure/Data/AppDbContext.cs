@@ -52,11 +52,12 @@ namespace CheckerApp.Infrastructure.Data
             builder.Entity<NetworkHardware>().ToTable("NetworkHardwares");
             builder.Entity<Valve>().ToTable("Valves");
             builder.Entity<ARM>().ToTable("ARMs");
+            builder.Entity<InformPanel>().ToTable("InformPanels");
 
-            //builder.Entity<Software>()
-            //    .HasDiscriminator(e => e.SoftwareType)
-            //    .HasValue<SCADA>(SoftwareType.SCADA)
-            //    .HasValue<Software>(SoftwareType.Other);
+            builder.Entity<Software>()
+                .HasDiscriminator(e => e.SoftwareType)
+                .HasValue<SCADA>(SoftwareType.SCADA)
+                .HasValue<Software>(SoftwareType.Other);
 
             base.OnModelCreating(builder);
         }
@@ -64,16 +65,7 @@ namespace CheckerApp.Infrastructure.Data
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<Hardware> Hardwares { get; set; }
         public DbSet<Software> Softwares { get; set; }
-        public DbSet<Cabinet> Cabinets { get; set; }
-        public DbSet<FlowComputer> FlowComputers { get; set; }
-        public DbSet<PLC> PLCs { get; set; }
-        public DbSet<Temperature> Temperatures { get; set; }
-        public DbSet<Pressure> Pressures { get; set; }
-        public DbSet<DiffPressure> DiffPressures { get; set; }
-        public DbSet<Flowmeter> Flowmeters { get; set; }
-        public DbSet<Valve> Valves { get; set; }
-        public DbSet<ARM> ARMs { get; set; }
-        public DbSet<NetworkHardware> NetworkHardwares { get; set; }
+        
         public DbSet<CheckParameter> CheckParameters { get; set; }
         public DbSet<HardwareCheck> HardwareChecks { get; set; }
         public DbSet<SoftwareCheck> SoftwareChecks { get; set; }

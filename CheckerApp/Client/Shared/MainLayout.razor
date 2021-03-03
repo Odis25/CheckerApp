@@ -1,17 +1,26 @@
-﻿@inherits LayoutComponentBase
+﻿@using Blazored.Toast.Configuration
 
-    <div class="page">
-        <div class="sidebar">
-            <NavMenu />
+@inherits LayoutComponentBase
+
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                IconType="IconType.FontAwesome"
+                ShowProgressBar="true"                
+                SuccessIcon="oi oi-thumbs-up"
+                ErrorIcon="oi oi-bug" />
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <div class="main">
+        <div class="top-row px-4 auth">
+            <LoginDisplay />
         </div>
 
-        <div class="main">
-            <div class="top-row px-4 auth">
-                <LoginDisplay />
-            </div>
-
-            <div class="content px-4">
-                @Body
-            </div>
+        <div class="content px-4">
+            @Body
         </div>
     </div>
+</div>

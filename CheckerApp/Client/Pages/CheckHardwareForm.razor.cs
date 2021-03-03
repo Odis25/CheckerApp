@@ -1,4 +1,5 @@
-﻿using CheckerApp.Shared.Common.JsonConverters;
+﻿using Blazored.Toast.Services;
+using CheckerApp.Shared.Common.JsonConverters;
 using CheckerApp.Shared.Models.Checks;
 using CheckerApp.Shared.Models.Commands;
 using Microsoft.AspNetCore.Components;
@@ -12,6 +13,7 @@ namespace CheckerApp.Client.Pages
 {
     public partial class CheckHardwareForm
     {
+        [Inject] IToastService ToastedService { get; set; }
         [Inject] protected HttpClient HttpClient { get; set; }
         [Inject] protected NavigationManager Navigation { get; set; }
 
@@ -49,6 +51,7 @@ namespace CheckerApp.Client.Pages
             if (result.IsSuccessStatusCode)
             {
                 Navigation.NavigateTo($"/contract/{Id}/detail");
+                ToastedService.ShowSuccess("Заводские испытания проведены", "Готово");
             }
         }
     }

@@ -34,7 +34,7 @@ namespace CheckerApp.Client.Shared.Modal
         {
             var hardwareId = await HttpClient.PostJsonAsync<int>("api/hardware", Command);
 
-            await BlazoredModal.Close(ModalResult.Ok(hardwareId));
+            await BlazoredModal.CloseAsync(ModalResult.Ok(hardwareId));
         }
 
         private async Task AddNetworkDevice()

@@ -12,7 +12,6 @@ namespace CheckerApp.Application.Contracts.Queries.GetContractDetail
         public string Version { get; set; }
         public SoftwareType SoftwareType { get; set; }
 
-
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Software, SoftwareDto>();

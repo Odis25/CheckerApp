@@ -1,4 +1,5 @@
-﻿using CheckerApp.Shared.Models.Commands;
+﻿using Blazored.Toast.Services;
+using CheckerApp.Shared.Models.Commands;
 using CheckerApp.Shared.Models.Users;
 using Microsoft.AspNetCore.Components;
 using System.Net.Http;
@@ -9,6 +10,7 @@ namespace CheckerApp.Client.Pages
 {
     public partial class Users
     {
+        [Inject] IToastService ToastedService { get; set; }
         [Inject] HttpClient HttpClient { get; set; }
         UsersListVm UsersList { get; set; }
 
@@ -22,6 +24,8 @@ namespace CheckerApp.Client.Pages
             var command = new UpdateUsersCommandVm { Users = UsersList };
 
             await HttpClient.PutJsonAsync<UpdateUsersCommandVm>("api/users", command);
+
+            ToastedService.ShowSuccess("Настройки пользователей сохранены", "Готово");
         }
     }
 }

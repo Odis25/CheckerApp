@@ -41,6 +41,7 @@ namespace CheckerApp.Shared.Common.JsonConverters
                     HardwareType.ARM => JsonSerializer.Deserialize<ArmVm>(jsonObject),
                     HardwareType.DiffPressure => JsonSerializer.Deserialize<DiffPressureVm>(jsonObject),
                     HardwareType.GasAnalyzer => JsonSerializer.Deserialize<GasAnalyzerVm>(jsonObject),
+                    HardwareType.InformPanel => JsonSerializer.Deserialize<InformPanelVm>(jsonObject),
                     _ => throw new NotSupportedException(),
                 };
             }

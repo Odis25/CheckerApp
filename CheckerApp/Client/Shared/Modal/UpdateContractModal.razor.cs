@@ -32,7 +32,7 @@ namespace CheckerApp.Client.Shared.Modal
         {
             await HttpClient.PutJsonAsync("api/contract", Command);
 
-            await BlazoredModal.Close(ModalResult.Ok(Contract.Id));
+            await BlazoredModal.CloseAsync(ModalResult.Ok(Contract.Id));
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CheckerApp.Domain.Enums
+namespace CheckerApp.Shared.Enums
 {
     public enum InformPanelType
     {

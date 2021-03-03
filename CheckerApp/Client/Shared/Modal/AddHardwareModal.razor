@@ -52,9 +52,14 @@
                         <AddGasAnalyzer @bind-Value="Command" />
                         break;
 
+                    case HardwareType.InformPanel:
+                        <AddInformPanel @bind-Value="Command" />
+                        break;
+
                     case HardwareType.Valve:
                         <AddValve @bind-Value="Command" />
                         break;
+
                     case HardwareType.ARM:
                         <AddARM @bind-Value="Command" />
                         break;

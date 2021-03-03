@@ -190,6 +190,32 @@ else
                                 }
                                 break;
 
+                            case HardwareType.InformPanel:
+                                {
+                                    var Vm = (InformPanelVm)Hardware;
+                                    <tr>
+                                        <td class="pr-4 py-2 font-weight-bold">Позиция по проекту</td>
+                                        <td><span class="">@Vm.Position</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-4 py-2 font-weight-bold">Серийный номер</td>
+                                        <td><span class="">@Vm.SerialNumber</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-4 py-2 font-weight-bold">Тип прибора</td>
+                                        <td><span class="">@Vm.DeviceType</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-4 py-2 font-weight-bold">Модель прибора</td>
+                                        <td><span class="">@Vm.DeviceModel</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-4 py-2 font-weight-bold">Тип информационного табло</td>
+                                        <td><span class="">@Vm.PanelType.GetDisplayName()</span></td>
+                                    </tr>
+                                }
+                                break;
+
                             case HardwareType.Valve:
                                 {
                                     var Vm = (ValveVm)Hardware;

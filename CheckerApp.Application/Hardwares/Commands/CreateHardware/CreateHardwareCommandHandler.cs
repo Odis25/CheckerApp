@@ -85,11 +85,11 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                     };
                     foreach (var item in request.NetworkDevices)
                     {
-                        ((NetworkHardware)entity).NetworkDevices.Add(new NetworkDevice 
-                        { 
-                            IP = item.IP, 
-                            MacAddress = item.MacAddress, 
-                            Name = item.Name 
+                        ((NetworkHardware)entity).NetworkDevices.Add(new NetworkDevice
+                        {
+                            IP = item.IP,
+                            MacAddress = item.MacAddress,
+                            Name = item.Name
                         });
                     }
                     break;
@@ -155,6 +155,16 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                         SignalType = request.SignalType
                     };
                     break;
+                case HardwareType.InformPanel:
+                    entity = new InformPanel
+                    {
+                        Position = request.Position,
+                        SerialNumber = request.SerialNumber,
+                        DeviceModel = request.DeviceModel,
+                        DeviceType = request.DeviceType,
+                        PanelType = request.PanelType
+                    };
+                    break;
                 case HardwareType.Valve:
                     entity = new Valve
                     {
@@ -209,15 +219,13 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
 
             try
             {
-            await _context.SaveChangesAsync(cancellationToken);
-
+                await _context.SaveChangesAsync(cancellationToken);
             }
             catch (Exception ex)
             {
 
-                throw ex ;
+                throw ex;
             }
-
 
             return entity.Id;
         }

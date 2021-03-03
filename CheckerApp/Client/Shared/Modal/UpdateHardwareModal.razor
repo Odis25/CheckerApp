@@ -7,38 +7,42 @@
         @switch (Hardware.HardwareType)
         {
             case HardwareType.Cabinet:
-                <EditCabinet Value="Command.Hardware"></EditCabinet>
+                <EditCabinet Value="Command.Hardware"/>
                 break;
 
             case HardwareType.FlowComputer:
-                <EditFlowComputer Value="Command.Hardware"></EditFlowComputer>
+                <EditFlowComputer Value="Command.Hardware"/>
                 break;
 
             case HardwareType.Flowmeter:
-                <EditFlowmeter Value="Command.Hardware"></EditFlowmeter>
+                <EditFlowmeter Value="Command.Hardware"/>
                 break;
 
             case HardwareType.Network:
-                <EditNetwork Value="Command.Hardware"></EditNetwork>
+                <EditNetwork Value="Command.Hardware"/>
                 break;
 
             case HardwareType.PLC:
-                <EditPLC Value="Command.Hardware"></EditPLC>
+                <EditPLC Value="Command.Hardware"/>
                 break;
 
             case HardwareType.Pressure:
             case HardwareType.DiffPressure:
             case HardwareType.GasAnalyzer:
             case HardwareType.Temperature:
-                <EditMeasurement Value="Command.Hardware"></EditMeasurement>
+                <EditMeasurement Value="Command.Hardware"/>
+                break;
+
+            case HardwareType.InformPanel:
+                <EditInformPanel Value="Command.Hardware"/>
                 break;
 
             case HardwareType.Valve:
-                <EditValve Value="Command.Hardware"></EditValve>
+                <EditValve Value="Command.Hardware"/>
                 break;
 
             case HardwareType.ARM:
-                <EditARM Value="Command.Hardware"></EditARM>
+                <EditARM Value="Command.Hardware"/>
                 break;
         }
     </div>

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using CheckerApp.Application.Common.Interfaces;
 using CheckerApp.Domain.Entities.Identity;
 using MediatR;

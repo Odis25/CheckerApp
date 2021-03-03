@@ -403,6 +403,15 @@ namespace CheckerApp.Infrastructure.Services
                         $"- {measurement.SignalType.GetDisplayName()} ):";
                     break;
 
+                case HardwareType.InformPanel:
+                    var panel = (InformPanelDto)device;
+                    header = $"{panel.HardwareType.GetDisplayName()} {panel.Position}" +
+                        $"(тип {panel.DeviceType} " +
+                        $"- модель {panel.DeviceModel} " +
+                        $"- зав.№{panel.SerialNumber} " +                        
+                        $"- тип табло \"{panel.PanelType.GetDisplayName()}\" ):";
+                    break;
+
                 case HardwareType.Valve:
                     var valve = (ValveDto)device;
                     var valveMb = valve.ModbusSettings;

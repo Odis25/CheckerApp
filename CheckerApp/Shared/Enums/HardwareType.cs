@@ -24,8 +24,8 @@ namespace CheckerApp.Shared.Enums
         Valve,
         [Display(Name = "Сетевое оборудование")]
         Network,
-        //[Display(Name = "Информационное табло")]
-        //InformPanel,
+        [Display(Name = "Информационное табло")]
+        InformPanel,
         [Display(Name = "АРМ оператора")]
         ARM
     }

@@ -24,7 +24,7 @@ namespace CheckerApp.Client.Shared.Modal
         {
             var contractId = await HttpClient.PostJsonAsync<int>("api/contract", Contract);
 
-            await BlazoredModal.Close(ModalResult.Ok(contractId));
+            await BlazoredModal.CloseAsync(ModalResult.Ok(contractId));
         }
     }
 }

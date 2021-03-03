@@ -29,7 +29,7 @@ namespace CheckerApp.Application.Users.Queries
                     Id = user.Id,
                     AccountName = user.UserName,
                     FullName = user.FullName,
-                    Role = (await _userManager.GetRolesAsync(user)).First()
+                    Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault()
                 };
                 model.Users.Add(userDto);
             }

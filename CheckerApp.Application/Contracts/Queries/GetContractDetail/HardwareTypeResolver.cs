@@ -21,6 +21,7 @@ namespace CheckerApp.Application.Contracts.Queries.GetContractDetail
                 PLC e => HardwareType.PLC,
                 NetworkHardware e => HardwareType.Network,
                 Valve e => HardwareType.Valve,
+                InformPanel e => HardwareType.InformPanel,
                 _ => HardwareType.Valve,
             };
         }

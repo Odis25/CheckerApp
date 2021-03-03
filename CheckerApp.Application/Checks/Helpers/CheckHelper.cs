@@ -90,7 +90,6 @@ namespace CheckerApp.Application.Hardwares.Helpers
                     break;
 
                 case HardwareType.Network:
-
                     check.CheckParameters.Add(new CheckParameterDto { Description = "Включение и выход на рабочий режим" });
                     check.CheckParameters.Add(new CheckParameterDto { Description = "Наличие связи со всеми устройствами в локальной сети" });
                     check.CheckParameters.Add(new CheckParameterDto
@@ -106,7 +105,6 @@ namespace CheckerApp.Application.Hardwares.Helpers
                     break;
 
                 case HardwareType.PLC:
-
                     check.CheckParameters.Add(new CheckParameterDto
                     {
                         Description = "Соответствие реализованной схемы подключения прибора проектной документации",
@@ -147,7 +145,6 @@ namespace CheckerApp.Application.Hardwares.Helpers
                 case HardwareType.DiffPressure:
                 case HardwareType.GasAnalyzer:
                 case HardwareType.Temperature:
-
                     check.CheckParameters.Add(new CheckParameterDto
                     {
                         Description = "Соответствие реализованной схемы подключения прибора проектной документации",
@@ -159,8 +156,18 @@ namespace CheckerApp.Application.Hardwares.Helpers
                     check.CheckParameters.Add(new CheckParameterDto { Description = "Имитация выходного сигнала в диапазоне 0-100 % шкалы" });
                     break;
 
-                case HardwareType.Valve:
+                case HardwareType.InformPanel:
+                    check.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Соответствие реализованной схемы подключения прибора проектной документации",
+                        Method = "-"
+                    });
+                    check.CheckParameters.Add(new CheckParameterDto { Description = "Наличие силового питания" });
+                    check.CheckParameters.Add(new CheckParameterDto { Description = "Индикация при сигнале тревоги" });
 
+                    break;
+
+                case HardwareType.Valve:
                     check.CheckParameters.Add(new CheckParameterDto
                     {
                         Description = "Сответствие реализованной схемы подключения прибора проектной документации",

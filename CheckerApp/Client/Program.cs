@@ -1,4 +1,5 @@
 using Blazored.Modal;
+using Blazored.Toast;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +23,7 @@ namespace CheckerApp.Client
             builder.Services.AddHttpClient("ServerAPI.NonAuthorized", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 
             builder.Services.AddBlazoredModal();
+            builder.Services.AddBlazoredToast();
 
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("ServerAPI.Authorized"));
 

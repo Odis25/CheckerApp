@@ -33,7 +33,7 @@ namespace CheckerApp.Client.Shared.Modal
 
             await HttpClient.PutAsJsonAsync("api/hardware", Command, options);
 
-            await BlazoredModal.Close(ModalResult.Ok(Hardware.Id));
+            await BlazoredModal.CloseAsync(ModalResult.Ok(Hardware.Id));
         }
     }
 }

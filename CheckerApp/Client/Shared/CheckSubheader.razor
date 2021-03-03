@@ -120,7 +120,7 @@
                             </tr>
                         }
                     </table>
-                </div>               
+                </div>
             </div>
             break;
 
@@ -216,6 +216,39 @@
                         <tr>
                             <td>Тип подключения:</td>
                             <td>@(((MeasurementVm)Hardware).SignalType.GetDisplayName())</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            break;
+
+        case HardwareType.InformPanel:
+            <div class="row">
+                <div class="col-12 col-lg">
+                    <table>
+                        <tr>
+                            <td>Позиция по проекту:</td>
+                            <td>@Hardware.Position</td>
+                        </tr>
+                        <tr>
+                            <td>Тип устройства:</td>
+                            <td>@(((InformPanelVm)Hardware).DeviceType)</td>
+                        </tr>
+                        <tr>
+                            <td>Модель устройства:</td>
+                            <td>@(((InformPanelVm)Hardware).DeviceModel)</td>
+                        </tr>
+                        <tr>
+                            <td>Заводской №:</td>
+                            <td>@Hardware.SerialNumber</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-12 col-lg">
+                    <table>
+                        <tr>
+                            <td>Тип подключения:</td>
+                            <td>@(((InformPanelVm)Hardware).PanelType.GetDisplayName())</td>
                         </tr>
                     </table>
                 </div>

@@ -1,0 +1,46 @@
+﻿<div class="col">
+    <div class="border p-2">
+        <div class="row mb-2">
+            <div class="col">
+                <MatTextField Label="Позиция по проекту" @bind-Value="Value.Position" Outlined="true" Style="width:100%"></MatTextField>
+                <ValidationMessage For="()=> Value.Position"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <MatTextField Label="Серийный номер" @bind-Value="Value.SerialNumber" Outlined="true" Style="width:100%"></MatTextField>
+                <ValidationMessage For="()=> Value.SerialNumber"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <MatTextField Label="Тип прибора" @bind-Value="((InformPanelVm)Value).DeviceType" Outlined="true" Style="width:100%"></MatTextField>
+                <ValidationMessage For="()=> ((InformPanelVm)Value).DeviceType"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <MatTextField Label="Модель прибора" @bind-Value="((InformPanelVm)Value).DeviceModel" Outlined="true" Style="width:100%"></MatTextField>
+                <ValidationMessage For="()=> ((InformPanelVm)Value).DeviceModel"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <MatSelectItem @bind-Value="((InformPanelVm)Value).PanelType" Label="Способ подключения" Outlined="true" FullWidth="true" Items="panelTypes">
+                    <ItemTemplate Context="panelType">@panelType.GetDisplayName()</ItemTemplate>
+                </MatSelectItem>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public HardwareVm Value { get; set; }
+
+    [Parameter]
+    public EventCallback<HardwareVm> ValueChanged { get; set; }
+
+    private InformPanelType[] panelTypes = Enum.GetValues(typeof(InformPanelType)).Cast<InformPanelType>().ToArray();
+}

@@ -1,9 +1,14 @@
 ﻿using System.Collections.Generic;
+using CheckerApp.Shared.Enums;
 
 namespace CheckerApp.Shared.Models.Hardware
 {
     public class ArmVm : HardwareVm
     {
+        public ArmVm()
+        {
+            HardwareType = HardwareType.ARM;
+        }
         public string Name { get; set; }
         public string Monitor { get; set; }
         public string MonitorSN { get; set; }
