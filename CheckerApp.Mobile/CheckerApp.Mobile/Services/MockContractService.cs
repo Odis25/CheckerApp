@@ -7,6 +7,11 @@ namespace CheckerApp.Mobile.Services
 {
     public class MockContractService : IContractService
     {
+        public Task<ContractDto> GetContractAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ContractsListDto> GetContractsAsync()
         {
             var contracts = new ContractsListDto();

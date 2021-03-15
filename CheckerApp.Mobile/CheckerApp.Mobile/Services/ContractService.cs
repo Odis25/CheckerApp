@@ -29,5 +29,19 @@ namespace CheckerApp.Mobile.Services
                 throw ex;
             }
         }
+
+        public async Task<ContractDto> GetContractAsync(int id)
+        {
+            try
+            {
+                var contract = await _httpClient.GetFromJsonAsync<ContractDto>($"api/contract/{id}");
+
+                return contract;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -79,7 +79,7 @@
                     <StackLayout Padding="10,0,10,10">
 
                         <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding GetDetailsCommand}"/>
+                            <TapGestureRecognizer NumberOfTapsRequired="2" Command="{Binding GetDetailsCommand}"/>
                         </StackLayout.GestureRecognizers>
                         
                         <pv:PancakeView BackgroundColor="White" CornerRadius="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 

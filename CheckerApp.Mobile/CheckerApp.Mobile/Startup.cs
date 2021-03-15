@@ -13,7 +13,7 @@ namespace CheckerApp.Mobile
 
         public static void Init()
         {
-            DependencyService.Register<IContractService, MockContractService>();
+            DependencyService.Register<IContractService, ContractService>();
             DependencyService.Register<ContractsVm>();
         }
     }

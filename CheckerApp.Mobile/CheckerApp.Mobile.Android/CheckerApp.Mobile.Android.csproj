@@ -67,10 +67,12 @@
   <ItemGroup>
     <Compile Include="Effects\LabelShadowEffect.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="OpenVpnManagement.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\test.ovpn" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -93,8 +95,11 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\..\CheckerApp.JavaLib\CheckerApp.JavaLib.csproj">
+      <Project>{bbc756c6-29f0-4995-8bad-0909b6333da5}</Project>
+      <Name>CheckerApp.JavaLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CheckerApp.Mobile\CheckerApp.Mobile.csproj">
       <Project>{6189E180-42CC-4630-8C55-E1C7DEC557C7}</Project>
       <Name>CheckerApp.Mobile</Name>
