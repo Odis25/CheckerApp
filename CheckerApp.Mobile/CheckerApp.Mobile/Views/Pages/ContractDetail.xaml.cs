@@ -6,14 +6,14 @@ using Xamarin.Forms.Xaml;
 namespace CheckerApp.Mobile.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ContractDetails : ContentPage
+    public partial class ContractDetail : ContentPage
     {
-        private readonly ContractDetailsVm _viewModel;
-        public ContractDetails()
+        private readonly ContractDetailVm _viewModel;
+        public ContractDetail()
         {           
             InitializeComponent();
 
-            _viewModel = new ContractDetailsVm();
+            _viewModel = new ContractDetailVm();
 
             BindingContext = _viewModel;            
         }

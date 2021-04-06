@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CheckerApp.Mobile.Views.Pages.ContractDetail"
+             xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
+             xmlns:viewmodels="clr-namespace:CheckerApp.Mobile.ViewModels" 
+             xmlns:hardware="clr-namespace:CheckerApp.Mobile.Models.Hardware" 
+             xmlns:c="clr-namespace:CheckerApp.Mobile.Converters"
+             x:DataType="viewmodels:ContractDetailVm"
+             BackgroundColor="LightSkyBlue"
+             Title="{Binding Contract.ContractNumber}">
+    
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="FontSize" Value="Small"/>
+        </Style>
+
+        <c:HardwareTypeToStringConverter x:Key="hardwareTypeToString"/>
+    </ContentPage.Resources>
+    
+    <StackLayout Padding="10">
+        <!-- Заголовок -->
+        <pv:PancakeView Shadow="{pv:ShadowMarkup Color=Black}"
+                        BackgroundColor="White"
+                        CornerRadius="5" 
+                        HorizontalOptions="FillAndExpand"                         
+                        Padding="10">
+            
+            <StackLayout>
+                <Label Text="{Binding Contract.Name}" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" />
+                <Label Text="{Binding Contract.ContractNumber}" HorizontalOptions="CenterAndExpand" />
+                <Label Text="{Binding Contract.DomesticNumber}" HorizontalOptions="CenterAndExpand" />
+                <Label Text="{Binding Contract.ProjectNumber}" HorizontalOptions="CenterAndExpand" />
+                <Label Text="{Binding Contract.LastModified}" HorizontalOptions="CenterAndExpand" />
+            </StackLayout>
+        </pv:PancakeView>
+        
+        <!-- Список оборудования и ПО-->
+        <pv:PancakeView Shadow="{pv:ShadowMarkup Color=Black}"
+                        BackgroundColor="White"
+                        CornerRadius="5" 
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        Padding="10">
+
+            <CollectionView ItemsSource="{Binding Contract.HardwareList}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="0"/>
+                </CollectionView.ItemsLayout>
+                
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="hardware:HardwareDto">
+                        <StackLayout Padding="10,10,10,5">
+                            
+                        <pv:PancakeView CornerRadius="5" BackgroundColor="White" Padding="10" Shadow="{pv:ShadowMarkup Color=Gray}">
+                            
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{Binding Position}"/>
+                            <Label Text="{Binding HardwareType, Converter={StaticResource hardwareTypeToString}}" />
+                        </StackLayout>
+                        </pv:PancakeView>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </pv:PancakeView>
+
+    </StackLayout>
+
+</ContentPage>

@@ -8,6 +8,7 @@ namespace CheckerApp.Mobile.Models
         {
             Contracts = new List<ContractDto>();
         }
+
         public IList<ContractDto> Contracts { get; set; }
     }
 }
