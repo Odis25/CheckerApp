@@ -4,14 +4,16 @@ using CheckerApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CheckerApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210518054229_FireSensor and APC")]
+    partial class FireSensorandAPC
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -394,22 +396,22 @@ namespace CheckerApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c2a08041-9cfc-4428-8bec-5022f4ea3a43",
-                            ConcurrencyStamp = "7568bc99-3520-4e70-a913-0b9720a216ec",
+                            Id = "c67a3799-4405-474f-915b-99536fb79d57",
+                            ConcurrencyStamp = "b7586d82-fc0a-4020-a0fd-e8fbbd14a9a1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d52ef005-53e5-47f0-bb9d-96fb593d9687",
-                            ConcurrencyStamp = "574e005b-132c-41df-9932-336e8df9bf01",
+                            Id = "ad4579a9-5676-4450-941c-b84ed4bb70fc",
+                            ConcurrencyStamp = "bc5f41a8-14b2-4f79-ba35-a00e890fdb74",
                             Name = "SuperUser",
                             NormalizedName = "SUPERUSER"
                         },
                         new
                         {
-                            Id = "243e9319-a9f3-4c11-9d3c-00a41ba313fd",
-                            ConcurrencyStamp = "6412e512-a1c5-47cc-8a4e-129fad0b4ce2",
+                            Id = "b29ba8e5-8cdf-4472-90c7-bf670da69bab",
+                            ConcurrencyStamp = "b96f4f2e-8165-4e8a-a805-99b8b2146d45",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -527,12 +529,6 @@ namespace CheckerApp.Infrastructure.Migrations
                 {
                     b.HasBaseType("CheckerApp.Domain.Entities.HardwareEntities.Hardware");
 
-                    b.Property<string>("DeviceModel")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DeviceType")
-                        .HasColumnType("nvarchar(max)");
-
                     b.ToTable("APCs");
                 });
 
@@ -614,12 +610,6 @@ namespace CheckerApp.Infrastructure.Migrations
             modelBuilder.Entity("CheckerApp.Domain.Entities.HardwareEntities.FireSensor", b =>
                 {
                     b.HasBaseType("CheckerApp.Domain.Entities.HardwareEntities.Hardware");
-
-                    b.Property<string>("DeviceModel")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DeviceType")
-                        .HasColumnType("nvarchar(max)");
 
                     b.ToTable("FireSensors");
                 });

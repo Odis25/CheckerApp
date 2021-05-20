@@ -412,6 +412,22 @@ namespace CheckerApp.Infrastructure.Services
                         $"- тип табло \"{panel.PanelType.GetDisplayName()}\" ):";
                     break;
 
+                case HardwareType.APC:
+                    var apc = (ApcDto)device;
+                    header = $"{apc.HardwareType.GetDisplayName()} {apc.Position}" +
+                        $"(тип {apc.DeviceType} " +
+                        $"- модель {apc.DeviceModel} " +
+                        $"- зав.№{apc.SerialNumber} ):";
+                    break;
+
+                case HardwareType.FireSensor:
+                    var fireSensor = (FireSensorDto)device;
+                    header = $"{fireSensor.HardwareType.GetDisplayName()} {fireSensor.Position}" +
+                        $"(тип {fireSensor.DeviceType} " +
+                        $"- модель {fireSensor.DeviceModel} " +
+                        $"- зав.№{fireSensor.SerialNumber} ):";
+                    break;
+
                 case HardwareType.Valve:
                     var valve = (ValveDto)device;
                     var valveMb = valve.ModbusSettings;

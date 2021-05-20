@@ -14,6 +14,8 @@ namespace CheckerApp.Domain.Enums
         Temperature,
         [Display(Name = "Датчик загазованности")]
         GasAnalyzer,
+        [Display(Name = "Датчик пламени")]
+        FireSensor,
         [Display(Name = "Расходомер")]
         Flowmeter,
         [Display(Name = "ИВК")]
@@ -27,6 +29,8 @@ namespace CheckerApp.Domain.Enums
         [Display(Name = "Информационное табло")]
         InformPanel,
         [Display(Name = "АРМ оператора")]
-        ARM
+        ARM,
+        [Display(Name = "ИБП")]
+        APC
     }
 }

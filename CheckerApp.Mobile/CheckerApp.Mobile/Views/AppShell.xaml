@@ -5,15 +5,18 @@
              xmlns:views="clr-namespace:CheckerApp.Mobile.Views.Shared"
              x:Class="CheckerApp.Mobile.Views.AppShell"
              ForegroundColor="White"
+             BackgroundColor="#00356A"
              UnselectedColor="Gray" 
-             BackgroundColor="#00356a" FlyoutWidth="250">
+             FlyoutWidth="250">
 
     <Shell.ItemTemplate>
         <DataTemplate>
-            <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <StackLayout Orientation="Horizontal" 
+                         VerticalOptions="CenterAndExpand" 
+                         HorizontalOptions="CenterAndExpand">
                 <Image Source="{Binding FlyoutIcon}"
-                       WidthRequest="25"
                        Margin="40,20,20,20"
+                       WidthRequest="25" 
                        HeightRequest="25" />
                 <Label Text="{Binding Title}"
                        FontAttributes="Bold"
@@ -25,14 +28,9 @@
     </Shell.ItemTemplate>
     
     <Shell.FlyoutBackground>
-        <LinearGradientBrush StartPoint="0,0"
-                             EndPoint="0,1">
-
-            <GradientStop Color="#00356a"
-                          Offset="0.1" />
-            
-            <GradientStop Color="#2B67A3"    
-                          Offset="1.0" />
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#00356a" Offset="0.1" />
+            <GradientStop Color="#2B67A3" Offset="1.0" />
         </LinearGradientBrush>
     </Shell.FlyoutBackground>
     

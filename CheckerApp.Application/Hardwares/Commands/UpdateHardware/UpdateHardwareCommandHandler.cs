@@ -131,6 +131,20 @@ namespace CheckerApp.Application.Hardwares.Commands.UpdateHardware
                     ((GasAnalyzer)entity).SignalType = ((GasAnalyzerDto)hardware).SignalType;
                     break;
 
+                case HardwareType.APC:
+                    ((APC)entity).Position = ((ApcDto)hardware).Position;
+                    ((APC)entity).SerialNumber = ((ApcDto)hardware).SerialNumber;
+                    ((APC)entity).DeviceType = ((ApcDto)hardware).DeviceType;
+                    ((APC)entity).DeviceModel = ((ApcDto)hardware).DeviceModel;
+                    break;
+
+                case HardwareType.FireSensor:
+                    ((FireSensor)entity).Position = ((FireSensorDto)hardware).Position;
+                    ((FireSensor)entity).SerialNumber = ((FireSensorDto)hardware).SerialNumber;
+                    ((FireSensor)entity).DeviceType = ((FireSensorDto)hardware).DeviceType;
+                    ((FireSensor)entity).DeviceModel = ((FireSensorDto)hardware).DeviceModel;
+                    break;
+
                 case HardwareType.InformPanel:
                     ((InformPanel)entity).Position = ((InformPanelDto)hardware).Position;
                     ((InformPanel)entity).SerialNumber = ((InformPanelDto)hardware).SerialNumber;

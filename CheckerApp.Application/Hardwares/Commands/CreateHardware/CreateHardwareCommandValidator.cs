@@ -17,6 +17,8 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
             m.HardwareType == HardwareType.DiffPressure || 
             m.HardwareType == HardwareType.GasAnalyzer || 
             m.HardwareType == HardwareType.InformPanel || 
+            m.HardwareType == HardwareType.APC || 
+            m.HardwareType == HardwareType.FireSensor || 
             m.HardwareType == HardwareType.Temperature, () =>
             {
                 RuleFor(m => m.SerialNumber).NotEmpty().WithMessage("Это поле обязательно для заполнения.");

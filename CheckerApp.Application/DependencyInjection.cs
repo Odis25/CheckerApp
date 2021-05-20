@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using CheckerApp.Application.Common.Behaviors;
+﻿using CheckerApp.Application.Common.Behaviors;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

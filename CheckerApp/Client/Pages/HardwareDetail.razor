@@ -190,6 +190,50 @@ else
                                 }
                                 break;
 
+                            case HardwareType.FireSensor:
+                                {
+                                    var Vm = (FireSensorVm)Hardware;
+                                    <tr>
+                                        <td class="pr-4 py-2 font-weight-bold">Позиция по проекту</td>
+                                        <td><span class="">@Vm.Position</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-4 py-2 font-weight-bold">Серийный номер</td>
+                                        <td><span class="">@Vm.SerialNumber</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-4 py-2 font-weight-bold">Тип прибора</td>
+                                        <td><span class="">@Vm.DeviceType</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-4 py-2 font-weight-bold">Модель прибора</td>
+                                        <td><span class="">@Vm.DeviceModel</span></td>
+                                    </tr>
+                                }
+                                break;
+
+                            case HardwareType.APC:
+                                {
+                                    var Vm = (ApcVm)Hardware;
+                                    <tr>
+                                        <td class="pr-4 py-2 font-weight-bold">Позиция по проекту</td>
+                                        <td><span class="">@Vm.Position</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-4 py-2 font-weight-bold">Серийный номер</td>
+                                        <td><span class="">@Vm.SerialNumber</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-4 py-2 font-weight-bold">Тип прибора</td>
+                                        <td><span class="">@Vm.DeviceType</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-4 py-2 font-weight-bold">Модель прибора</td>
+                                        <td><span class="">@Vm.DeviceModel</span></td>
+                                    </tr>
+                                }
+                                break;
+
                             case HardwareType.InformPanel:
                                 {
                                     var Vm = (InformPanelVm)Hardware;

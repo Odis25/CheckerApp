@@ -39,8 +39,10 @@ namespace CheckerApp.Server.Common.JsonConverters
                     HardwareType.Temperature => JsonSerializer.Deserialize<TemperatureDto>(jsonObject),
                     HardwareType.Valve => JsonSerializer.Deserialize<ValveDto>(jsonObject),
                     HardwareType.ARM => JsonSerializer.Deserialize<ArmDto>(jsonObject),
+                    HardwareType.APC => JsonSerializer.Deserialize<ApcDto>(jsonObject),
                     HardwareType.DiffPressure => JsonSerializer.Deserialize<DiffPressureDto>(jsonObject),
                     HardwareType.GasAnalyzer => JsonSerializer.Deserialize<GasAnalyzerDto>(jsonObject),
+                    HardwareType.FireSensor => JsonSerializer.Deserialize<FireSensorDto>(jsonObject),
                     HardwareType.InformPanel => JsonSerializer.Deserialize<InformPanelDto>(jsonObject),
                     _ => throw new NotSupportedException(),
                 };

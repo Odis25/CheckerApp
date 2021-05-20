@@ -21,4 +21,12 @@
     <ProjectReference Include="..\Shared\CheckerApp.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Shared\Hardwares\Add\AddFireSensor.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Shared\Hardwares\Add\AddFireSensor.razor" />
+  </ItemGroup>
+
 </Project>

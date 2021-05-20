@@ -165,6 +165,15 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                         PanelType = request.PanelType
                     };
                     break;
+                case HardwareType.FireSensor:
+                    entity = new FireSensor
+                    {
+                        Position = request.Position,
+                        SerialNumber = request.SerialNumber,
+                        DeviceModel = request.DeviceModel,
+                        DeviceType = request.DeviceType
+                    };
+                    break;
                 case HardwareType.Valve:
                     entity = new Valve
                     {
@@ -207,6 +216,15 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                             MacAddress = item.MacAddress
                         });
                     }
+                    break;
+                case HardwareType.APC:
+                    entity = new APC
+                    {
+                        Position = request.Position,
+                        SerialNumber = request.SerialNumber,
+                        DeviceModel = request.DeviceModel,
+                        DeviceType = request.DeviceType
+                    };
                     break;
                 default:
                     entity = null;

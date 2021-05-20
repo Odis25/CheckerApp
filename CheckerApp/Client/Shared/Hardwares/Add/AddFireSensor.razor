@@ -1,0 +1,35 @@
+﻿@using CheckerApp.Shared.Models.Commands
+
+<div class="mb-2 row">
+    <div class="col">
+        <MatTextField Label="Позиция по проекту" @bind-Value="Value.Position" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.Position"></ValidationMessage>
+    </div>
+</div>
+<div class="mb-2 row">
+    <div class="col">
+        <MatTextField Label="Серийный номер" @bind-Value="Value.SerialNumber" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.SerialNumber"></ValidationMessage>
+    </div>
+</div>
+<div class="mb-2 row">
+    <div class="col">
+        <MatTextField Label="Тип устройства" @bind-Value="Value.DeviceType" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.DeviceType"></ValidationMessage>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <MatTextField Label="Модель устройства" @bind-Value="Value.DeviceModel" Outlined="true" Style="width: 100%;"></MatTextField>
+        <ValidationMessage For="()=> Value.DeviceModel"></ValidationMessage>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public CreateHardwareCommandVm Value { get; set; }
+
+    [Parameter]
+    public EventCallback<CreateHardwareCommandVm> ValueChanged { get; set; }
+}

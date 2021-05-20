@@ -5,64 +5,199 @@
              xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
              xmlns:viewmodels="clr-namespace:CheckerApp.Mobile.ViewModels" 
              xmlns:hardware="clr-namespace:CheckerApp.Mobile.Models.Hardware" 
-             xmlns:c="clr-namespace:CheckerApp.Mobile.Converters"
+             xmlns:c="clr-namespace:CheckerApp.Mobile.Converters" 
+             xmlns:tk="http://xamarin.com/schemas/2020/toolkit"
              x:DataType="viewmodels:ContractDetailVm"
              BackgroundColor="LightSkyBlue"
              Title="{Binding Contract.ContractNumber}">
-    
+
     <ContentPage.Resources>
+        
         <Style TargetType="Label">
             <Setter Property="TextColor" Value="Black"/>
             <Setter Property="FontSize" Value="Small"/>
         </Style>
 
         <c:HardwareTypeToStringConverter x:Key="hardwareTypeToString"/>
+
+        <ResourceDictionary>
+            <DataTemplate x:DataType="hardware:CabinetDto" x:Key="cabinetTemplate">
+                <StackLayout Padding="3">
+                    <pv:PancakeView CornerRadius="5" BackgroundColor="LightSkyBlue" Padding="0" Shadow="{pv:ShadowMarkup Color=Black, BlurRadius='3'}">
+                        <tk:Expander>
+                            <tk:Expander.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.25*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontAttributes="Bold" Text="{Binding Position}"/>
+                                    <BoxView VerticalOptions="FillAndExpand" Grid.Column="1" BackgroundColor="Gray" WidthRequest="1"/>
+                                    <Label Grid.Column="2" Padding="10,0" VerticalOptions="CenterAndExpand" Text="{Binding HardwareType, Converter={StaticResource hardwareTypeToString}}" />
+                                </Grid>
+                            </tk:Expander.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.25*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <BoxView VerticalOptions="FillAndExpand" Grid.Column="1" BackgroundColor="Gray" WidthRequest="1"/>
+                                <StackLayout Grid.Column="2" Orientation="Vertical">
+                                    <Label Text="{Binding SerialNumber, StringFormat='S/N: {0}'}" FontSize="Small"/>
+                                    <Label Text="{Binding Constructed, StringFormat='Дата монтажа: {0:dd.MM.yyyy}'}" FontSize="Small"/>
+                                    <Label Text="{Binding ConstructedBy, StringFormat='Ответственный за монтаж: {0}'}" FontSize="Small"/>
+                                </StackLayout>
+                            </Grid>
+                        </tk:Expander>
+                    </pv:PancakeView>
+                </StackLayout>
+            </DataTemplate>
+
+            <DataTemplate x:DataType="hardware:HardwareDto" x:Key="hardwareTemplate">
+                <StackLayout Padding="3">
+                    <pv:PancakeView CornerRadius="5" BackgroundColor="LightSkyBlue" Padding="0" Shadow="{pv:ShadowMarkup Color=Black, BlurRadius='3'}">
+                        <tk:Expander>
+                            <tk:Expander.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.25*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontAttributes="Bold" Text="{Binding Position}"/>
+                                    <BoxView VerticalOptions="FillAndExpand" Grid.Column="1" BackgroundColor="Gray" WidthRequest="1"/>
+                                    <Label Grid.Column="2" Padding="10,0" VerticalOptions="CenterAndExpand" Text="{Binding HardwareType, Converter={StaticResource hardwareTypeToString}}" />
+                                </Grid>
+                            </tk:Expander.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.25*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <BoxView VerticalOptions="FillAndExpand" Grid.Column="1" BackgroundColor="Gray" WidthRequest="1"/>
+                                <StackLayout Grid.Column="2" Orientation="Vertical">
+                                    <Label Text="{Binding Id}" FontSize="Small"/>
+                                    <Label Text="{Binding SerialNumber}" FontSize="Small"/>
+                                </StackLayout>
+                            </Grid>
+                        </tk:Expander>
+                    </pv:PancakeView>
+                </StackLayout>
+            </DataTemplate>
+            
+            <DataTemplate x:DataType="hardware:MeasurementDto" x:Key="measurementTemplate">
+                <StackLayout Padding="3">
+                    <pv:PancakeView CornerRadius="5" BackgroundColor="LightSkyBlue" Padding="0" Shadow="{pv:ShadowMarkup Color=Black, BlurRadius='3'}">
+                        <tk:Expander>
+                            <tk:Expander.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.25*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontAttributes="Bold" Text="{Binding Position}"/>
+                                    <BoxView VerticalOptions="FillAndExpand" Grid.Column="1" BackgroundColor="Gray" WidthRequest="1"/>
+                                    <Label Grid.Column="2" Padding="10,0" VerticalOptions="CenterAndExpand" Text="{Binding HardwareType, Converter={StaticResource hardwareTypeToString}}" />
+                                </Grid>
+                            </tk:Expander.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.25*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <BoxView VerticalOptions="FillAndExpand" Grid.Column="1" BackgroundColor="Gray" WidthRequest="1"/>
+                                <StackLayout Grid.Column="2" Orientation="Vertical">
+                                    <Label Text="{Binding SerialNumber, StringFormat='S/N: {0}'}" FontSize="Small"/>
+                                    <Label FontSize="Small">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Шкала: "/>
+                                                <Span Text="{Binding MinValue}"/>
+                                                <Span Text=" - "/>
+                                                <Span Text="{Binding MaxValue}"/>
+                                                <Span Text="{Binding EU, StringFormat=' {0}'}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Text="{Binding SignalType, StringFormat='Тип подключения: {0}'}" FontSize="Small"/>
+                                </StackLayout>
+                            </Grid>
+                        </tk:Expander>
+                    </pv:PancakeView>
+                </StackLayout>
+            </DataTemplate>
+
+            <c:HardwareTemplateSelector x:Key="hardwareSelector"
+                                        CabinetTemplate="{StaticResource cabinetTemplate }"
+                                        MeasurementTemplate="{StaticResource measurementTemplate }"
+                                        HardwareTemplate="{StaticResource hardwareTemplate }"/>
+        </ResourceDictionary>
+        
     </ContentPage.Resources>
-    
+
     <StackLayout Padding="10">
         <!-- Заголовок -->
         <pv:PancakeView Shadow="{pv:ShadowMarkup Color=Black}"
-                        BackgroundColor="White"
-                        CornerRadius="5" 
+                        BackgroundColor="#2B67A3"
+                        CornerRadius="5"
                         HorizontalOptions="FillAndExpand"                         
                         Padding="10">
-            
-            <StackLayout>
-                <Label Text="{Binding Contract.Name}" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" />
-                <Label Text="{Binding Contract.ContractNumber}" HorizontalOptions="CenterAndExpand" />
-                <Label Text="{Binding Contract.DomesticNumber}" HorizontalOptions="CenterAndExpand" />
-                <Label Text="{Binding Contract.ProjectNumber}" HorizontalOptions="CenterAndExpand" />
-                <Label Text="{Binding Contract.LastModified}" HorizontalOptions="CenterAndExpand" />
-            </StackLayout>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0" TextColor="White" FontAttributes="Bold" Padding="0,0,10,0" Text="Название:" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                <Label Grid.Column="0" Grid.Row="1" TextColor="White" FontAttributes="Bold" Padding="0,0,10,0" Text="Номер договора:" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                <Label Grid.Column="0" Grid.Row="2" TextColor="White" FontAttributes="Bold" Padding="0,0,10,0" Text="Внутренний номер:" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                <Label Grid.Column="0" Grid.Row="3" TextColor="White" FontAttributes="Bold" Padding="0,0,10,0" Text="Номер проекта:" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+
+                <Label Grid.Column="1" Grid.Row="0" TextColor="White" Text="{Binding Contract.Name}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                <Label Grid.Column="1" Grid.Row="1" TextColor="White" Text="{Binding Contract.ContractNumber}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                <Label Grid.Column="1" Grid.Row="2" TextColor="White" Text="{Binding Contract.DomesticNumber}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                <Label Grid.Column="1" Grid.Row="3" TextColor="White" Text="{Binding Contract.ProjectNumber}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+            </Grid>
         </pv:PancakeView>
-        
+
         <!-- Список оборудования и ПО-->
-        <pv:PancakeView Shadow="{pv:ShadowMarkup Color=Black}"
-                        BackgroundColor="White"
+        <pv:PancakeView Shadow="{pv:ShadowMarkup Color=Black, BlurRadius='5'}"
+                        BackgroundColor="#2B67A3"
                         CornerRadius="5" 
                         HorizontalOptions="FillAndExpand"
                         VerticalOptions="FillAndExpand"
                         Padding="10">
 
-            <CollectionView ItemsSource="{Binding Contract.HardwareList}">
+            <CollectionView ItemsSource="{Binding Contract.HardwareList}" ItemTemplate="{StaticResource hardwareSelector}">
+
                 <CollectionView.ItemsLayout>
-                    <LinearItemsLayout ItemSpacing="0"/>
+                    <LinearItemsLayout Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
-                
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="hardware:HardwareDto">
-                        <StackLayout Padding="10,10,10,5">
-                            
-                        <pv:PancakeView CornerRadius="5" BackgroundColor="White" Padding="10" Shadow="{pv:ShadowMarkup Color=Gray}">
-                            
-                        <StackLayout Orientation="Horizontal">
-                            <Label Text="{Binding Position}"/>
-                            <Label Text="{Binding HardwareType, Converter={StaticResource hardwareTypeToString}}" />
-                        </StackLayout>
-                        </pv:PancakeView>
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+
+                <CollectionView.Header>
+                    <Label HorizontalTextAlignment="Center"
+                           Margin="0,0,0,10"
+                           FontSize="Medium"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           Text="Список оборудования"/>
+                </CollectionView.Header>
+               
             </CollectionView>
 
         </pv:PancakeView>

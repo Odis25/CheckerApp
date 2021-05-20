@@ -36,6 +36,10 @@
                         <AddPLC @bind-Value="Command" />
                         break;
 
+                    case HardwareType.APC:
+                        <AddAPC @bind-Value="Command" />
+                        break;
+
                     case HardwareType.Pressure:
                         <AddPressure @bind-Value="Command" />
                         break;
@@ -50,6 +54,10 @@
 
                     case HardwareType.GasAnalyzer:
                         <AddGasAnalyzer @bind-Value="Command" />
+                        break;
+
+                    case HardwareType.FireSensor:
+                        <AddFireSensor @bind-Value="Command"/>
                         break;
 
                     case HardwareType.InformPanel:

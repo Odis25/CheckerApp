@@ -156,6 +156,16 @@ namespace CheckerApp.Application.Hardwares.Helpers
                     check.CheckParameters.Add(new CheckParameterDto { Description = "Имитация выходного сигнала в диапазоне 0-100 % шкалы" });
                     break;
 
+                case HardwareType.FireSensor:
+                    check.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Соответствие реализованной схемы подключения прибора проектной документации",
+                        Method = "-"
+                    });
+                    check.CheckParameters.Add(new CheckParameterDto { Description = "Включение и выход на рабочий режим" });
+                    check.CheckParameters.Add(new CheckParameterDto { Description = "Имитация излучения для проверки сработки датчика" });
+                    break;
+
                 case HardwareType.InformPanel:
                     check.CheckParameters.Add(new CheckParameterDto
                     {
@@ -164,7 +174,6 @@ namespace CheckerApp.Application.Hardwares.Helpers
                     });
                     check.CheckParameters.Add(new CheckParameterDto { Description = "Наличие силового питания" });
                     check.CheckParameters.Add(new CheckParameterDto { Description = "Индикация при сигнале тревоги" });
-
                     break;
 
                 case HardwareType.Valve:
@@ -181,7 +190,6 @@ namespace CheckerApp.Application.Hardwares.Helpers
                     break;
 
                 case HardwareType.ARM:
-
                     check.CheckParameters.Add(new CheckParameterDto
                     {
                         Description = "Включение и автозапуск программ и служб",
@@ -197,6 +205,14 @@ namespace CheckerApp.Application.Hardwares.Helpers
                         Description = "Восстановление ОС и прикладного ПО с резервной копии",
                         Method = "-"
                     });
+                    break;
+
+                case HardwareType.APC:
+                    check.CheckParameters.Add(new CheckParameterDto { Description = "Внешний осмотр (Проверка корректного подключения входного и выходного напряжений, батарей)" });
+                    check.CheckParameters.Add(new CheckParameterDto { Description = "При наличии карты удаленного доступа, настройка доступа к ИБП по протоколу SNMP, Modbus" });
+                    check.CheckParameters.Add(new CheckParameterDto { Description = "Проверка и фиксация значений входного и выходного напряжений на дисплее ИБП" });
+                    check.CheckParameters.Add(new CheckParameterDto { Description = "Произвести полный заряд ИБП" });
+                    check.CheckParameters.Add(new CheckParameterDto { Description = "Проверка автономной работы ИБП в течение 2 часов" });
                     break;
             }
 
