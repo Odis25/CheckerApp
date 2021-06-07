@@ -48,5 +48,37 @@ namespace CheckerApp.Client.Shared.Modal
                 Command.NetworkDevices.Add(device);
             }
         }
+
+        private async Task UpdateNetworkDevice(int elementIndex)
+        {
+            if (elementIndex == -1) return;
+
+            var device = Command.NetworkDevices.ElementAt(elementIndex);
+
+            var modalParameters = new ModalParameters();
+
+            modalParameters.Add("NetworkDevice", device);
+
+            var modal = Modal.Show<UpdateNetworkDevice>("Редактировать", modalParameters);
+
+            var result = await modal.Result;
+
+            if (!result.Cancelled)
+            {
+                var newDevice = (NetworkDeviceDto)result.Data;
+                device.IP = newDevice.IP;
+                device.Name = newDevice.Name;
+                device.MacAddress = newDevice.MacAddress;
+            }
+        }
+
+        private void DeleteNetworkDevice(int elementIndex)
+        {
+            if (elementIndex == -1) return;
+
+            var device = Command.NetworkDevices.ElementAt(elementIndex);
+
+            Command.NetworkDevices.Remove(device);
+        }
     }
 }

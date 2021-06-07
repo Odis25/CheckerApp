@@ -47,18 +47,23 @@
                 <table class="table table-sm table-striped table-hover" style="min-width:500px;">
                     <thead>
                         <tr>
-                            <th class="w-50">Название</th>
-                            <th class="w-25">IP</th>
-                            <th class="w-25">MAC-адрес</th>
+                            <th class="">Название</th>
+                            <th class="">IP</th>
+                            <th class="">MAC-адрес</th>
+                            <th class=""></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in ((NetworkHardwareVm)Value).NetworkDevices)
                         {
                             <tr>
-                                <td class="w-50">@item.Name</td>
-                                <td class="w-25">@item.IP</td>
-                                <td class="w-25">@item.MacAddress</td>
+                                <td class="">@item.Name</td>
+                                <td class="">@item.IP</td>
+                                <td class="">@item.MacAddress</td>
+                                <td class="">
+                                    <button type="button" class="btn btn-sm m-1 btn-outline-secondary" @onclick="@(()=> EditNetworkDevice(item.Id))"><span class="oi oi-pencil"></span></button>
+                                    <button type="button" class="btn btn-sm m-1 btn-outline-danger" @onclick="@(()=> DeleteNetworkDevice(item.Id))"><span class="oi oi-trash"></span></button>
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -82,12 +87,42 @@
     private async Task AddNetworkDevice()
     {
         var modalForm = Modal.Show<AddNetworkDeviceModal>("Подключенное устройство");
+
         var result = await modalForm.Result;
 
         if (!result.Cancelled)
         {
             var device = (NetworkDeviceDto)result.Data;
+
             ((NetworkHardwareVm)Value).NetworkDevices.Add(device);
         }
+    }
+
+    private async Task EditNetworkDevice(int id)
+    {
+        var device = ((NetworkHardwareVm)Value).NetworkDevices.First(d => d.Id == id);
+
+        var modalParameters = new ModalParameters();
+
+        modalParameters.Add("NetworkDevice", device);
+
+        var modal = Modal.Show<UpdateNetworkDevice>("Редактировать", modalParameters);
+
+        var result = await modal.Result;
+
+        if (!result.Cancelled)
+        {
+            var newDevice = (NetworkDeviceDto)result.Data;
+            device.IP = newDevice.IP;
+            device.Name = newDevice.Name;
+            device.MacAddress = newDevice.MacAddress;
+        }
+    }
+
+    private void DeleteNetworkDevice(int id)
+    {
+        var device = ((NetworkHardwareVm)Value).NetworkDevices.First(d => d.Id == id);
+
+        ((NetworkHardwareVm)Value).NetworkDevices.Remove(device);
     }
 }

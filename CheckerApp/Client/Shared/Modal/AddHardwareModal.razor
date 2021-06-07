@@ -57,7 +57,7 @@
                         break;
 
                     case HardwareType.FireSensor:
-                        <AddFireSensor @bind-Value="Command"/>
+                        <AddFireSensor @bind-Value="Command" />
                         break;
 
                     case HardwareType.InformPanel:
@@ -89,18 +89,24 @@
                             <table class="table table-sm table-striped table-hover" style="min-width:500px;">
                                 <thead>
                                     <tr>
-                                        <th class="w-50">Название</th>
-                                        <th class="w-25">IP</th>
-                                        <th class="w-25">MAC-адрес</th>
+                                        <th class="">Название</th>
+                                        <th class="">IP</th>
+                                        <th class="">MAC-адрес</th>
+                                        <th class=""></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Command.NetworkDevices)
                                     {
+                                        var i = Command.NetworkDevices.IndexOf(item);
                                         <tr>
-                                            <td class="w-50">@item.Name</td>
-                                            <td class="w-25">@item.IP</td>
-                                            <td class="w-25">@item.MacAddress</td>
+                                            <td class="">@item.Name</td>
+                                            <td class="">@item.IP</td>
+                                            <td class="">@item.MacAddress</td>
+                                            <td class="">
+                                                <button type="button" class="btn btn-sm m-1 btn-outline-secondary" @onclick="@(async ()=> await UpdateNetworkDevice(i))"><span class="oi oi-pencil"></span></button>
+                                                <button type="button" class="btn btn-sm m-1 btn-outline-danger" @onclick="@(()=> DeleteNetworkDevice(i))"><span class="oi oi-trash"></span></button>
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>
