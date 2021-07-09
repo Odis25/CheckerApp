@@ -31,6 +31,8 @@ namespace CheckerApp.Domain.Enums
         [Display(Name = "АРМ оператора")]
         ARM,
         [Display(Name = "ИБП")]
-        APC
+        APC,
+        [Display(Name = "Модуль ОПС")]
+        FireModule
     }
 }

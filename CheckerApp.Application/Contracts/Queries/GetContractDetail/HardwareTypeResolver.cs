@@ -24,6 +24,7 @@ namespace CheckerApp.Application.Contracts.Queries.GetContractDetail
                 NetworkHardware e => HardwareType.Network,
                 Valve e => HardwareType.Valve,
                 InformPanel e => HardwareType.InformPanel,
+                FireModule e => HardwareType.FireModule,
                 _ => HardwareType.Valve,
             };
         }

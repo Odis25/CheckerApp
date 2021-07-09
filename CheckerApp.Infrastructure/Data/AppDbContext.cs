@@ -50,6 +50,7 @@ namespace CheckerApp.Infrastructure.Data
             builder.Entity<DiffPressure>().ToTable("DiffPressures");
             builder.Entity<GasAnalyzer>().ToTable("GasAnalyzers");
             builder.Entity<FireSensor>().ToTable("FireSensors");
+            builder.Entity<FireModule>().ToTable("FireModules");
             builder.Entity<NetworkHardware>().ToTable("NetworkHardwares");
             builder.Entity<Valve>().ToTable("Valves");
             builder.Entity<ARM>().ToTable("ARMs");

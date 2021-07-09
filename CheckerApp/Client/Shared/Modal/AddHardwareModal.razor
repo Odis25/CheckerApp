@@ -60,6 +60,10 @@
                         <AddFireSensor @bind-Value="Command" />
                         break;
 
+                    case HardwareType.FireModule:
+                        <AddFireModule @bind-Value="Command" />
+                        break;
+
                     case HardwareType.InformPanel:
                         <AddInformPanel @bind-Value="Command" />
                         break;

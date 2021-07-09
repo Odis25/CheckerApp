@@ -428,6 +428,13 @@ namespace CheckerApp.Infrastructure.Services
                         $"- зав.№{fireSensor.SerialNumber} ):";
                     break;
 
+                case HardwareType.FireModule:
+                    var fireModule = (FireModuleDto)device;
+                    header = $"{fireModule.HardwareType.GetDisplayName()} {fireModule.Position}" +
+                        $"(тип {fireModule.DeviceType} " +
+                        $"- зав.№{fireModule.SerialNumber} ):";
+                    break;
+
                 case HardwareType.Valve:
                     var valve = (ValveDto)device;
                     var valveMb = valve.ModbusSettings;

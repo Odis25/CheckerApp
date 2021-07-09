@@ -174,6 +174,14 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                         DeviceType = request.DeviceType
                     };
                     break;
+                case HardwareType.FireModule:
+                    entity = new FireModule
+                    {
+                        Position = request.Position,
+                        SerialNumber = request.SerialNumber,
+                        DeviceType = request.DeviceType
+                    };
+                    break;
                 case HardwareType.Valve:
                     entity = new Valve
                     {

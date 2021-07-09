@@ -272,6 +272,27 @@
             </div>
             break;
 
+        case HardwareType.FireModule:
+            <div class="row">
+                <div class="col-12 col-lg">
+                    <table>
+                        <tr>
+                            <td>Позиция по проекту:</td>
+                            <td>@Hardware.Position</td>
+                        </tr>
+                        <tr>
+                            <td>Тип устройства:</td>
+                            <td>@(((FireModuleVm)Hardware).DeviceType)</td>
+                        </tr>
+                        <tr>
+                            <td>Заводской №:</td>
+                            <td>@Hardware.SerialNumber</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            break;
+
         case HardwareType.InformPanel:
             <div class="row">
                 <div class="col-12 col-lg">

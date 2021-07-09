@@ -144,6 +144,11 @@ namespace CheckerApp.Application.Hardwares.Commands.UpdateHardware
                     ((FireSensor)entity).DeviceType = ((FireSensorDto)hardware).DeviceType;
                     ((FireSensor)entity).DeviceModel = ((FireSensorDto)hardware).DeviceModel;
                     break;
+                case HardwareType.FireModule:
+                    ((FireModule)entity).Position = ((FireModuleDto)hardware).Position;
+                    ((FireModule)entity).SerialNumber = ((FireModuleDto)hardware).SerialNumber;
+                    ((FireModule)entity).DeviceType = ((FireModuleDto)hardware).DeviceType;
+                    break;
 
                 case HardwareType.InformPanel:
                     ((InformPanel)entity).Position = ((InformPanelDto)hardware).Position;

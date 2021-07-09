@@ -166,6 +166,17 @@ namespace CheckerApp.Application.Hardwares.Helpers
                     check.CheckParameters.Add(new CheckParameterDto { Description = "Имитация излучения для проверки сработки датчика" });
                     break;
 
+                case HardwareType.FireModule:
+                    check.CheckParameters.Add(new CheckParameterDto
+                    {
+                        Description = "Соответствие реализованной схемы подключения прибора проектной документации",
+                        Method = "-"
+                    });
+                    check.CheckParameters.Add(new CheckParameterDto { Description = "Взятие шлейфа" });
+                    check.CheckParameters.Add(new CheckParameterDto { Description = "Сработки по шлейфу" });
+                    check.CheckParameters.Add(new CheckParameterDto { Description = "Выдача управляющих сигналов" });
+                    break;
+
                 case HardwareType.InformPanel:
                     check.CheckParameters.Add(new CheckParameterDto
                     {
